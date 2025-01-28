@@ -1,0 +1,60 @@
+.subplan-container{
+    margin-top: 5vh;
+    margin-bottom: 5vh;      
+    border: 4px solid;
+    border-color: #C65D1A;
+    border-radius: 15px;
+    padding: 10px;
+    width: 100%;
+    overflow: visible;
+}
+
+
+.subplan-container:hover{
+    cursor: pointer;
+}
+
+.subplan-title {
+    color: #C65D1A;
+    font-size: 22px;
+}
+
+.subplan-price{    
+    text-align: right;
+    margin-right: 1em;
+}
+
+/* Media Queries */
+
+@media (max-width: 425px) {
+    /* Estilos para pantallas menores a 480px */
+    
+  }
+  
+  /* Pantallas pequeñas (móviles en paisaje) */
+  @media (min-width: 426px) and (max-width: 768px) {
+    /* Estilos para pantallas entre 481px y 768px */
+    
+    
+  }
+  
+  /* Pantallas medianas (tabletas) */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    /* Estilos para pantallas entre 769px y 1024px */
+    
+    
+  }
+  
+  /* Pantallas grandes (escritorios pequeños) */
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    /* Estilos para pantallas entre 1025px y 1280px */
+   
+    
+  }
+  
+  /* Pantallas extra grandes (escritorios grandes) */
+  @media (min-width: 1281px) {
+    /* Estilos para pantallas mayores a 1280px */
+    
+    
+  }
