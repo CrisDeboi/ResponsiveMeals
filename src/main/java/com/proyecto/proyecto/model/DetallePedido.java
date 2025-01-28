@@ -8,10 +8,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "DetallePedido")
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "idDetalle"
-)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idDetalle")
 public class DetallePedido {
 
     @Id
@@ -31,7 +28,6 @@ public class DetallePedido {
     @Column(nullable = false)
     private int cantidad;
 
-   
     private double subtotal;
 
     public DetallePedido() {
@@ -77,22 +73,20 @@ public class DetallePedido {
         this.subtotal = subtotal;
     }
 
-    public Long getIdPedido(){
+    public Long getIdPedido() {
         return this.getPedido().getId_pedido();
     }
 
-    public void setIdPedido(Long idPedido){
+    public void setIdPedido(Long idPedido) {
         this.pedido.setId_pedido(idPedido);
     }
 
-    public Long getIdComida(){
+    public Long getIdComida() {
         return this.getComida().getId();
     }
 
-    public void setIdComida(Long idComida){
+    public void setIdComida(Long idComida) {
         this.comida.setId(idComida);
     }
 
-    
 }
-
