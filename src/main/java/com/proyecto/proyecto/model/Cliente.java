@@ -90,6 +90,14 @@ public class Cliente {
         return Telefono;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public void setTelefono(String telefono) {
         Telefono = telefono;
     }
