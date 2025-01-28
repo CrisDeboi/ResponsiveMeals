@@ -31,6 +31,7 @@ public class Cliente {
     private String Nombre;
     private String Suscripcion;
     private String Email;
+    private String token;
     private String Contrasena;
     private String Telefono;
     @CreationTimestamp    
