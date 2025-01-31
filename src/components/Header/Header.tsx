@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Header.css";
-import { faBars, faCartShopping, faEuroSign, faHome, faUser, faUtensils, } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCartShopping, faEuroSign, faHome, faQuestion, faUser, faUtensils, } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Navbar, Offcanvas } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +27,9 @@ function Header() {
   };
   const goToCart = () => {
     navigate("/cart");
+  };
+  const goToHelp = () => {
+    window.open("src/pages/Help/Introduccion.html");
   };
   return (
     <>
@@ -63,9 +66,13 @@ function Header() {
               <FontAwesomeIcon data-testid="icon-sub" icon={faEuroSign} style={{ fontSize: "1.2em", color: "fde1c1", marginRight: "40px", }} />
               Suscripciones
             </Navbar.Brand>
-            <Navbar.Brand onClick={goToCart} style={{ color: "#fde1c1", width: "100%",cursor:"pointer", display: "block", borderTop: "solid", borderBottom: "solid", margin: "0", padding: "5px" }}>
+            <Navbar.Brand onClick={goToCart} style={{ color: "#fde1c1", width: "100%",cursor:"pointer", display: "block", borderTop: "solid", margin: "0", padding: "5px" }}>
               <FontAwesomeIcon data-testid="icon-cart" icon={faCartShopping} style={{ fontSize: "1.2em", color: "fde1c1", marginRight: "30px", }} />
               Carrito
+            </Navbar.Brand>
+            <Navbar.Brand onClick={goToHelp} style={{ color: "#fde1c1", width: "100%",cursor:"pointer", display: "block", borderTop: "solid", borderBottom: "solid", margin: "0", padding: "5px" }}>
+              <FontAwesomeIcon data-testid="icon-question" icon={faQuestion} style={{ fontSize: "1.2em", color: "fde1c1", marginRight: "30px", }} />
+              Ayuda
             </Navbar.Brand>
           </Offcanvas.Body>
         </Offcanvas>

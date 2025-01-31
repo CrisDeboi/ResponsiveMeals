@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import List from "./pages/list/List";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -23,6 +23,7 @@ function App() {
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/clientes" element={<Clientes />} />
+          <Route path="/help" element={<Navigate to="./pages/Help/ResumendelaAplicacion.html" />} />
         </Routes>
       </Router>
     </CartProvider>
