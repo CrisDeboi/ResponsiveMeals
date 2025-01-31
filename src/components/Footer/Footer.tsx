@@ -23,6 +23,9 @@ function Footer() {
   const goToCart = () => {
     navigate("/cart");
   };
+  const goToHelp = () => {
+    window.open("src/pages/Help/Introduccion.html");
+  };
   return (
     <>
       <div className="footer">
@@ -34,6 +37,7 @@ function Footer() {
             <a onClick={goToLogin}>Login</a>
             <a onClick={goToSub}>Suscripciones</a>
             <a onClick={goToCart}>Carrito</a>
+            <a onClick={goToHelp}>Ayuda</a>
           </div>
           <div className="footer-menu">
             <div><strong>Informacion</strong></div>
