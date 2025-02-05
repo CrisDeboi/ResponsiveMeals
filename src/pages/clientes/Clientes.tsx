@@ -3,9 +3,9 @@ import { fetchData } from "../../services/Api";
 import Header from "../../components/Header/Header";
 
 
-function Clientes() {
+function Usuarios() {
   const [search, setSearch] = useState(""); // Búsqueda del usuario
-  const [clientes, setClientes] = useState([]); // Lista de usuarios
+  const [usuarios, setUsuarios] = useState([]); // Lista de usuarios
   const [loading, setLoading] = useState(true); // Indicador de carga
   const [error, setError] = useState<string | null>(null); // Manejo de errores
 
@@ -13,11 +13,11 @@ function Clientes() {
     setSearch(e.target.value); // Actualiza la búsqueda
 
   useEffect(() => {
-    const getClientes = async () => {
+    const getUsuarios = async () => {
       try {
         setLoading(true); // Inicia la carga
-        const clientesData = await fetchData(); // Llama a la función centralizada
-        setClientes(clientesData); // Guarda los datos
+        const usuariosData = await fetchData(); // Llama a la función centralizada
+        setUsuarios(usuariosData); // Guarda los datos
         setError(null); // Limpia errores
       } catch (err) {
         setError("Hubo un problema al cargar los datos.");
@@ -26,19 +26,19 @@ function Clientes() {
       }
     };
 
-    getClientes();
+    getUsuarios();
   }, []);
 
   // Filtrar usuarios según la búsqueda
-  const listaClientes = clientes.filter((cliente) =>
-    cliente.nombre.toLowerCase().includes(search.toLowerCase())
+  const listaUsuarios = usuarios.filter((usuario) =>
+    usuario.nombre.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <>
     <Header/>
     <div className="App">
-      <h1>Clientes</h1>
+      <h1>Usuarios</h1>
       <h2>Buscar en la lista</h2>
       <input
         type="text"
@@ -54,10 +54,10 @@ function Clientes() {
       {/* Renderizar la lista de usuarios */}
       {!loading && !error && (
         <ul>
-          {listaClientes.length > 0 ? (
-            listaClientes.map((cliente: { id: string; nombre: string; email: string }) => (
-              <li key={cliente.id}>
-                {cliente.nombre} - {cliente.email} {/* Ajusta según la estructura de tu API */}
+          {listaUsuarios.length > 0 ? (
+            listaUsuarios.map((usuario: { id: string; nombre: string; email: string }) => (
+              <li key={usuario.id}>
+                {usuario.nombre} - {usuario.email} {/* Ajusta según la estructura de tu API */}
               </li>
             ))
           ) : (
@@ -71,4 +71,4 @@ function Clientes() {
   );
 }
 
-export default Clientes;
+export default Usuarios;

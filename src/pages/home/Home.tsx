@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./Home.css";
-import tacosImage from "../../assets/tacos.jpg";
-import espaguetisImage from "../../assets/espaguetis.jpg";
-import tupperImage from "../../assets/tuppers.jpg";
+import tacosImage from "../../assets/TacoImg.jpg";
+import espaguetisImage from "../../assets/SpaguetisImg.jpg";
+import tupperImage from "../../assets/TuppersImg.jpg";
 import Footer from "../../components/Footer/Footer";
 import CarouselX from "../../components/Carousel/Carousel";
 import { Button } from "react-bootstrap";

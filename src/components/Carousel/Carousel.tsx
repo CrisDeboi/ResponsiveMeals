@@ -1,7 +1,7 @@
 import Carousel from "react-bootstrap/Carousel";
-import BurgerImg from "../../assets/burgir.jpg";
-import PaellaImg from "../../assets/paella.jpg";
-import PotatoesImg from "../../assets/papitas.jpg";
+import BurgerImg from "../../assets/burgirImg.jpg";
+import PaellaImg from "../../assets/PaellaImg.jpg";
+import PotatoesImg from "../../assets/PotatoesImg.jpg";
 import "./Carousel.css";
 
 function CarouselX() {

@@ -62,7 +62,7 @@ function Card(props: CardProps) {
       >
         <BootstrapCard.Img
           variant="top"
-          src={cardImg}
+          src={`../../assets/${cardImg}.jpg`}
           alt={cardName}
           onClick={handleShow}
           style={{
@@ -130,7 +130,7 @@ function Card(props: CardProps) {
           }}
         >
           <p>
-            <strong>Descripción del plato:</strong>
+            <strong>Descripción del plato: </strong>
             {cardDescription}
           </p>
         </Modal.Body>
