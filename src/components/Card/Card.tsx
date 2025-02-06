@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card as BootstrapCard, Button, Modal } from "react-bootstrap";
 import "./Card.css";
-import { useCart } from "../../context/CartContext";
+
 
 interface CardProps {
   id: string;
@@ -23,7 +23,6 @@ function Card(props: CardProps) {
   const { id, cardImg, cardName, cardDescription, cardPrice, cardServing, cardEnergy, cardCarbohydrates, cardProteins, cardFats, cardFiber, onQuantityChange } = props;
   const [counter, setCounter] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const { addToCart } = useCart();
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
@@ -62,7 +61,7 @@ function Card(props: CardProps) {
       >
         <BootstrapCard.Img
           variant="top"
-          src={`../../assets/${cardImg}.jpg`}
+          src={cardImg}
           alt={cardName}
           onClick={handleShow}
           style={{
