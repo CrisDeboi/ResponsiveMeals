@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./List.css";
@@ -8,21 +10,9 @@ import { Modal, Button } from "react-bootstrap";
 import { useCart } from "../../context/CartContext";
 import Footer from "../../components/Footer/Footer";
 import { fetchComida } from "../../services/Api";
-/*import AtunImg from "../../assets/AtunImg.jpg";
-import BurgirImg from "../../assets/BurgirImg.jpg";
-import LasagneImg from "../../assets/LasagneImg.jpg";
-import PaellaImg from "../../assets/PaellaImg.jpg";
-import PotatoesImg from "../../assets/PotatoesImg.jpg";
-import RamenImg from "../../assets/RamenImg.jpg";
-import RavioliImg from "../../assets/RavioliImg.jpg";
-import RisottoImg from "../../assets/RisottoImg.jpg";
-import SaladImg from "../../assets/SaladImg.jpg";
-import SpaguetisImg from "../../assets/SpaguetisImg.jpg";
-import TacoImg from "../../assets/TacoImg.jpg";
-import TortillaImg from "../../assets/TortillaImg.jpg";*/
 const images = import.meta.glob("/src/assets/*", { eager: true });
 
-const getImage = (imgName) => images[`/src/assets/${imgName}`]?.default;
+const getImage = (imgName: any) => images[`/src/assets/${imgName}`]?.default;
 
 
 function List() {
@@ -35,20 +25,6 @@ function List() {
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
-/*  const imagenes = {
-    "AtunImg.jpg": AtunImg,
-    "BurgirImg.jpg": BurgirImg,
-    "LasagneImg.jpg": LasagneImg,
-    "PaellaImg.jpg": PaellaImg,
-    "PotatoesImg.jpg": PotatoesImg,
-    "RamenImg.jpg": RamenImg,
-    "RavioliImg.jpg": RavioliImg,
-    "RisottoImg.jpg": RisottoImg,
-    "SaladImg.jpg": SaladImg,
-    "SpaguetisImg.jpg": SpaguetisImg,
-    "TacoImg.jpg": TacoImg,
-    "TortillaImg.jpg": TortillaImg,
-  };  */
   useEffect(() => {
     const getComidas = async () => {
       try {
@@ -66,7 +42,7 @@ function List() {
     getComidas();
   }, []);
 
-  const handleQuantityChange = (id, quantity) => {
+  const handleQuantityChange = (id: string | number, quantity: any) => {
     setSelectedItems((prevState) => ({
       ...prevState,
       [id]: {
@@ -124,7 +100,8 @@ function List() {
               cardFiber={comida.fibra}
               cardImg={getImage(comida.img)}
               onQuantityChange={handleQuantityChange}
-            />
+              cardUser={"Esto se supone que no se debería ver"}
+              />
           ))}
       </div>
       <div className="buttonListContainer">

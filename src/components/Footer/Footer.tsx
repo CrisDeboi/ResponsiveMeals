@@ -23,6 +23,9 @@ function Footer() {
   const goToCart = () => {
     navigate("/cart");
   };
+  const goToReport = () => {
+    navigate("/Report");
+  };
   const goToHelp = () => {
     window.open("src/pages/Help/Introduccion.html");
   };
@@ -45,6 +48,7 @@ function Footer() {
             <a>Terminos y condiciones de uso</a>
             <a>Aviso legal</a>
             <a>Devoluciones</a>
+            <a onClick={goToReport}>Reporte de usuarios</a>
           </div>
           <div className="footer-menu">
             <div><strong>Contacto</strong></div>

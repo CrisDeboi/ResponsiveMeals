@@ -1,0 +1,26 @@
+.tablaUsuarios {
+    max-width: 80%;
+    margin: 0 auto;
+    padding-top: 5%;
+}
+
+.tablaUsuarios ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    border: 1px solid #000;
+    margin: 0;
+    background-color: #fff9;
+}
+
+.tablaUsuarios li {
+    flex: 1;
+    text-align: center;
+    padding: 5px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.App{
+    text-align: center;
+}

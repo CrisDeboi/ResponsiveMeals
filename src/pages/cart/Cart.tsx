@@ -5,7 +5,7 @@ import { Alert, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import CardCart from "../../components/CardCart/CardCart";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 
 
 function Cart() {
@@ -22,7 +22,7 @@ function Cart() {
     return () => clearTimeout(timer);
   }, [address]);
 
-  const handleAddressChange = (e) => {
+  const handleAddressChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setAddres(e.target.value);
   }
 

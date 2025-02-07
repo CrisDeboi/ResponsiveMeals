@@ -9,7 +9,7 @@ import Subscription from "./pages/subscription/Subscription";
 import Cart from "./pages/cart/Cart";
 import { CartProvider } from "./context/CartContext";
 import Clientes from "./pages/clientes/Clientes";
-
+import Report from "./pages/reports/Report";
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/clientes" element={<Clientes />} />
           <Route path="/help" element={<Navigate to="./pages/Help/ResumendelaAplicacion.html" />} />
+          <Route path="/report" element={<Report />} />
         </Routes>
       </Router>
     </CartProvider>

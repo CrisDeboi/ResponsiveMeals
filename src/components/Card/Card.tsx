@@ -20,7 +20,7 @@ interface CardProps {
 }
 
 function Card(props: CardProps) {
-  const { id, cardImg, cardName, cardDescription, cardPrice, cardServing, cardEnergy, cardCarbohydrates, cardProteins, cardFats, cardFiber, onQuantityChange } = props;
+  const { id, cardImg, cardName, cardDescription, cardPrice, cardServing, cardEnergy, cardCarbohydrates, cardProteins, cardFats, cardFiber } = props;
   const [counter, setCounter] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
