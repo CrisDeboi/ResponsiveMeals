@@ -30,6 +30,14 @@ public class Comida {
     private Double precio;
     private String descripcion;
     private Boolean rotacion;
+    private Double racion;
+    private Double valenergetico;
+    private Double carbohidratos;
+    private Double proteinas;
+    private Double grasas;
+    private Double fibra;
+    private String img;
+
 
     @OneToMany(mappedBy = "comida", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -57,6 +65,62 @@ public class Comida {
 
     public String getNombre() {
         return this.nombre;
+    }
+
+    public Double getRacion() {
+        return racion;
+    }
+
+    public void setRacion(Double racion) {
+        this.racion = racion;
+    }
+
+    public Double getValenergetico() {
+        return valenergetico;
+    }
+
+    public void setValenergetico(Double valenergetico) {
+        this.valenergetico = valenergetico;
+    }
+
+    public Double getCarbohidratos() {
+        return carbohidratos;
+    }
+
+    public void setCarbohidratos(Double carbohidratos) {
+        this.carbohidratos = carbohidratos;
+    }
+
+    public Double getProteinas() {
+        return proteinas;
+    }
+
+    public void setProteinas(Double proteinas) {
+        this.proteinas = proteinas;
+    }
+
+    public Double getGrasas() {
+        return grasas;
+    }
+
+    public void setGrasas(Double grasas) {
+        this.grasas = grasas;
+    }
+
+    public Double getFibra() {
+        return fibra;
+    }
+
+    public void setFibra(Double fibra) {
+        this.fibra = fibra;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public void setNombre(String nombre) {

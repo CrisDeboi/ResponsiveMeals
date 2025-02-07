@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
-	@RequestMapping("/responsivemeals/login")
+	@RequestMapping("/login")
 	public String helloWorld(@RequestParam(value="name", defaultValue="World") String name) {
 		return "Hello "+name+"!!";
 	}
