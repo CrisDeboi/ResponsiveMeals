@@ -12,16 +12,22 @@ import Footer from "../../components/Footer/Footer";
 import { fetchComida } from "../../services/Api";
 const images = import.meta.glob("/src/assets/*", { eager: true });
 
-const getImage = (imgName: any) => images[`/src/assets/${imgName}`]?.default;
+const getImage = (imgName: string) => {
+  return (images[`/src/assets/${imgName}`] as { default: string })?.default;
+};
+
 
 
 function List() {
+  interface SelectedItems {
+    [key: string]: { quantity: number };
+  }  
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const [selectedItems, setSelectedItems] = useState({});
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
   const [comidas, setComidas] = useState<any[]>([]); // Estado para almacenar los datos de la BD
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
@@ -100,7 +106,6 @@ function List() {
               cardFiber={comida.fibra}
               cardImg={getImage(comida.img)}
               onQuantityChange={handleQuantityChange}
-              cardUser={"Esto se supone que no se debería ver"}
               />
           ))}
       </div>
