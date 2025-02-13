@@ -10,6 +10,7 @@ import Cart from "./pages/cart/Cart";
 import { CartProvider } from "./context/CartContext";
 import Clientes from "./pages/clientes/Clientes";
 import Report from "./pages/reports/Report";
+import RegisterReal from "./pages/register/RegisterReal";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/list" element={<List />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/registerReal" element={<RegisterReal />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/clientes" element={<Clientes />} />

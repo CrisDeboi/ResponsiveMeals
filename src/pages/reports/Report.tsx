@@ -6,6 +6,9 @@ import autoTable from "jspdf-autotable";
 import "../../ChartConfig";
 import { Chart } from "chart.js";
 import "./Report.css";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import { Button } from "react-bootstrap";
 
 const Report = () => {
   interface Cliente {
@@ -88,64 +91,77 @@ const Report = () => {
     const chart = chartRef.current;
     if (chart && chart.canvas) {
       const image = chart.canvas.toDataURL("image/png");
-      doc.addImage(image, "PNG", 14, finalY+10, 160, 80);
+      doc.addImage(image, "PNG", 14, finalY + 10, 160, 80);
     }
 
     // Descargar PDF
     doc.save("informe.pdf");
   };
   return (
-    <div>
-      <h1>Informe de Clientes</h1>
+    <>
+      <Header />
+      <div className="report-container">
+        <h1 id="report-titulo">Informe de Clientes</h1>
 
-      {/* Tabla */}
-      <table
-        {...getTableProps()}
-        style={{ border: "1px solid black", marginBottom: "20px" }}
-      >
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th
-                  {...column.getHeaderProps()}
-                  style={{ border: "1px solid black", padding: "5px" }}
-                >
-                  {column.render("Header")}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <td
-                    {...cell.getCellProps()}
-                    style={{ border: "1px solid black", padding: "5px" }}
+        {/* Tabla */}
+        <div className="table-container">
+        <table
+          {...getTableProps()}
+          style={{ border: "1px solid black", marginBottom: "20px" }}
+        >
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th
+                    {...column.getHeaderProps()}
+                    style={{ border: "1px solid black", padding: "5px" ,backgroundColor:"#F89D53"}}
                   >
-                    {cell.render("Cell")}
-                  </td>
+                    {column.render("Header")}
+                  </th>
                 ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <td
+                      {...cell.getCellProps()}
+                      style={{ border: "1px solid black", padding: "5px" , backgroundColor:"#FBC59A"}}
+                    >
+                      {cell.render("Cell")}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        </div>
 
-      {/* Gráfico */}
-      <Bar data={chartData} ref={chartRef} />
-      {/* Botón para exportar */}
-      <button
-        onClick={exportToPDF}
-        style={{ marginTop: "20px", padding: "10px 20px" }}
-      >
-        Exportar a PDF
-      </button>
-    </div>
+        {/* Gráfico */}
+        <Bar data={chartData} ref={chartRef} />
+        {/* Botón para exportar */}
+        <div className="export-container">
+          <Button
+            onClick={exportToPDF}
+            style={{
+              marginTop: "20px",
+              padding: "10px 20px",
+              backgroundColor: "#C65D1A",
+              borderColor: "#C65D1A",
+            }}
+          >
+            Exportar a PDF
+          </Button>
+        </div>
+      </div>
+      <Footer />
+    </>
   );
 };
 export default Report;

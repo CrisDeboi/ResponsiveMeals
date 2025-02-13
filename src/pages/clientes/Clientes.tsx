@@ -12,7 +12,7 @@ function Usuarios() {
   const [pedidos, setPedidos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedUser, setSelectedUser] = useState<string | null>(null); // Usuario seleccionado
+  const [selectedUser, setSelectedUser] = useState<string | null>(null); 
 
   useEffect(() => {
     const getUsuarios = async () => {
@@ -52,6 +52,10 @@ function Usuarios() {
     setSelectedUser(userId);
   };
 
+  const handleDeletePedido = (idPedido: string) => {
+    setPedidos((prevPedidos) => prevPedidos.filter(pedido => pedido.id_pedido !== idPedido))
+  }
+
   // Filtrar usuarios según la búsqueda
   const listaUsuarios = usuarios.filter((usuario) =>
     usuario.nombre.toLowerCase().includes(search.toLowerCase())
@@ -76,17 +80,25 @@ function Usuarios() {
         {!loading && !error && (
           <div className="tablaUsuarios">
             {listaUsuarios.length > 0 ? (
-              listaUsuarios.map((usuario) => (
-                <CardUser
-                  key={usuario.id}
-                  id={usuario.id}
-                  cardName={usuario.nombre}
-                  cardEmail={usuario.email}
-                  cardSuscription={usuario.suscripcion}
-                  pedidos={pedidos.filter((pedido) => pedido.id_cliente === usuario.idCliente)} 
-                  onClick={() => handleUserClick(usuario.id)}
-                />
-              ))
+              listaUsuarios.map((usuario) => {
+                console.log("Usuario:", usuario); 
+                return (
+                  <CardUser
+                    key={usuario.idCliente}
+                    id={usuario.idCliente}
+                    cardId={usuario.idCliente}
+                    cardName={usuario.nombre}
+                    cardEmail={usuario.email}
+                    cardSuscription={usuario.suscripcion}
+                    cardPassword={usuario.contrasena}
+                    cardPhone={usuario.telefono}
+                    cardDate={usuario.fechaRegistro}
+                    pedidos={pedidos.filter((pedido) => pedido.id_cliente === usuario.idCliente)} 
+                    onClick={() => handleUserClick(usuario.idCliente)}
+                    onDeletePedido={handleDeletePedido}
+                  />
+                );
+              })
             ) : (
               <p>No se encontraron usuarios</p>
             )}

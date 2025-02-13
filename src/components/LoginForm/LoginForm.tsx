@@ -34,6 +34,10 @@ function LoginForm() {
     navigate("/register");
   };
 
+  const goToRegisterReal = () => {
+    navigate("/registerReal");
+  };
+
   return (
     <Form>
        {error && ( 
@@ -82,6 +86,10 @@ function LoginForm() {
         backgroundColor: "#C65D1A",
         borderColor: "#C65D1A"
       }}>Registrarse</Button>
+      <Button onClick={goToRegisterReal}style={{
+        backgroundColor: "#C65D1A",
+        borderColor: "#C65D1A"
+      }}>Registrarse pero de verdad</Button>
       </div>    
 
 
