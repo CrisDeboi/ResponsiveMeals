@@ -1,6 +1,8 @@
 // Metodos para Clientes
 export const fetchData = async () => {
-  const response = await fetch("http://localhost:8080/responsivemeals/clientes");   
+  const response = await fetch(
+    "http://localhost:8080/responsivemeals/clientes"
+  );
   const data = await response.json();
   return data;
 };
@@ -59,27 +61,29 @@ export const handleDelete = async (id: number) => {
 
 //Métodos para Comidas
 export const fetchComida = async () => {
-  const response = await fetch("http://localhost:8080/responsivemeals/comidas");   
+  const response = await fetch("http://localhost:8080/responsivemeals/comidas");
   const data = await response.json();
   return data;
 };
 
-
 //Métodos para Pedidos
 export const fetchPedido = async () => {
-  const response = await fetch("http://localhost:8080/responsivemeals/pedidos");   
+  const response = await fetch("http://localhost:8080/responsivemeals/pedidos");
   const data = await response.json();
   return data;
 };
 
 export const createPedido = async (pedido: any) => {
-  const response = await fetch("http://localhost:8080/responsivemeals/pedidos", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(pedido),
-  });
+  const response = await fetch(
+    "http://localhost:8080/responsivemeals/pedidos",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(pedido),
+    }
+  );
   if (!response.ok) {
     throw new Error("Error al crear el pedido");
   }
@@ -87,49 +91,54 @@ export const createPedido = async (pedido: any) => {
 };
 
 export const eliminarPedido = async (id: string) => {
-  const url = `http://localhost:8080/responsivemeals/pedidos/${id}`; 
+  const url = `http://localhost:8080/responsivemeals/pedidos/${id}`;
 
   try {
     const response = await fetch(url, {
-      method: 'DELETE', 
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
     if (!response.ok) {
-      throw new Error('Error al eliminar el pedido');
+      throw new Error("Error al eliminar el pedido");
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error al eliminar el pedido:", error);
-    throw error;  
+    throw error;
   }
 };
 
 export const actualizarPedido = async (pedido: any) => {
   try {
-    console.log("Enviando datos para actualizar:", pedido); 
+    console.log("Enviando datos para actualizar:", pedido);
 
-    const response = await fetch(`http://localhost:8080/responsivemeals/pedidos/${pedido.id_pedido}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(pedido),
-    });
+    const response = await fetch(
+      `http://localhost:8080/responsivemeals/pedidos/${pedido.id_pedido}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pedido),
+      }
+    );
 
-    console.log("Respuesta completa de la API:", response); 
+    console.log("Respuesta completa de la API:", response);
 
     if (!response.ok) {
-      const errorText = await response.text(); 
-      throw new Error(`Error al actualizar el pedido: ${response.status} - ${errorText}`);
+      const errorText = await response.text(); // Lee solo si la respuesta no es OK
+      throw new Error(
+        `Error al actualizar el pedido: ${response.status} - ${errorText}`
+      );
     }
 
-    const updatedPedido = await response.json();
-    console.log("Pedido actualizado correctamente:", updatedPedido); 
+    const updatedPedido = await response.json(); // Solo leer como JSON
+    console.log("Pedido actualizado correctamente:", updatedPedido);
     return updatedPedido;
   } catch (error) {
     console.error("Error al actualizar el pedido:", error);
@@ -141,7 +150,9 @@ export const actualizarPedido = async (pedido: any) => {
 //Métodos para Detalles
 
 export const fetchDetalle = async () => {
-  const response = await fetch("http://localhost:8080/responsivemeals/detallepedidos");   
+  const response = await fetch(
+    "http://localhost:8080/responsivemeals/detallepedidos"
+  );
   const data = await response.json();
   return data;
 };

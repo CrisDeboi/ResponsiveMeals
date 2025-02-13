@@ -117,7 +117,10 @@ function CardUser(props: CardProps) {
 
       try {
         const updatedPedido = await actualizarPedido(pedidoEditado);
-        console.log("Pedido editado:", updatedPedido);
+        console.log(
+          "Respuesta de la API al actualizar el pedido:",
+          updatedPedido
+        );
 
         const updatedPedidos = pedidos.map((p) =>
           p.id_pedido === updatedPedido.id_pedido ? updatedPedido : p
@@ -128,7 +131,9 @@ function CardUser(props: CardProps) {
         setShowModal(false);
       } catch (error) {
         console.error("Error al editar el pedido:", error);
+        console.log("Detalles del error:", JSON.stringify(error, null, 2)); // Agrega detalles del error
         setError("Hubo un error al editar el pedido. Intenta de nuevo.");
+        console.log("Esta fallando loco xd");
       }
     } else {
       const nuevoPedido = {
