@@ -37,10 +37,10 @@ public class Cliente {
     @CreationTimestamp    
     private Date FechaRegistro;
 
-    //@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
-    //private List<Pedido> pedidos;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
+    private List<Pedido> pedidos;
 
-    /*public void addPedido(Pedido pedido) {
+    public void addPedido(Pedido pedido) {
         pedidos.add(pedido);
         pedido.setCliente(this);
     }
@@ -48,7 +48,7 @@ public class Cliente {
     public void removePedido(Pedido pedido) {
         pedidos.remove(pedido);
         pedido.setCliente(null);
-    }*/
+    }
 
     public Cliente(){
 

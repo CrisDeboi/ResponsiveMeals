@@ -40,7 +40,7 @@ public class ProyectoApplication {
 			http
 					.csrf(csrf -> csrf.disable())
 					.authorizeHttpRequests(auth -> auth
-							.requestMatchers("/clientelogin").permitAll()
+							.requestMatchers("/**").permitAll()
 							.anyRequest().authenticated())
 					.addFilterAfter(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.sessionManagement(session -> session
