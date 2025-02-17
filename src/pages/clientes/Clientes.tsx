@@ -64,6 +64,15 @@ function Usuarios() {
     usuario.nombre.toLowerCase().includes(search.toLowerCase())
   );
 
+  const refreshPedidos = async () => {
+    try {
+      const pedidosData = await fetchPedido();
+      setPedidos(pedidosData);
+    } catch (err) {
+      setError("Hubo un problema al cargar los pedidos.");
+    }
+  };
+
   return (
     <>
       <Header />
@@ -100,6 +109,7 @@ function Usuarios() {
                     onClick={() => handleUserClick(usuario.idCliente)}
                     onDeletePedido={handleDeletePedido}
                     deleteUser={handleDeleteUsuario}
+                    
                   />
                 );
               })

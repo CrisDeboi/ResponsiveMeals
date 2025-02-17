@@ -31,7 +31,7 @@ interface CardProps {
 
   onClick: () => void;
   onDeletePedido: (id: string) => void;
-  deleteUser: (cardId: number) => void;
+  deleteUser: (cardId: number) => void; 
 }
 
 function CardUser(props: CardProps) {
@@ -76,11 +76,13 @@ function CardUser(props: CardProps) {
       if (response) {
         console.log("Usuario actualizado correctamente.");
         setEditarModal(false);
+        window.location.reload();
       } else {
         console.log("Error al actualizar el usuario.");
       }
     } catch (error) {
       console.error("Error al actualizar usuario:", error);
+      
     }
   };
   const handleShow = () => {
@@ -163,9 +165,12 @@ function CardUser(props: CardProps) {
         resetForm();
         setError("");
         setShowModal(false);
+        //window.location.reload();
       } catch (error) {
-        console.error("Error al editar el pedido:", error);
-        setError("Hubo un error al editar el pedido. Intenta de nuevo.");
+        //window.location.reload();
+        // console.error("Error al editar el pedido:", error);
+        // setError("Hubo un error al editar el pedido. Intenta de nuevo.");
+        
       }
     } else {
       const nuevoPedido = {
@@ -315,8 +320,7 @@ function CardUser(props: CardProps) {
 
             <Form.Group as={Col} controlId="formGridPassword">
               <Form.Label>Contraseña</Form.Label>
-              <Form.Control
-                type="password"
+              <Form.Control                
                 value={editedPassword}
                 onChange={(e) => setEditedPassword(e.target.value)}
               />
