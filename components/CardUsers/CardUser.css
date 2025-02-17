@@ -1,0 +1,35 @@
+.users-table {
+   text-align: center;
+}
+
+.botones{
+   display: flex;
+   flex-direction: column;
+   border-top: solid 1px #000;
+   border-right: solid 1px #000;
+   border-bottom: solid 1px #000;
+   background-color: #fff9;
+}
+.datosPeroMas{
+   display: flex;
+}
+.botones button{
+   text-align: center;
+   font-size: x-small;
+   height: 8vw;
+   margin: 1vw;
+}
+.botones button img{
+   max-width: 4vw;
+   max-height: 4vw;
+}
+.columna1{
+   width: 70vw;
+   border-top: solid 1px #000;
+   border-left: solid 1px #000;
+}
+.columna2{
+   width: 70vw;
+   border-bottom: solid 1px #000;
+   border-left: solid 1px #000;
+}
