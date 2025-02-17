@@ -1,10 +1,11 @@
-import { Button, Modal, Form } from "react-bootstrap";
+import { Button, Modal, Form, Col } from "react-bootstrap";
 import { useState } from "react";
 import {
   createPedido,
   eliminarPedido,
   actualizarPedido,
   handleDelete,
+  updateUser,
 } from "../../services/Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -30,6 +31,7 @@ interface CardProps {
 
   onClick: () => void;
   onDeletePedido: (id: string) => void;
+  deleteUser: (cardId: number) => void;
 }
 
 function CardUser(props: CardProps) {
@@ -44,6 +46,7 @@ function CardUser(props: CardProps) {
     pedidos,
     onClick,
     onDeletePedido,
+    deleteUser,
   } = props;
   const [showModal, setShowModal] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -52,23 +55,49 @@ function CardUser(props: CardProps) {
   const [costeTotal, setCosteTotal] = useState("");
   const [error, setError] = useState("");
   const [currentPedido, setCurrentPedido] = useState<Pedido | null>(null);
+  const [showEditar, setEditarModal] = useState(false);
+  const [editedName, setEditedName] = useState(cardName);
+  const [editedEmail, setEditedEmail] = useState(cardEmail);
+  const [editedPassword, setEditedPassword] = useState(cardPassword);
+  const [editedPhone, setEditedPhone] = useState(cardPhone);
+  const [editedSuscription, setEditedSuscription] = useState(cardSuscription);
 
+  const editUser = async () => {
+    const updatedData = {
+      nombre: editedName,
+      email: editedEmail,
+      contrasena: editedPassword,
+      telefono: editedPhone,
+      suscripcion: editedSuscription,
+    };
+
+    try {
+      const response = await updateUser(cardId, updatedData);
+      if (response) {
+        console.log("Usuario actualizado correctamente.");
+        setEditarModal(false);
+      } else {
+        console.log("Error al actualizar el usuario.");
+      }
+    } catch (error) {
+      console.error("Error al actualizar usuario:", error);
+    }
+  };
   const handleShow = () => {
     console.log("Id del Usuario mostrado:" + props.id);
     onClick();
     setShowModal(true);
   };
-
+  const handleShowEdit = () => {
+    onClick();
+    setEditarModal(true);
+  };
   const handleClose = () => {
     setShowModal(false);
     setIsFormVisible(false);
     resetForm();
   };
-
-  const deleteUser = async () => {
-    await handleDelete(cardId);
-  };
-
+  const handleCloseEditar = () => setEditarModal(false);
   const handleEliminarPedido = async (idPedido: string) => {
     try {
       const pedidoEliminado = await eliminarPedido(idPedido);
@@ -78,7 +107,15 @@ function CardUser(props: CardProps) {
       console.error("Error al eliminar el pedido:", error);
     }
   };
-
+  const handleEliminarUsuario = async (idUsuario: number) => {
+    try {
+      const pedidoEliminado = await handleDelete(idUsuario);
+      deleteUser(idUsuario);
+      console.log("Pedido eliminado:", pedidoEliminado);
+    } catch (error) {
+      console.error("Error al eliminar el pedido:", error);
+    }
+  };
   const handleEditPedido = (pedido: Pedido) => {
     setCurrentPedido(pedido);
     setDireccion(pedido.direccion);
@@ -176,18 +213,151 @@ function CardUser(props: CardProps) {
         </div>
         <div className="botones">
           <Button
+            onClick={handleShowEdit}
             style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A" }}
           >
             <FontAwesomeIcon icon={faPencil} />
           </Button>
           <Button
             style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A" }}
-            onClick={deleteUser}
+            onClick={() => handleEliminarUsuario(cardId)}
           >
             X
           </Button>
         </div>
       </div>
+      <Modal
+        show={showModal}
+        onHide={handleClose}
+        centered
+        style={{ border: 0 }}
+      >
+        <Modal.Header
+          closeButton
+          closeVariant=""
+          closeLabel="Cerrar"
+          style={{ padding: 0, border: 0 }}
+        ></Modal.Header>
+        <Modal.Body style={{ backgroundColor: "#FDE1C1", border: "0px" }}>
+          <p>
+            <strong>Pedidos de </strong>
+            {cardName}
+          </p>
+        </Modal.Body>
+        <Modal.Body style={{ backgroundColor: "#FDE1C1", border: "0px" }}>
+          {pedidos.length > 0 ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Dirección</th>
+                  <th>Método de pago</th>
+                  <th>Coste total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pedidos.map((pedido) => (
+                  <tr key={pedido.id_pedido}>
+                    <td>{pedido.id_pedido}</td>
+                    <td>{pedido.direccion}</td>
+                    <td>{pedido.metodo_pago}</td>
+                    <td>{pedido.coste_total}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>Este usuario no tiene pedidos.</p>
+          )}
+        </Modal.Body>
+      </Modal>
+      <Modal
+        show={showEditar}
+        onHide={handleCloseEditar}
+        centered
+        style={{ border: 0 }}
+      >
+        <Modal.Header
+          closeButton
+          closeVariant=""
+          closeLabel="Cerrar"
+          style={{ padding: 0, border: 0 }}
+        ></Modal.Header>
+        <Modal.Body style={{ backgroundColor: "#FDE1C1", border: "0px" }}>
+          <p>
+            <strong>Editar datos de </strong>
+            {cardName}
+          </p>
+        </Modal.Body>
+        <Modal.Body style={{ backgroundColor: "#FDE1C1", border: "0px" }}>
+          <Form
+            style={{
+              marginTop: "5vh",
+            }}
+          >
+            <Form.Group as={Col} controlId="formGridEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="johnresponsive@gmail.com"
+                value={editedEmail}
+                onChange={(e) => setEditedEmail(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridName">
+              <Form.Label>Nombre</Form.Label>
+              <Form.Control
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridPassword">
+              <Form.Label>Contraseña</Form.Label>
+              <Form.Control
+                type="password"
+                value={editedPassword}
+                onChange={(e) => setEditedPassword(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridCity">
+              <Form.Label>Teléfono</Form.Label>
+              <Form.Control
+                value={editedPhone}
+                onChange={(e) => setEditedPhone(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formGridState">
+              <Form.Label>Suscripción</Form.Label>
+              <Form.Select
+                value={editedSuscription}
+                onChange={(e) => setEditedSuscription(e.target.value)}
+              >
+                <option>Elige...</option>
+                <option>NO</option>
+                <option>ESTANDAR</option>
+                <option>PREMIUM</option>
+              </Form.Select>
+            </Form.Group>
+
+            <Button
+              variant="primary"
+              type="button"
+              onClick={editUser}
+              style={{
+                backgroundColor: "#C65D1A",
+                borderColor: "#C65D1A",
+                marginTop: "2vh",
+              }}
+            >
+              Guardar Cambios
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton />
         <Modal.Body style={{ backgroundColor: "#FDE1C1" }}>
@@ -301,6 +471,7 @@ function CardUser(props: CardProps) {
                     backgroundColor: "#C65D1A",
                     borderColor: "#C65D1A",
                   }}
+                  onClick={editUser}
                 >
                   {currentPedido ? "Actualizar Pedido" : "Añadir Pedido"}
                 </Button>

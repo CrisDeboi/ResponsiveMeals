@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Metodos para Clientes
 export const fetchData = async () => {
   const response = await fetch("http://localhost:8080/responsivemeals/clientes");   
@@ -137,6 +139,27 @@ export const actualizarPedido = async (pedido: any) => {
   }
 };
 
+export const updateUser = async (id: number, updatedData: any) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/responsivemeals/clientes/${id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData),
+      }
+    );
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw new Error("Error al actualizar el usuario.");
+    }
+  } catch (error) {
+    console.error("Error en la actualización:", error);
+    return null;
+  }
+};
 
 //Métodos para Detalles
 

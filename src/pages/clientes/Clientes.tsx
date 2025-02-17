@@ -55,6 +55,9 @@ function Usuarios() {
   const handleDeletePedido = (idPedido: string) => {
     setPedidos((prevPedidos) => prevPedidos.filter(pedido => pedido.id_pedido !== idPedido))
   }
+  const handleDeleteUsuario = (idUsuario: number) => {
+    setUsuarios((usuario) => usuario.filter(usuarios => usuarios.idCliente !== idUsuario))
+  }
 
   // Filtrar usuarios según la búsqueda
   const listaUsuarios = usuarios.filter((usuario) =>
@@ -96,6 +99,7 @@ function Usuarios() {
                     pedidos={pedidos.filter((pedido) => pedido.id_cliente === usuario.idCliente)} 
                     onClick={() => handleUserClick(usuario.idCliente)}
                     onDeletePedido={handleDeletePedido}
+                    deleteUser={handleDeleteUsuario}
                   />
                 );
               })
