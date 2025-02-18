@@ -14,6 +14,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "Comidas")
@@ -26,16 +30,34 @@ public class Comida {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )    
     private Long idComida;
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
+    @NotNull(message = "El precio es obligatorio") 
+    @Positive(message = "El precio debe ser un número positivo")       
     private Double precio;
+    @NotBlank(message = "La descripción es obligatoria")
     private String descripcion;
+    @NotNull(message = "La rotación es obligatoria")
     private Boolean rotacion;
+    @NotNull(message = "La ración es obligatoria")
+    @Positive(message = "La ración debe ser un número positivo")    
     private Double racion;
+    @NotNull(message = "El valor energético es obligatorio")
+    @Positive(message = "El valor energético debe ser un número positivo")    
     private Double valenergetico;
+    @NotNull(message = "Los carbohidratos son obligatorios")
+    @Positive(message = "Los carbohidratos deben ser un número positivo")    
     private Double carbohidratos;
+    @NotNull(message = "Las proteínas son obligatorias")
+    @Positive(message = "Las proteínas deben ser un número positivo")    
     private Double proteinas;
+    @NotNull(message = "Las grasas son obligatorias")
+    @Positive(message = "Las grasas deben ser un número positivo")    
     private Double grasas;
+    @NotNull(message = "La fibra es obligatoria")
+    @Positive(message = "La fibra debe ser un número positivo")    
     private Double fibra;
+    @Pattern(regexp = "^.*\\.jpg$", message = "La imagen debe de ser formato .jpg")
     private String img;
 
 

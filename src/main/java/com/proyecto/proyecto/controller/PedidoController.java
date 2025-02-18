@@ -18,6 +18,8 @@ import com.proyecto.proyecto.model.Pedido;
 import com.proyecto.proyecto.repository.ClienteRepository;
 import com.proyecto.proyecto.repository.PedidoRepository;
 
+import jakarta.validation.Valid;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/responsivemeals/pedidos")
@@ -34,7 +36,7 @@ public class PedidoController {
     }
 
     @PostMapping
-    public Pedido crearPedido(@RequestBody Pedido pedido) {
+    public Pedido crearPedido(@Valid@RequestBody Pedido pedido) {
         System.out.println("Datos recibidos: " + pedido);
         // Validar si el cliente viene en el pedido
         if (pedido.getCliente() == null || pedido.getCliente().getIdCliente() == null) {
@@ -70,7 +72,7 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}")
-    public Pedido actualizarPedido(@PathVariable("id") Long id, @RequestBody Pedido detallesPedido) {
+    public Pedido actualizarPedido(@PathVariable("id") Long id, @Valid@RequestBody Pedido detallesPedido) {
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Pedido no encontrado"));
 

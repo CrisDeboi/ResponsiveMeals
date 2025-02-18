@@ -17,12 +17,13 @@ import com.proyecto.ResourceNotFoundException;
 import com.proyecto.proyecto.model.Cliente;
 import com.proyecto.proyecto.repository.ClienteRepository;
 
+import jakarta.validation.Valid;
 
-@CrossOrigin (origins = "*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/responsivemeals/clientes")
 public class ClienteController {
-    
+
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -32,34 +33,34 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente crearCliente(@RequestBody Cliente cliente) {
+    public Cliente crearCliente(@Valid@RequestBody Cliente cliente) {       
+
         return clienteRepository.save(cliente);
     }
 
     @GetMapping("/{id}")
     public Cliente obtenerClientePorId(@PathVariable("id") Long id) {
         return clienteRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrada"));
 
     }
 
     @PutMapping("/{id}")
-    public Cliente actualizarCliente(@PathVariable ("id") Long id, @RequestBody Cliente detallesCliente) {
+    public Cliente actualizarCliente(@PathVariable("id") Long id, @Valid@RequestBody Cliente detallesCliente) {
         Cliente cliente = clienteRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("cliente no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("cliente no encontrada"));
 
         cliente.setNombre(detallesCliente.getNombre());
         cliente.setSuscripcion(detallesCliente.getSuscripcion());
         cliente.setEmail(detallesCliente.getEmail());
         cliente.setContrasena(detallesCliente.getContrasena());
         cliente.setTelefono(detallesCliente.getTelefono());
-        
-        
+
         return clienteRepository.save(cliente);
     }
 
     @DeleteMapping("/{id}")
-    public Cliente eliminarCliente(@PathVariable("id") Long id){
+    public Cliente eliminarCliente(@PathVariable("id") Long id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
         clienteRepository.deleteById(id);

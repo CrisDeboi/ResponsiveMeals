@@ -16,6 +16,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "cliente")
@@ -28,11 +32,21 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY ) 
     private Long idCliente;
-    private String Nombre;
+    @NotBlank(message = "El nombre es obligatorio")
+    private String Nombre;    
+    @NotBlank(message = "La suscripción es obligatoria")
+    @Pattern(regexp = "^(NO|PREMIUM|ESTANDAR)$", message = "La suscripción debe ser 'NO', 'PREMIUM' o 'ESTANDAR'")    
     private String Suscripcion;
+    @NotBlank(message = "El email es obligatorio")
+    @Email(message = "El email debe contener un formato válido: ejemplo@ejemplo.com")
     private String Email;
     private String token;
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 6, message = "La contraseña debe tener mínimo 6 caracteres")
     private String Contrasena;
+    @NotBlank(message = "El Teléfono es obligatorio")
+    @Pattern(regexp = "^[0-9]+$", message = "El teléfono debe contener solo números")
+    @Size(min = 9,max = 9,message = "La longitud del telefono ha de ser de 9 caracteres")
     private String Telefono;
     @CreationTimestamp    
     private Date FechaRegistro;

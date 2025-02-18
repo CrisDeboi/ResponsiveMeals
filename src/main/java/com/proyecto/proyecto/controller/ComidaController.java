@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.proyecto.ResourceNotFoundException;
 import com.proyecto.proyecto.model.Comida;
 import com.proyecto.proyecto.repository.ComidaRepository;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,7 +36,8 @@ public class ComidaController {
     }
 
     @PostMapping
-    public Comida crearComida(@RequestBody Comida comida) {
+    public Comida crearComida(@Valid@RequestBody Comida comida) {
+        comida.setImg(comida.getNombre()+".jpg");
         return comidaRepository.save(comida);
     }
 
@@ -45,7 +49,7 @@ public class ComidaController {
     }
 
     @PutMapping("/{id}")
-    public Comida actualizarComida(@PathVariable ("id") Long id, @RequestBody Comida detallesComida) {
+    public Comida actualizarComida(@PathVariable ("id") Long id, @Valid@RequestBody Comida detallesComida) {
         Comida comida = comidaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Comida no encontrada"));
 
@@ -53,6 +57,11 @@ public class ComidaController {
         comida.setPrecio(detallesComida.getPrecio());
         comida.setRotacion(detallesComida.getRotacion());
         comida.setDescripcion(detallesComida.getDescripcion());
+        comida.setCarbohidratos(detallesComida.getCarbohidratos());
+        comida.setFibra(detallesComida.getFibra());
+        comida.setGrasas(detallesComida.getGrasas());
+        comida.setRacion(detallesComida.getRacion());
+        comida.setImg(detallesComida.getImg());
         
         return comidaRepository.save(comida);
     }

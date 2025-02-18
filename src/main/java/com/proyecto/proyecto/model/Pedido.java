@@ -17,6 +17,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "pedido")
@@ -28,13 +31,18 @@ public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_pedido;  
+    private Long id_pedido;     
+    @Positive(message = "El precio debe ser un valor positivo")
+    @NotNull(message = "El precio es obligatorio")
     private double coste_total;
+    @NotBlank(message = "La direccion es obligatoria")
     private String direccion;
+    @NotBlank(message = "Metodo de pago es obligatorio")   
     private String metodo_pago; 
 
     @ManyToOne
     @JoinColumn(name="id_cliente", nullable=false)
+    @NotNull(message = "Especifica un ID de Cliente para el pedido")
     private Cliente cliente;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
