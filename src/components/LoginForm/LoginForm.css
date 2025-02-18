@@ -1,0 +1,11 @@
+.form-button-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5vh;
+}
+
+.form-button-container Button{
+    margin-bottom: 5vh;
+}
