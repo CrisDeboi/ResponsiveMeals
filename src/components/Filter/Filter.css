@@ -1,0 +1,16 @@
+.filter-header .accordion-button{
+    background-color: #F89D53 !important;   
+    color: #FDE1C1;
+    font-size: 28px;
+    fill: #FDE1C1;
+}
+
+.filter-header .accordion-button::after{
+    color: #FDE1C1 !important;    
+    fill: #FDE1C1 !important;
+}
+
+.form-check-input:checked {
+    background-color: #C65D1A !important; /* Color del switch marcado */
+    border-color: #F89D53 !important; /* Color del borde del switch marcado */
+}

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.proyecto.proyecto.controller.ClienteControllerTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.842 s -- in com.proyecto.proyecto.controller.ClienteControllerTest

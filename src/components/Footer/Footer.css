@@ -1,0 +1,125 @@
+.footer {
+    width: 100vw;
+    height: auto;
+    background-color: #f47521;
+    margin-top: 5em;
+}
+
+.titleContainer {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1em;
+    
+
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    margin-right: 2em;
+}
+   
+
+.footer-menu a {
+    text-decoration: none !important;
+    color: inherit !important;
+    cursor: pointer;
+}
+
+#footerTitle {
+    color: #fde1c1;
+    font-family: "Dancing Script", cursive;
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.footer-menu {
+    display: flex;
+    flex-direction: column;
+    color: #fde1c1;
+    gap: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 1em;
+    margin-right: 5em;
+
+}
+
+.footer-imgs img {
+    width: 120px;
+    height: 120px;
+}
+
+.footer-socials img {
+    width: 35px;
+    height: 30px;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#bootstrap{
+    width: 70px ;
+    height: 70px ;
+}
+
+/* Media Queries */
+
+@media (max-width: 425px) {
+    /* Estilos para pantallas menores a 480px */
+    
+  }
+  
+  /* Pantallas pequeñas (móviles en paisaje) */
+  @media (min-width: 426px) and (max-width: 768px) {
+    /* Estilos para pantallas entre 481px y 768px */
+    .footer-content{
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+  }
+  
+  /* Pantallas medianas (tabletas) */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    /* Estilos para pantallas entre 769px y 1024px */
+    .footer-content{
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .footer-menu{
+        margin-right: 1em;
+    }
+    
+  }
+  
+  /* Pantallas grandes (escritorios pequeños) */
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    /* Estilos para pantallas entre 1025px y 1280px */
+    .footer-content{
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .footer-menu{
+        margin-right: 10em;
+    }
+    
+  }
+  
+  /* Pantallas extra grandes (escritorios grandes) */
+  @media (min-width: 1281px) {
+    
+    .footer-content{
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+    .footer-menu{
+        margin-right: 0;
+    }
+    
+  }
