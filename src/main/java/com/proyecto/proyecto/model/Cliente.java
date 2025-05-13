@@ -14,6 +14,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -34,9 +36,9 @@ public class Cliente {
     private Long idCliente;
     @NotBlank(message = "El nombre es obligatorio")
     private String Nombre;    
-    @NotBlank(message = "La suscripción es obligatoria")
-    @Pattern(regexp = "^(NO|PREMIUM|ESTANDAR)$", message = "La suscripción debe ser 'NO', 'PREMIUM' o 'ESTANDAR'")    
-    private String Suscripcion;
+    // @NotBlank(message = "La suscripción es obligatoria")
+    // @Pattern(regexp = "^(NO|PREMIUM|ESTANDAR)$", message = "La suscripción debe ser 'NO', 'PREMIUM' o 'ESTANDAR'")    
+    // private String Suscripcion;
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "El email debe contener un formato válido: ejemplo@ejemplo.com")
     private String Email;
@@ -50,6 +52,10 @@ public class Cliente {
     private String Telefono;
     @CreationTimestamp    
     private Date FechaRegistro;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idSuscripcion")  
+    private Suscripcion suscripcion;  
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
     private List<Pedido> pedidos;
@@ -84,13 +90,13 @@ public class Cliente {
         Nombre = nombre;
     }
 
-    public String getSuscripcion() {
-        return Suscripcion;
-    }
+    // public String getSuscripcion() {
+    //     return Suscripcion;
+    // }
 
-    public void setSuscripcion(String suscripcion) {
-        Suscripcion = suscripcion;
-    }
+    // public void setSuscripcion(String suscripcion) {
+    //     Suscripcion = suscripcion;
+    // }
 
     public String getEmail() {
         return Email;

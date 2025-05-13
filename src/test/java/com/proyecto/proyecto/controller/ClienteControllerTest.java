@@ -40,14 +40,14 @@ public class ClienteControllerTest {
         Cliente cliente1 = new Cliente();
         cliente1.setIdCliente(1L);
         cliente1.setNombre("Juan");
-        cliente1.setSuscripcion("PREMIUM");
+        // cliente1.setSuscripcion("PREMIUM");
         cliente1.setEmail("juan@dominio.com");
         cliente1.setTelefono("555451234");
 
         Cliente cliente2 = new Cliente();
         cliente2.setIdCliente(2L);
         cliente2.setNombre("Maria");
-        cliente2.setSuscripcion("ESTANDAR");
+        // cliente2.setSuscripcion("ESTANDAR");
         cliente2.setEmail("maria@dominio.com");
         cliente2.setTelefono("555455678");
 
@@ -66,7 +66,7 @@ public class ClienteControllerTest {
         Cliente cliente = new Cliente();
         cliente.setIdCliente(1L);
         cliente.setNombre("Carlos");
-        cliente.setSuscripcion("PREMIUM");
+        // cliente.setSuscripcion("PREMIUM");
         cliente.setEmail("carlos@dominio.com");
         cliente.setTelefono("555744321");
 
@@ -86,7 +86,7 @@ public class ClienteControllerTest {
         Cliente cliente = new Cliente();
         cliente.setIdCliente(1L);
         cliente.setNombre("Juan");
-        cliente.setSuscripcion("PREMIUM");
+        // cliente.setSuscripcion("PREMIUM");
         cliente.setEmail("juan@dominio.com");
         cliente.setTelefono("555451234");
 
@@ -103,14 +103,14 @@ public class ClienteControllerTest {
         Cliente clienteExistente = new Cliente();
         clienteExistente.setIdCliente(1L);
         clienteExistente.setNombre("Juan");
-        clienteExistente.setSuscripcion("BASIC");
+        // clienteExistente.setSuscripcion("BASIC");
         clienteExistente.setEmail("juan@dominio.com");
         clienteExistente.setTelefono("555451234");
 
         Cliente clienteActualizado = new Cliente();
         clienteActualizado.setIdCliente(1L);
         clienteActualizado.setNombre("Juan Actualizado");
-        clienteActualizado.setSuscripcion("PREMIUM");
+        // clienteActualizado.setSuscripcion("PREMIUM");
         clienteActualizado.setEmail("juan@dominio.com");
         clienteActualizado.setTelefono("555455678");
 
@@ -130,7 +130,7 @@ public class ClienteControllerTest {
         Cliente cliente = new Cliente();
         cliente.setIdCliente(1L);
         cliente.setNombre("Juan");
-        cliente.setSuscripcion("PREMIUM");
+        // cliente.setSuscripcion("PREMIUM");
         cliente.setEmail("juan@dominio.com");
         cliente.setTelefono("555451234");
 

@@ -51,7 +51,7 @@ public class ClienteController {
                 .orElseThrow(() -> new ResourceNotFoundException("cliente no encontrada"));
 
         cliente.setNombre(detallesCliente.getNombre());
-        cliente.setSuscripcion(detallesCliente.getSuscripcion());
+        // cliente.setSuscripcion(detallesCliente.getSuscripcion());
         cliente.setEmail(detallesCliente.getEmail());
         cliente.setContrasena(detallesCliente.getContrasena());
         cliente.setTelefono(detallesCliente.getTelefono());
