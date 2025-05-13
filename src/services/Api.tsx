@@ -8,7 +8,7 @@ export const fetchData = async () => {
 };
 export const handleAdd = async (
   nombre: string,
-  suscripcion: string,
+  // suscripcion: string,
   email: string,
   contrasena: string,
   telefono: string
@@ -21,7 +21,7 @@ export const handleAdd = async (
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nombre,
-          suscripcion,
+          // suscripcion,
           email,
           contrasena,
           telefono,

@@ -23,7 +23,7 @@ function RegisterFormReal() {
   const [message, setMessage] = useState("");
 
   const registerUser = async () => {
-    const message = await handleAdd(nombre, suscripcion, email, contrasena, telefono);
+    const message = await handleAdd(nombre, email, contrasena, telefono);
     setMessage(message);
   };
   
@@ -127,7 +127,7 @@ function RegisterFormReal() {
         </Form.Group>
       </Row>
 
-      <Form.Group controlId="formGridState">
+      {/* <Form.Group controlId="formGridState">
         <Form.Label>Suscripción</Form.Label>
         <Form.Select
           value={suscripcion}
@@ -138,7 +138,7 @@ function RegisterFormReal() {
           <option>ESTANDAR</option>
           <option>PREMIUM</option>
         </Form.Select>
-      </Form.Group>
+      </Form.Group> */}
 
       <div className="register-button-container">
         <Button
