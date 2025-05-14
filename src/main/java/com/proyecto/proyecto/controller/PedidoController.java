@@ -37,20 +37,16 @@ public class PedidoController {
 
     @PostMapping
     public Pedido crearPedido(@Valid@RequestBody Pedido pedido) {
-        System.out.println("Datos recibidos: " + pedido);
-        // Validar si el cliente viene en el pedido
+        System.out.println("Datos recibidos: " + pedido);        
         if (pedido.getCliente() == null || pedido.getCliente().getIdCliente() == null) {
             throw new IllegalArgumentException("El cliente es requerido para crear un pedido");
-        }
-
-        // Verificar si el cliente existe
+        }       
         Cliente cliente = clienteRepository.findById(pedido.getCliente().getIdCliente())
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
-
-        // Asociar el cliente al pedido
+        
         pedido.setCliente(cliente);
 
-        // Guardar el pedido
+        
         return pedidoRepository.save(pedido);
     }
 
