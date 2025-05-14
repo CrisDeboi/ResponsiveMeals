@@ -23,7 +23,7 @@ interface CardProps {
   cardId: number;
   cardName: string;
   cardEmail: string;
-  cardSuscription: string;
+  // cardSuscription: string;
   cardPassword: string;
   cardPhone: string;
   cardDate: string;
@@ -39,7 +39,7 @@ function CardUser(props: CardProps) {
     cardId,
     cardName,
     cardEmail,
-    cardSuscription,
+    // cardSuscription,
     cardPassword,
     cardPhone,
     cardDate,
@@ -60,7 +60,7 @@ function CardUser(props: CardProps) {
   const [editedEmail, setEditedEmail] = useState(cardEmail);
   const [editedPassword, setEditedPassword] = useState(cardPassword);
   const [editedPhone, setEditedPhone] = useState(cardPhone);
-  const [editedSuscription, setEditedSuscription] = useState(cardSuscription);
+  // const [editedSuscription, setEditedSuscription] = useState(cardSuscription);
 
   const editUser = async () => {
     const updatedData = {
@@ -68,7 +68,7 @@ function CardUser(props: CardProps) {
       email: editedEmail,
       contrasena: editedPassword,
       telefono: editedPhone,
-      suscripcion: editedSuscription,
+      // suscripcion: editedSuscription,
     };
 
     try {
@@ -208,7 +208,7 @@ function CardUser(props: CardProps) {
           <ul className="columna1">
             <li>{cardName}</li>
             <li>{cardEmail}</li>
-            <li>{cardSuscription}</li>
+            {/* <li>{cardSuscription}</li> */}
           </ul>
           <ul className="columna2">
             <li>{cardPassword}</li>
@@ -334,7 +334,7 @@ function CardUser(props: CardProps) {
               />
             </Form.Group>
 
-            <Form.Group controlId="formGridState">
+            {/* <Form.Group controlId="formGridState">
               <Form.Label>Suscripción</Form.Label>
               <Form.Select
                 value={editedSuscription}
@@ -345,7 +345,7 @@ function CardUser(props: CardProps) {
                 <option>ESTANDAR</option>
                 <option>PREMIUM</option>
               </Form.Select>
-            </Form.Group>
+            </Form.Group> */}
 
             <Button
               variant="primary"

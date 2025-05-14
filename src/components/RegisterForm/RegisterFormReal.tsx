@@ -34,8 +34,8 @@ function RegisterFormReal() {
       !email.trim() ||
       !nombre.trim() ||
       !telefono.trim() ||
-      !contrasena.trim() ||
-      !suscripcion.trim()
+      !contrasena.trim() 
+      // ||      !suscripcion.trim()
     ) {
       setError("Por favor, complete todos los campos.");
       return;
