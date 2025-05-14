@@ -29,21 +29,31 @@ public class Suscripcion {
     @GeneratedValue(strategy = GenerationType.IDENTITY ) 
     private long idSuscripcion;
     @NotNull(message = "El precio es obligatorio") 
-    @Positive(message = "El precio debe ser un número positivo")    
+    // @Positive(message = "El precio debe ser un número positivo")    
     private double precio;
     @NotBlank(message = "El nombre es obligatorio")
-    @Pattern(regexp = "^(PREMIUM|ESTANDAR)$", message = "La suscripción debe ser 'PREMIUM' o 'ESTANDAR'")
+    @Pattern(regexp = "^(NO|PREMIUM|ESTANDAR)$", message = "La suscripción debe ser 'NO', 'PREMIUM' o 'ESTANDAR'")
     private String nombre;
     @NotBlank(message = "La descripción es obligatoria")
     private String descripcion;
     @NotNull(message = "La cantidad de platos es obligatoria")
-    @Positive(message = "La cantidad debe ser un número positivo")  
+    // @Positive(message = "La cantidad debe ser un número positivo")  
     private Double cantidadPlatos;
 
     @OneToMany(mappedBy = "suscripcion", fetch = FetchType.LAZY)
     private List<Cliente> clientes;
 
     public Suscripcion() {
+    }
+
+    public void addCliente(Cliente cliente) {
+        clientes.add(cliente);
+        cliente.setSuscripcion(this);
+    }
+    
+    public void removeCliente(Cliente cliente) {
+        clientes.remove(cliente);
+        cliente.setSuscripcion(null);
     }
 
     public long getIdSuscripcion() {
@@ -56,6 +66,14 @@ public class Suscripcion {
 
     public double getPrecio() {
         return precio;
+    }
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
     }
 
     public void setPrecio(double precio) {

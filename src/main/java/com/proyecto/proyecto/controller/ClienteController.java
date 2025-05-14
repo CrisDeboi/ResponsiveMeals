@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.ResourceNotFoundException;
 import com.proyecto.proyecto.model.Cliente;
+import com.proyecto.proyecto.model.Suscripcion;
 import com.proyecto.proyecto.repository.ClienteRepository;
+import com.proyecto.proyecto.repository.SuscripcionRepository;
 
 import jakarta.validation.Valid;
 
@@ -26,6 +28,8 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private SuscripcionRepository suscripcionRepository;
 
     @GetMapping
     public List<Cliente> obtenerClientes() {
@@ -33,7 +37,16 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente crearCliente(@Valid@RequestBody Cliente cliente) {       
+    public Cliente crearCliente(@Valid @RequestBody Cliente cliente) {
+        Suscripcion suscripcionNO = suscripcionRepository.findAll().stream()
+                .filter(s -> "NO".equalsIgnoreCase(s.getNombre()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No se encontró la suscripción 'NO'"));
+
+        if (suscripcionNO != null) {
+            cliente.setSuscripcion(suscripcionNO);
+            suscripcionNO.addCliente(cliente);
+        }
 
         return clienteRepository.save(cliente);
     }
@@ -46,12 +59,17 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public Cliente actualizarCliente(@PathVariable("id") Long id, @Valid@RequestBody Cliente detallesCliente) {
+    public Cliente actualizarCliente(@PathVariable("id") Long id, @Valid @RequestBody Cliente detallesCliente) {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("cliente no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
+
+        if (detallesCliente.getSuscripcion() != null) {
+            cliente.getSuscripcion().removeCliente(cliente);
+            cliente.setSuscripcion(detallesCliente.getSuscripcion());
+            detallesCliente.getSuscripcion().addCliente(cliente);
+        }
 
         cliente.setNombre(detallesCliente.getNombre());
-        // cliente.setSuscripcion(detallesCliente.getSuscripcion());
         cliente.setEmail(detallesCliente.getEmail());
         cliente.setContrasena(detallesCliente.getContrasena());
         cliente.setTelefono(detallesCliente.getTelefono());

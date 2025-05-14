@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
@@ -55,6 +56,7 @@ public class Cliente {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idSuscripcion")  
+    @JsonIgnoreProperties("clientes")
     private Suscripcion suscripcion;  
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
@@ -72,6 +74,14 @@ public class Cliente {
 
     public Cliente(){
 
+    }
+
+    public Suscripcion getSuscripcion() {
+        return suscripcion;
+    }
+
+    public void setSuscripcion(Suscripcion suscripcion) {
+        this.suscripcion = suscripcion;
     }
 
     public Long getIdCliente() {
