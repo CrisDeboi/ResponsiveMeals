@@ -1,5 +1,6 @@
 package com.proyecto.proyecto.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -41,7 +42,7 @@ public class Suscripcion {
     private Double cantidadPlatos;
 
     @OneToMany(mappedBy = "suscripcion", fetch = FetchType.LAZY)
-    private List<Cliente> clientes;
+    private List<Cliente> clientes = new ArrayList<>();
 
     public Suscripcion() {
     }

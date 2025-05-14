@@ -64,15 +64,28 @@ public class ClienteController {
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
 
         if (detallesCliente.getSuscripcion() != null) {
-            cliente.getSuscripcion().removeCliente(cliente);
-            cliente.setSuscripcion(detallesCliente.getSuscripcion());
-            detallesCliente.getSuscripcion().addCliente(cliente);
+            Suscripcion nuevaSuscripcion = suscripcionRepository
+                    .findById(detallesCliente.getSuscripcion().getIdSuscripcion())
+                    .orElseThrow(() -> new ResourceNotFoundException("Suscripción no encontrada"));
+            if (cliente.getSuscripcion() != null) {
+                cliente.getSuscripcion().removeCliente(cliente);
+            }
+            cliente.setSuscripcion(nuevaSuscripcion);
+            nuevaSuscripcion.addCliente(cliente);
         }
 
-        cliente.setNombre(detallesCliente.getNombre());
-        cliente.setEmail(detallesCliente.getEmail());
-        cliente.setContrasena(detallesCliente.getContrasena());
-        cliente.setTelefono(detallesCliente.getTelefono());
+        if (detallesCliente.getNombre() != null) {
+            cliente.setNombre(detallesCliente.getNombre());
+        }
+        if (detallesCliente.getEmail() != null) {
+            cliente.setEmail(detallesCliente.getEmail());
+        }
+        if (detallesCliente.getContrasena() != null) {
+            cliente.setContrasena(detallesCliente.getContrasena());
+        }
+        if (detallesCliente.getTelefono() != null) {
+            cliente.setTelefono(detallesCliente.getTelefono());
+        }
 
         return clienteRepository.save(cliente);
     }
