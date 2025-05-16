@@ -32,8 +32,8 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pedido;     
-    @Positive(message = "El precio debe ser un valor positivo")
-    @NotNull(message = "El precio es obligatorio")
+    // @Positive(message = "El precio debe ser un valor positivo")
+    // @NotNull(message = "El precio es obligatorio")
     private double coste_total;
     @NotBlank(message = "La direccion es obligatoria")
     private String direccion;

@@ -30,7 +30,7 @@ public class DetallePedido {
     @NotNull(message = "Especifique una cantidad de comida")
     private int cantidad;
 
-    private double subtotal;
+    private double subtotal;    
 
     public DetallePedido() {
     }

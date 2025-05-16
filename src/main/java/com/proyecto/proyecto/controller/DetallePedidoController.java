@@ -44,7 +44,7 @@ public class DetallePedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<DetallePedido> crearDetallePedido(@RequestBody DetallePedidoDTO detalleDTO) {
+    public ResponseEntity<DetallePedido> crearDetallePedido(@RequestBody DetallePedido detalleDTO) {
         // Buscar las entidades relacionadas
         Pedido pedido = pedidoRepository.findById(detalleDTO.getIdPedido())
                 .orElseThrow(() -> new ResourceNotFoundException("Pedido no encontrado"));
@@ -77,7 +77,7 @@ public class DetallePedidoController {
     @PutMapping("/{id}")
     public ResponseEntity<DetallePedido> actualizarDetallePedido(
             @PathVariable("id") Long id,
-            @RequestBody DetallePedidoDTO detalleDTO) {
+            @RequestBody DetallePedido detalleDTO) {
 
         // Buscar el detallePedido en la base de datos
         DetallePedido detallePedido = detallePedidoRepository.findById(id)
