@@ -7,13 +7,18 @@ import Filter from "../../components/Filter/Filter";
 import Card from "../../components/Card/Card";
 import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { useCart } from "../../context/CartContext";
+import { CartItem, useCart } from "../../context/CartContext";
 import Footer from "../../components/Footer/Footer";
 import { fetchComida } from "../../services/Api";
 const images = import.meta.glob("/src/assets/*", { eager: true });
 
 const getImage = (imgName: string) => {
-  return (images[`/src/assets/${imgName}`] as { default: string })?.default;
+  const imgPath = `/src/assets/${imgName}`;
+  if (!images[imgPath]) {
+    console.error(`Imagen no encontrada: ${imgName}`);
+    return ''; 
+  }
+  return (images[imgPath] as { default: string }).default;
 };
 
 
@@ -58,29 +63,49 @@ function List() {
     }));
   };
 
-  const handleAddSelection = () => {
-    const itemsToAdd = Object.entries(selectedItems)
-      .filter(([_, item]) => item.quantity > 0)
-      .map(([id, item]) => {
-        const comida = comidas.find((c) => c.id === Number(id));
-        return {
-          id,
-          ...comida,
-          count: item.quantity,
-        };
-      });
+ const handleAddSelection = () => {
+  // Verificar primero si hay items seleccionados
+  const hasSelectedItems = Object.values(selectedItems).some(item => item.quantity > 0);
+  
+  if (!hasSelectedItems) {
+    window.alert("Por favor, selecciona al menos un producto.");
+    return;
+  }
 
-    if (itemsToAdd.length === 0) {
-      window.alert("Por favor, selecciona al menos un producto.");
-      return;
-    }
+  const itemsToAdd = Object.entries(selectedItems)
+    .filter(([_, item]) => item.quantity > 0)
+    .map(([id, item]) => {
+      const comida = comidas.find((c) => c.id_comida === Number(id));
+      
+      if (!comida) {
+        console.warn(`Comida con id ${id} no encontrada`);
+        return null;
+      }
 
-    itemsToAdd.forEach((item) => {
-      addToCart(item);
-    });
+      return {
+        id: id.toString(),
+        cardName: comida.nombre,
+        cardImg: getImage(comida.img),
+        cardPrice: comida.precio,
+        cardDescription: comida.descripcion,
+        count: item.quantity
+      };
+    })
+    .filter(item => item !== null) as CartItem[]; // Type assertion aquí
 
-    setShowModal(true);
-  };
+  if (itemsToAdd.length === 0) {
+    window.alert("Los productos seleccionados no son válidos.");
+    return;
+  }
+
+  setSelectedItems({});
+  
+  itemsToAdd.forEach((item) => {
+    addToCart(item);
+  });
+
+  setShowModal(true);
+};
 
   return (
     <>
