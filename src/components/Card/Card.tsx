@@ -2,11 +2,10 @@ import { useState } from "react";
 import { Card as BootstrapCard, Button, Modal } from "react-bootstrap";
 import "./Card.css";
 
-
 interface CardProps {
   id: string;
   cardImg: string;
-  cardName: string,
+  cardName: string;
   cardDescription?: string;
   cardPrice?: number;
   cardServing?: number;
@@ -16,11 +15,22 @@ interface CardProps {
   cardFats?: number;
   cardFiber?: number;
   onQuantityChange: (id: string, quantity: number) => void;
-
 }
 
 function Card(props: CardProps) {
-  const { id, cardImg, cardName, cardDescription, cardPrice, cardServing, cardEnergy, cardCarbohydrates, cardProteins, cardFats, cardFiber } = props;
+  const {
+    id,
+    cardImg,
+    cardName,
+    cardDescription,
+    cardPrice,
+    cardServing,
+    cardEnergy,
+    cardCarbohydrates,
+    cardProteins,
+    cardFats,
+    cardFiber,
+  } = props;
   const [counter, setCounter] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
@@ -29,83 +39,78 @@ function Card(props: CardProps) {
   const increment = () => {
     const newCount = counter + 1;
     setCounter(newCount);
-    props.onQuantityChange(id, newCount); 
-    
-    
-  }
+    props.onQuantityChange(id, newCount);
+  };
 
   const decrease = () => {
     const newCount = Math.max(0, counter - 1);
     setCounter(newCount);
-    props.onQuantityChange(id, newCount);    
-   
-  }
+    props.onQuantityChange(id, newCount);
+  };
 
   const handleCloseAndAdd = () => {
-    increment();   
+    increment();
     handleClose();
   };
 
   return (
     <>
-    <div className="card-layout">
-      <BootstrapCard
-        style={{       
-          width: "auto",
-          height: "25vh",
-          borderRadius: "10px",
-          marginTop: "20px",
-          marginLeft: "15px",
-          marginRight: "15px",
-        }}
-      >
-        <BootstrapCard.Img
-          variant="top"
-          src={cardImg}
-          alt={cardName}
-          onClick={handleShow}
+      <div className="card-layout">
+        <BootstrapCard
           style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            cursor: "pointer",
-          }}
-        />
-        <BootstrapCard.Body
-          style={{
-            backgroundColor: "#F89D53",
-            borderBottomLeftRadius: "10px",
-            borderBottomRightRadius: "10px",
-            height: "8vh",
-            overflowY:"hidden",            
+            width: "auto",
+            height: "25vh",
+            borderRadius: "10px",
+            marginTop: "20px",
+            marginLeft: "15px",
+            marginRight: "15px",
           }}
         >
-          <BootstrapCard.Text
+          <BootstrapCard.Img
+            variant="top"
+            src={cardImg}
+            alt={cardName}
+            onClick={handleShow}
             style={{
-              display: "flex",
-              justifyContent: "space-between",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              cursor: "pointer",
+            }}
+          />
+          <BootstrapCard.Body
+            style={{
+              backgroundColor: "#F89D53",
+              borderBottomLeftRadius: "10px",
+              borderBottomRightRadius: "10px",
+              height: "8vh",
+              overflowY: "hidden",
             }}
           >
             <div
-              className="counterButton"
-              onClick={() => decrease()}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
             >
-              -
+              <div className="counterButton" onClick={() => decrease()}>
+                -
+              </div>
+              <div>{counter}</div>
+              <div className="counterButton" onClick={() => increment()}>
+                +
+              </div>
             </div>
-            <div>{counter}</div>
-            <div
-              className="counterButton"
-              onClick={() => increment()}
-            >
-              +
-            </div>
-          </BootstrapCard.Text>
-        </BootstrapCard.Body>
-      </BootstrapCard> 
-    </div>
-     
+          </BootstrapCard.Body>
+        </BootstrapCard>
+      </div>
 
-      <Modal show={showModal} onHide={handleClose} centered style={{ border: 0 }}>
+      <Modal
+        show={showModal}
+        onHide={handleClose}
+        centered
+        style={{ border: 0 }}
+      >
         <Modal.Header
           closeButton
           closeVariant=""
@@ -125,7 +130,7 @@ function Card(props: CardProps) {
         <Modal.Body
           style={{
             backgroundColor: "#FDE1C1",
-            border: "0px"
+            border: "0px",
           }}
         >
           <p>
@@ -139,7 +144,7 @@ function Card(props: CardProps) {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            border: "0px"
+            border: "0px",
           }}
         >
           <div className="nutrition-container">

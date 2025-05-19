@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Modal, Form, Col } from "react-bootstrap";
 import { useState } from "react";
 import {

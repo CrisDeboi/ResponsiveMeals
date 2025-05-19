@@ -56,10 +56,7 @@ function Cart() {
       <div className="container">
         <div className="cart-container">
           <div className="cart-orders">
-
-
             {cartItems.map((item) => (
-
               <CardCart
                 key={item.id}
                 cardName={item.cardName}

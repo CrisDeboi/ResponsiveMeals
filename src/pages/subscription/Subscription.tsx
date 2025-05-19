@@ -23,7 +23,6 @@ function Subscription() {
             description="Suscripción completa que incluye gastos de envío y hasta 60 platos entre cualquiera de los que hay en la aplicación"
           />
         </div>
-{/* a */}
       </div>
       <Footer />
     </>
