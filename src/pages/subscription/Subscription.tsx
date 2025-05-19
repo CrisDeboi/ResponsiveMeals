@@ -25,6 +25,7 @@ function Subscription() {
         const suscripcionesData = await fetchSuscripciones();
         setSuscripciones(suscripcionesData);
         setError(null);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         setError("Hubo un problema al cargar los datos.");
       } finally {
@@ -66,6 +67,7 @@ function Subscription() {
           ))}
         </div>
       </div>
+    {/* a */}
       <Footer />
     </>
   );
