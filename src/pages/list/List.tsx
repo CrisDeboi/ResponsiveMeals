@@ -101,7 +101,7 @@ function List() {
           comidas.map((comida) => (
             <Card
               key={comida.id}
-              id={comida.id_comida}
+              id={comida.idComida}
               cardName={comida.nombre}
               cardPrice={comida.precio}
               cardDescription={comida.descripcion}
