@@ -3,7 +3,6 @@ import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import SubPlan from "../../components/SubPlan/SubPlan";
 import "./Subscription.css";
-<<<<<<< HEAD
 import { fetchSuscripciones } from "../../services/Api";
 
 interface Suscripcion {
@@ -14,9 +13,6 @@ interface Suscripcion {
   cantidadPlatos: number;
 }
 
-=======
-// a
->>>>>>> 862d906cd2541597293085016078c20da0b93b51
 function Subscription() {
   const [suscripciones, setSuscripciones] = useState<Suscripcion[]>([]);
   const [loading, setLoading] = useState(true);

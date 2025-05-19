@@ -4,19 +4,14 @@ import "./CardCart.css";
 interface CardProps {
   cardImg: string;
   cardName: string;
-<<<<<<< HEAD
   cardPrice: number;
-=======
->>>>>>> 862d906cd2541597293085016078c20da0b93b51
   cardQuantity: number;
 }
 
 function CardCart(props: CardProps) {
-<<<<<<< HEAD
+
     const { cardImg, cardName, cardPrice, cardQuantity } = props;
-=======
-  const { cardImg, cardName, cardQuantity } = props;
->>>>>>> 862d906cd2541597293085016078c20da0b93b51
+
 
   return (
     <>
