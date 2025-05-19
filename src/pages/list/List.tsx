@@ -75,7 +75,7 @@ function List() {
   const itemsToAdd = Object.entries(selectedItems)
     .filter(([_, item]) => item.quantity > 0)
     .map(([id, item]) => {
-      const comida = comidas.find((c) => c.id_comida === Number(id));
+      const comida = comidas.find((c) => c.idcomida === Number(id));
       
       if (!comida) {
         console.warn(`Comida con id ${id} no encontrada`);
@@ -119,7 +119,7 @@ function List() {
           comidas.map((comida) => (
             <Card
               key={comida.id}
-              id={comida.id_comida}
+              id={comida.idcomida}
               cardName={comida.nombre}
               cardPrice={comida.precio}
               cardDescription={comida.descripcion}
