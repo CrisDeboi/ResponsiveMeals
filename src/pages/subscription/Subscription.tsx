@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import SubPlan from "../../components/SubPlan/SubPlan";
@@ -14,39 +13,6 @@ interface Suscripcion {
 }
 
 function Subscription() {
-  const [suscripciones, setSuscripciones] = useState<Suscripcion[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const getSuscripciones = async () => {
-      try {
-        setLoading(true);
-        const suscripcionesData = await fetchSuscripciones();
-        setSuscripciones(suscripcionesData);
-        setError(null);
-      } catch (err) {
-        setError("Hubo un problema al cargar los datos.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getSuscripciones();
-  }, []);
-  
-  const suscripcionesFiltradas = suscripciones.filter(
-    (suscripcion) => suscripcion.nombre !== "NO"
-  );
-
-  if (loading) {
-    return <div>Cargando suscripciones...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   return (
     <>
       <Header />
@@ -55,15 +21,16 @@ function Subscription() {
           <strong>Elige el plan que mejor se adapte a tus necesidades</strong>
         </div>
         <div className="subplans-container">
-          {suscripcionesFiltradas.map((suscripcion) => (
-            <SubPlan
-              key={suscripcion.idSuscripcion}
-              title={suscripcion.nombre}
-              price={suscripcion.precio}
-              description={suscripcion.descripcion}
-             
-            />
-          ))}
+          <SubPlan
+            title="Estándar"
+            price={99.95}
+            description="Suscripción estándar que cubre gastos de envío y hasta 50 platos a elegir entre la rotación de cada mes"
+          />
+          <SubPlan
+            title="Premium"
+            price={149.95}
+            description="Suscripción completa que incluye gastos de envío y hasta 60 platos entre cualquiera de los que hay en la aplicación"
+          />
         </div>
       </div>
       <Footer />
