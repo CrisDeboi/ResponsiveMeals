@@ -4,19 +4,13 @@ import "./CardCart.css";
 interface CardProps {
   cardImg: string;
   cardName: string;
-<<<<<<<<< Temporary merge branch 1
-=========
   cardPrice: number;
->>>>>>>>> Temporary merge branch 2
   cardQuantity: number;
 }
 
 function CardCart(props: CardProps) {
-<<<<<<<<< Temporary merge branch 1
-  const { cardImg, cardName, cardQuantity } = props;
-=========
     const { cardImg, cardName, cardPrice, cardQuantity } = props;
->>>>>>>>> Temporary merge branch 2
+
 
   return (
     <>
