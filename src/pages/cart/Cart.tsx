@@ -56,6 +56,7 @@ function Cart() {
       <div className="container">
         <div className="cart-container">
           <div className="cart-orders">
+<<<<<<< HEAD
   {cartItems.map((item) => (
     <CardCart
       key={`${item.id}-${item.count}`} 
@@ -66,6 +67,17 @@ function Cart() {
     />
   ))}
 </div>
+=======
+            {cartItems.map((item) => (
+              <CardCart
+                key={item.id}
+                cardName={item.cardName}
+                cardImg={item.cardImg}
+                cardQuantity={item.count}
+              />
+            ))}
+          </div>
+>>>>>>> 862d906cd2541597293085016078c20da0b93b51
           <div className="cart-summary">
             {error && (
               <Alert variant="danger" className="mb-3">

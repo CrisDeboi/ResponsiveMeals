@@ -63,35 +63,17 @@ function List() {
     }));
   };
 
- const handleAddSelection = () => {
-  // Verificar primero si hay items seleccionados
-  const hasSelectedItems = Object.values(selectedItems).some(item => item.quantity > 0);
-  
-  if (!hasSelectedItems) {
-    window.alert("Por favor, selecciona al menos un producto.");
-    return;
-  }
-
-  const itemsToAdd = Object.entries(selectedItems)
-    .filter(([_, item]) => item.quantity > 0)
-    .map(([id, item]) => {
-      const comida = comidas.find((c) => c.idcomida === Number(id));
-      
-      if (!comida) {
-        console.warn(`Comida con id ${id} no encontrada`);
-        return null;
-      }
-
-      return {
-        id: id.toString(),
-        cardName: comida.nombre,
-        cardImg: getImage(comida.img),
-        cardPrice: comida.precio,
-        cardDescription: comida.descripcion,
-        count: item.quantity
-      };
-    })
-    .filter(item => item !== null) as CartItem[]; // Type assertion aquí
+  const handleAddSelection = () => {
+    const itemsToAdd = Object.entries(selectedItems)
+      .filter(([_, item]) => item.quantity > 0)
+      .map(([id, item]) => {
+        const comida = comidas.find((c) => c.id === Number(id));
+        return {
+          id,
+          ...comida,
+          count: item.quantity,
+        };
+      });
 
   if (itemsToAdd.length === 0) {
     window.alert("Los productos seleccionados no son válidos.");
@@ -119,7 +101,7 @@ function List() {
           comidas.map((comida) => (
             <Card
               key={comida.id}
-              id={comida.idcomida}
+              id={comida.id_comida}
               cardName={comida.nombre}
               cardPrice={comida.precio}
               cardDescription={comida.descripcion}
