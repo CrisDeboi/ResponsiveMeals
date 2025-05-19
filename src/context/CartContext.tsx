@@ -12,6 +12,7 @@ export interface CartItem {
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
+  clearCart: () => void; 
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -29,22 +30,25 @@ export const CartProvider: React.FC<CartProviderProps> = ({
     initialValue?.cartItems || []
   );
 
-  const addToCart =
-    initialValue?.addToCart ||
-    ((item: CartItem) => {
-      setCartItems((prev) => {
-        const existingItem = prev.find((i) => i.id === item.id);
-        if (existingItem) {
-          return prev.map((i) =>
-            i.id === item.id ? { ...i, count: i.count + item.count } : i
-          );
-        }
-        return [...prev, item];
-      });
+  const addToCart = (item: CartItem) => {
+    setCartItems((prev) => {
+      const existingItemIndex = prev.findIndex((i) => i.id === item.id);
+      if (existingItemIndex >= 0) {
+        const newItems = [...prev];
+        newItems[existingItemIndex] = {
+          ...newItems[existingItemIndex],
+          count: newItems[existingItemIndex].count + item.count
+        };
+        return newItems;
+      }
+      return [...prev, item];
     });
+  };
+
+  const clearCart = () => setCartItems([]);
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

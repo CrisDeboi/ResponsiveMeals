@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Metodos para Clientes
-export const fetchData = async () => {
+export const fetchClientes = async () => {
   const response = await fetch("http://localhost:8080/responsivemeals/clientes");   
   const data = await response.json();
   return data;
@@ -18,7 +18,7 @@ export const handleAdd = async (
       "http://localhost:8080/responsivemeals/clientes",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },        
         body: JSON.stringify({
           nombre,
           // suscripcion,
@@ -26,6 +26,7 @@ export const handleAdd = async (
           contrasena,
           telefono,
         }),
+        
       }
     );
 
@@ -165,6 +166,16 @@ export const updateUser = async (id: number, updatedData: any) => {
 
 export const fetchDetalle = async () => {
   const response = await fetch("http://localhost:8080/responsivemeals/detallepedidos");   
+  const data = await response.json();
+  return data;
+};
+
+
+
+//Métodos para Suscripciones
+
+export const fetchSuscripciones = async () => {
+  const response = await fetch("http://localhost:8080/responsivemeals/suscripciones");   
   const data = await response.json();
   return data;
 };

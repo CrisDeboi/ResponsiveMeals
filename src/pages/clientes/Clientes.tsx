@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { fetchData, fetchPedido } from "../../services/Api";
+import { fetchClientes, fetchPedido } from "../../services/Api";
 import Header from "../../components/Header/Header";
 import "./Clientes.css";
 import CardUser from "../../components/CardUsers/CardUser";
@@ -18,7 +18,7 @@ function Usuarios() {
     const getUsuarios = async () => {
       try {
         setLoading(true);
-        const usuariosData = await fetchData();
+        const usuariosData = await fetchClientes();
         setUsuarios(usuariosData);
         setError(null);
       } catch (err) {
