@@ -7,26 +7,19 @@ import Filter from "../../components/Filter/Filter";
 import Card from "../../components/Card/Card";
 import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { CartItem, useCart } from "../../context/CartContext";
+import { useCart } from "../../context/CartContext";
 import Footer from "../../components/Footer/Footer";
 import { fetchComida } from "../../services/Api";
 const images = import.meta.glob("/src/assets/*", { eager: true });
 
 const getImage = (imgName: string) => {
-  const imgPath = `/src/assets/${imgName}`;
-  if (!images[imgPath]) {
-    console.error(`Imagen no encontrada: ${imgName}`);
-    return ''; 
-  }
-  return (images[imgPath] as { default: string }).default;
+  return (images[`/src/assets/${imgName}`] as { default: string })?.default;
 };
-
-
 
 function List() {
   interface SelectedItems {
     [key: string]: { quantity: number };
-  }  
+  }
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
@@ -41,7 +34,7 @@ function List() {
       try {
         setLoading(true);
         const data = await fetchComida(); // Llama a la función que obtiene los datos de la BD
-        setComidas(data); 
+        setComidas(data);
         setError(null);
       } catch (err) {
         setError("Hubo un problema al cargar los datos.");
@@ -67,27 +60,25 @@ function List() {
     const itemsToAdd = Object.entries(selectedItems)
       .filter(([_, item]) => item.quantity > 0)
       .map(([id, item]) => {
-        const comida = comidas.find((c) => c.id === Number(id));
+        const comida = comidas.find((c) => c.idComida === Number(id));
         return {
-          id,
+          id: comida.idComida,
           ...comida,
           count: item.quantity,
         };
       });
 
-  if (itemsToAdd.length === 0) {
-    window.alert("Los productos seleccionados no son válidos.");
-    return;
-  }
+    if (itemsToAdd.length === 0) {
+      window.alert("Por favor, selecciona al menos un producto.");
+      return;
+    }
 
-  setSelectedItems({});
-  
-  itemsToAdd.forEach((item) => {
-    addToCart(item);
-  });
+    itemsToAdd.forEach((item) => {
+      addToCart(item);
+    });
 
-  setShowModal(true);
-};
+    setShowModal(true);
+  };
 
   return (
     <>
@@ -113,7 +104,7 @@ function List() {
               cardFiber={comida.fibra}
               cardImg={getImage(comida.img)}
               onQuantityChange={handleQuantityChange}
-              />
+            />
           ))}
       </div>
       <div className="buttonListContainer">
@@ -133,10 +124,18 @@ function List() {
             <p>Platos añadidos correctamente a tu carrito</p>
           </Modal.Body>
           <Modal.Footer style={{ backgroundColor: "#FDE1C1" }}>
-            <Button variant="secondary" onClick={handleClose} style={{ backgroundColor: "#C65D1A" }}>
+            <Button
+              variant="secondary"
+              onClick={handleClose}
+              style={{ backgroundColor: "#C65D1A" }}
+            >
               Seguir Eligiendo
             </Button>
-            <Button variant="secondary" onClick={() => navigate("/cart")} style={{ backgroundColor: "#C65D1A" }}>
+            <Button
+              variant="secondary"
+              onClick={() => navigate("/cart")}
+              style={{ backgroundColor: "#C65D1A" }}
+            >
               Ir al carrito
             </Button>
           </Modal.Footer>
@@ -146,6 +145,5 @@ function List() {
     </>
   );
 }
-
 
 export default List;

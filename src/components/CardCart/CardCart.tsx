@@ -2,14 +2,13 @@ import { Card as BootstrapCard } from "react-bootstrap";
 import "./CardCart.css";
 
 interface CardProps {
-    cardImg: string;
-    cardName: string;
-    cardQuantity: number;
+  cardImg: string;
+  cardName: string;
+  cardQuantity: number;
 }
 
 function CardCart(props: CardProps) {
-    const { cardImg,cardName, cardQuantity } = props;
-
+  const { cardImg, cardName, cardQuantity } = props;
 
   return (
     <>
