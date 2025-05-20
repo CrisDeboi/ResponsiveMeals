@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -29,10 +30,13 @@ public class ProyectoApplication {
 
 		@Bean
 		public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-			http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+			http
+					.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 					.csrf(csrf -> csrf.disable())
 					.authorizeHttpRequests(auth -> auth
-							.requestMatchers("/clientelogin",
+							.requestMatchers(HttpMethod.POST, "/responsivemeals/clientes").permitAll()																										
+							.requestMatchers(
+									"/clientelogin",
 									"/responsivemeals/comidas",
 									"/responsivemeals/suscripciones")
 							.permitAll()
