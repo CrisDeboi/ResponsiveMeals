@@ -14,6 +14,7 @@ export const login = async (email: string, password: string) => {
       }
     );
     return response.data;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     throw new Error("Error en el login");
   }
