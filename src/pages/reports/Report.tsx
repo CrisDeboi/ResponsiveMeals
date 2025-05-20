@@ -9,6 +9,7 @@ import "./Report.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Button } from "react-bootstrap";
+import { getToken } from "../../services/AuthService";
 
 const Report = () => {
   interface Cliente {
@@ -19,14 +20,32 @@ const Report = () => {
     suscripcion: string;
   }
   const [data, setData] = useState<Cliente[]>([]);
-  const chartRef = useRef<Chart<"bar"> | null>(null);
+  const chartRef = useRef<Chart<"bar"> | null>(null);  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Obtener datos de ejemplo
   useEffect(() => {
-    fetch("http://localhost:8080/responsivemeals/clientes")
-      .then((response) => response.json())
-      .then((data) => setData(data));
-  }, []);
+    const token = getToken;     
+    fetch("http://localhost:8080/responsivemeals/clientes", {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Error en la petición');
+        }
+        return response.json();
+    })
+    .then((data) => setData(data))
+    .catch((error) => {
+        console.error('Error:', error);
+        
+    });
+}, []);
+  
 
   // Configuración de columnas para la tabla
   const columns: Column<Cliente>[] = React.useMemo(
