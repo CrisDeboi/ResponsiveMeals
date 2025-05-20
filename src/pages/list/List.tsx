@@ -56,17 +56,19 @@ function List() {
     }));
   };
 
-  const handleAddSelection = () => {
-    const itemsToAdd = Object.entries(selectedItems)
-      .filter(([_, item]) => item.quantity > 0)
-      .map(([id, item]) => {
-        const comida = comidas.find((c) => c.idComida === Number(id));
-        return {
-          id: comida.idComida,
-          ...comida,
-          count: item.quantity,
-        };
-      });
+const handleAddSelection = () => {
+  const itemsToAdd = Object.entries(selectedItems)
+    .filter(([_, item]) => item.quantity > 0)
+    .map(([id, item]) => {
+      const comida = comidas.find((c) => c.idComida === Number(id));
+      return {
+        id: comida.idComida,
+        cardName: comida.nombre,
+        cardPrice: comida.precio,
+        cardImg: getImage(comida.img),
+        count: item.quantity,
+      };
+    });
 
     if (itemsToAdd.length === 0) {
       window.alert("Por favor, selecciona al menos un producto.");
