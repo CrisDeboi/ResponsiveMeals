@@ -7,14 +7,16 @@ import "./LoginForm.css"
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Alert } from 'react-bootstrap';
+import { login, saveToken } from '../../services/AuthService';
 
 function LoginForm() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] =useState("");
   const [error, setError] = useState("");
 
-  const handleErrorAndGoToList = () => {
+  const handleErrorAndGoToList = async () => {
     if(!email.trim() || !password.trim()){
       setError("Datos introducidos incorrectos.");
       return;
@@ -24,8 +26,16 @@ function LoginForm() {
       setError("Por favor, introduzca un correo electrónico válido.");
       return;
     }
-    setError("");
-    navigate("/list");    
+     try {
+      setLoading(true);
+      const response = await login(email, password);
+      saveToken(response.token);
+      navigate("/list");
+    } catch (err) {
+      setError("Credenciales inválidas");
+    } finally {
+      setLoading(false);
+    } 
   };
 
   
@@ -82,10 +92,10 @@ function LoginForm() {
         backgroundColor: "#C65D1A",
         borderColor: "#C65D1A"
       }}>Iniciar Sesión</Button>
-      <Button onClick={goToRegister}style={{
+      {/* <Button onClick={goToRegister}style={{
         backgroundColor: "#C65D1A",
         borderColor: "#C65D1A"
-      }}>Registrarse</Button>
+      }}>Registrarse</Button> */}
       <Button onClick={goToRegisterReal}style={{
         backgroundColor: "#C65D1A",
         borderColor: "#C65D1A"

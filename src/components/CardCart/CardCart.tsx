@@ -4,11 +4,13 @@ import "./CardCart.css";
 interface CardProps {
   cardImg: string;
   cardName: string;
+  cardPrice: number;
   cardQuantity: number;
 }
 
 function CardCart(props: CardProps) {
-  const { cardImg, cardName, cardQuantity } = props;
+    const { cardImg, cardName, cardPrice, cardQuantity } = props;
+
 
   return (
     <>

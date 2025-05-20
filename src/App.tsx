@@ -4,13 +4,14 @@ import List from "./pages/list/List";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css"
 import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
+// import Register from "./pages/register/Register";
 import Subscription from "./pages/subscription/Subscription";
 import Cart from "./pages/cart/Cart";
 import { CartProvider } from "./context/CartContext";
 import Clientes from "./pages/clientes/Clientes";
 import Report from "./pages/reports/Report";
 import RegisterReal from "./pages/register/RegisterReal";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectecRoute";
 
 function App() {
   return (
@@ -20,13 +21,17 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/list" element={<List />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* <Route path="/register" element={<Register />} /> */}
           <Route path="/registerReal" element={<RegisterReal />} />
-          <Route path="/subscription" element={<Subscription />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/clientes" element={<Clientes />} />
+          <Route path="/subscription" element={
+            <Subscription />} />
+          <Route path="/cart" element={
+            <ProtectedRoute><Cart /></ProtectedRoute>} />
+          <Route path="/clientes" element={
+            <ProtectedRoute><Clientes /></ProtectedRoute>} />
           <Route path="/help" element={<Navigate to="./pages/Help/ResumendelaAplicacion.html" />} />
-          <Route path="/report" element={<Report />} />
+          <Route path="/report" element={
+            <ProtectedRoute><Report /></ProtectedRoute>} />
         </Routes>
       </Router>
     </CartProvider>
