@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -43,6 +44,7 @@ public class Cliente {
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "El email debe contener un formato válido: ejemplo@ejemplo.com")
     private String Email;
+    @Column(length = 1000)
     private String token;
     @NotBlank(message = "La contraseña es obligatoria")
     @Size(min = 6, message = "La contraseña debe tener mínimo 6 caracteres")
