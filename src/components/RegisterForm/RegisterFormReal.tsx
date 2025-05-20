@@ -27,7 +27,7 @@ function RegisterFormReal() {
     setMessage(message);
   };
   
-  const handleRegister = (e: { preventDefault: () => void }) => {
+  const handleRegister = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     if (
@@ -58,14 +58,25 @@ function RegisterFormReal() {
       return;
     }
 
-    if (suscripcion === "Elige...") {
-      setError("Por favor, seleccione una suscripción.");
-      return;
-    }
+    // if (suscripcion === "Elige...") {
+    //   setError("Por favor, seleccione una suscripción.");
+    //   return;
+    // }
 
+    try {
     setError("");
-    alert("Cuenta creada con éxito");
-    navigate("/");
+    const message = await handleAdd(nombre, email, contrasena, telefono);
+    
+    if (message === "Registro exitoso.") {
+      alert("Cuenta creada con éxito");
+      navigate("/");
+    } else {
+      setError(message);
+    }
+  } catch (error) {
+    setError("Error de conexión con el servidor");
+    console.error("Error en el registro:", error);
+  }    
   };
 
   const handleZipChange = (e: { target: { value: any } }) => {
@@ -144,7 +155,7 @@ function RegisterFormReal() {
         <Button
           variant="primary"
           type="submit"
-          onClick={registerUser}
+          // onClick={registerUser}
           style={{
             backgroundColor: "#C65D1A",
             borderColor: "#C65D1A",

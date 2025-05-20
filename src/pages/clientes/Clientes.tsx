@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { fetchClientes, fetchPedido } from "../../services/Api";
+import { fetchClientes, fetchPedido, handleDelete } from "../../services/Api";
 import Header from "../../components/Header/Header";
 import "./Clientes.css";
 import CardUser from "../../components/CardUsers/CardUser";
@@ -55,9 +55,20 @@ function Usuarios() {
   const handleDeletePedido = (idPedido: string) => {
     setPedidos((prevPedidos) => prevPedidos.filter(pedido => pedido.id_pedido !== idPedido))
   }
-  const handleDeleteUsuario = (idUsuario: number) => {
-    setUsuarios((usuario) => usuario.filter(usuarios => usuarios.idCliente !== idUsuario))
+  const handleDeleteUsuario = async (idUsuario: number) => {
+  try {
+    const result = await handleDelete(idUsuario); 
+    
+    if (result === "Borrado exitoso.") {
+      setUsuarios(prev => prev.filter(usuario => usuario.idCliente !== idUsuario));
+    } else {
+      setError("No se pudo eliminar el usuario");
+    }
+  } catch (error) {
+    setError("Error al conectar con el servidor");
+    console.error("Error al eliminar usuario:", error);
   }
+}
 
   // Filtrar usuarios según la búsqueda
   const listaUsuarios = usuarios.filter((usuario) =>

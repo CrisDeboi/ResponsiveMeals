@@ -44,7 +44,7 @@ export const handleAdd = async (
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${getToken}`,
+          // 'Authorization': `Bearer ${getToken}`,
         },
         body: JSON.stringify({
           nombre,
@@ -69,23 +69,30 @@ export const handleAdd = async (
 
 export const handleDelete = async (id: number) => {
   try {
+    const token = getToken(); // Verifica que esto no sea `null` o `undefined`
+    console.log("Token usado para DELETE:", token); // ← Añade este log para depuración
+
     const deleteResponse = await fetch(
       `http://localhost:8080/responsivemeals/clientes/${id}`,
       {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${getToken}`,
+          'Authorization': `Bearer ${token}`,
         },
       }
     );
 
+    console.log("Respuesta del servidor:", deleteResponse.status); // ← Verifica el código de estado HTTP
+
     if (deleteResponse.ok) {
       return "Borrado exitoso.";
     } else {
-      return "Hubo un error al borrar el usuario.";
+      const errorData = await deleteResponse.json().catch(() => null);
+      return errorData?.message || "Hubo un error al borrar el usuario.";
     }
   } catch (error) {
+    console.error("Error en handleDelete:", error); // ← Esto te dará más detalles del error
     return "Error de conexión con el servidor.";
   }
 };
