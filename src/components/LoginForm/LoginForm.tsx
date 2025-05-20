@@ -99,7 +99,7 @@ function LoginForm() {
       <Button onClick={goToRegisterReal}style={{
         backgroundColor: "#C65D1A",
         borderColor: "#C65D1A"
-      }}>Registrarse pero de verdad</Button>
+      }}>Registrarse</Button>
       </div>    
 
 
