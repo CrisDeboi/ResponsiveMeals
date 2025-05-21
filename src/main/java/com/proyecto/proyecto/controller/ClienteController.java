@@ -90,12 +90,48 @@ public class ClienteController {
         return clienteRepository.save(cliente);
     }
 
+    @PutMapping("/{id}/suscripcion")
+    public Cliente updateSubscription(
+            @PathVariable Long id,
+            @RequestBody UpdateSubscriptionDTO dto) {
+
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
+
+        Suscripcion suscripcion = suscripcionRepository.findById(dto.getIdSuscripcion())
+                .orElseThrow(() -> new ResourceNotFoundException("Suscripción no encontrada"));
+
+        if (cliente.getSuscripcion() != null) {
+            cliente.getSuscripcion().removeCliente(cliente);
+        }
+
+        cliente.setSuscripcion(suscripcion);
+        suscripcion.addCliente(cliente);
+
+        return clienteRepository.save(cliente);
+    }
+
     @DeleteMapping("/{id}")
     public Cliente eliminarCliente(@PathVariable("id") Long id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
         clienteRepository.deleteById(id);
         return cliente;
+    }
+
+    public static class UpdateSubscriptionDTO {
+        private Long idSuscripcion;
+
+        public UpdateSubscriptionDTO() {
+        }
+
+        public Long getIdSuscripcion() {
+            return idSuscripcion;
+        }
+
+        public void setIdSuscripcion(Long idSuscripcion) {
+            this.idSuscripcion = idSuscripcion;
+        }
     }
 
 }
