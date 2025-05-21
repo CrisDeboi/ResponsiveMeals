@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import CardCart from "../../components/CardCart/CardCart";
 import { SetStateAction, useEffect, useState } from "react";
+import { getCurrentUser } from "../../services/AuthService";
+import { createDetallePedido, createPedido } from "../../services/Api";
 
 
 function Cart() {
@@ -26,7 +28,7 @@ function Cart() {
     setAddres(e.target.value);
   }
 
-  const handlePurchase = () => {
+  const handlePurchase = async () => {
     if (totalPlatos === 0) {
       setError("El carrito está vacío. Seleccione primero platos de la lista.");
       return;
@@ -37,9 +39,34 @@ function Cart() {
       return;
     }
 
-    setError("");
-    alert("Compra realizada con éxito. Buen provecho 😋");
-  }
+    try {
+      const currentUser = await getCurrentUser();
+      if (!currentUser) {
+        setError("No se pudo identificar al usuario");
+        return;
+      }
+      const nuevoPedido = {
+        coste_total: totalPrecio,
+        direccion: debounceAddress,
+        id_cliente: currentUser.id_cliente
+      };
+      const pedidoCreado = await createPedido(nuevoPedido);
+      for (const item of cartItems) {
+        const detalle = {
+          id_pedido: pedidoCreado.id_pedido,
+          id_comida: item.id,
+          cantidad: item.count,
+          subtotal: item.cardPrice * item.count
+        };
+        
+        await createDetallePedido(detalle);
+      }
+      alert("Compra realizada con éxito. Buen provecho 😋");
+    } catch (error) {
+      console.error("Error en la compra:", error);
+      setError("Ocurrió un error al procesar la compra");
+    }
+  };
 
   const goToSub = () => {
     navigate("/subscription")
