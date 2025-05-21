@@ -230,3 +230,11 @@ export const fetchSuscripciones = async () => {
   const data = await response.json();
   return data;
 };
+
+export const getSuscripcion = async () => {
+  const response = await fetch("http://localhost:8080/responsivemeals/suscripciones/");
+  const data = await response.json();
+  return data;
+};
+
+

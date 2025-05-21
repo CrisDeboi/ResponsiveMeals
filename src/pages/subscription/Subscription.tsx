@@ -4,6 +4,7 @@ import Header from "../../components/Header/Header";
 import SubPlan from "../../components/SubPlan/SubPlan";
 import "./Subscription.css";
 import { fetchSuscripciones } from "../../services/Api";
+import { getCurrentUser } from "../../services/AuthService";
 
 interface Suscripcion {
   idSuscripcion: number;
@@ -13,10 +14,29 @@ interface Suscripcion {
   cantidadPlatos: number;
 }
 
+interface Cliente {
+  idCliente: number;
+  nombre: string;
+  email: string;
+  token: string; 
+}
+
 function Subscription() {
   const [suscripciones, setSuscripciones] = useState<Suscripcion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<Cliente | null>(null);
+
+
+  useEffect(() => {
+  const fetchUser = async () => {
+    const currentUser = await getCurrentUser();
+    console.log("Usuario logeado:"+currentUser.nombre)
+    setUser(currentUser);
+  };
+  fetchUser();
+}, []);
+
 
   useEffect(() => {
     const getSuscripciones = async () => {
@@ -62,7 +82,7 @@ function Subscription() {
               title={suscripcion.nombre}
               price={suscripcion.precio}
               description={suscripcion.descripcion}
-             
+              id={suscripcion.idSuscripcion}             
             />
           ))}
         </div>

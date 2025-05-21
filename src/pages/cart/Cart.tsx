@@ -42,7 +42,7 @@ function Cart() {
   }
 
   const goToSub = () => {
-    navigate("/subscription");
+    navigate("/subscription")
   };
 
   const totalPlatos = cartItems.reduce((acc, item) => acc + item.cardPrice * item.count, 0);
@@ -56,16 +56,16 @@ function Cart() {
       <div className="container">
         <div className="cart-container">
           <div className="cart-orders">
-  {cartItems.map((item) => (
-    <CardCart
-      key={`${item.id}-${item.count}`} 
-      cardName={item.cardName}
-      cardImg={item.cardImg}
-      cardPrice={item.cardPrice}
-      cardQuantity={item.count}
-    />
-  ))}
-</div>
+            {cartItems.map((item) => (
+              <CardCart
+                key={`${item.id}-${item.count}`}
+                cardName={item.cardName}
+                cardImg={item.cardImg}
+                cardPrice={item.cardPrice}
+                cardQuantity={item.count}
+              />
+            ))}
+          </div>
           <div className="cart-summary">
             {error && (
               <Alert variant="danger" className="mb-3">

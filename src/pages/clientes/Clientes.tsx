@@ -112,7 +112,7 @@ function Usuarios() {
                     cardId={usuario.idCliente}
                     cardName={usuario.nombre}
                     cardEmail={usuario.email}
-                    // cardSuscription={usuario.suscripcion}
+                    cardSuscription={usuario.suscripcion.nombre}
                     cardPassword={usuario.contrasena}
                     cardPhone={usuario.telefono}
                     cardDate={usuario.fechaRegistro}
