@@ -5,9 +5,19 @@ import InstagramLogo from "/instagram.webp"
 import TwitterLogo from "/twitter.png"
 import GithubLogo from "/github.png"
 import { useNavigate } from "react-router-dom";
-import { isAuthenticated } from "../../services/AuthService";
+import { isAdmin, isAuthenticated } from "../../services/AuthService";
+import { useEffect, useState } from "react";
 
 function Footer() {
+  const [adminStatus, setAdminStatus] = useState(false);
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const adminStatus = await isAdmin();
+      setAdminStatus(adminStatus);
+    };
+    checkAdmin();
+  }, []);
+  
   const navigate = useNavigate();
   const goToHome = () => {
     navigate("/");
@@ -54,10 +64,10 @@ function Footer() {
             <a>Terminos y condiciones de uso</a>
             <a>Aviso legal</a>
             <a>Devoluciones</a>
-            {isAuthenticated() && (
+            {adminStatus && (
               <a onClick={goToReport}>Reporte de usuarios</a>
             )}
-            {isAuthenticated() && (
+            {adminStatus && (
               <a onClick={goToClients}>Usuarios</a>
             )}
 
