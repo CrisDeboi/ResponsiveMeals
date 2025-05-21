@@ -24,7 +24,7 @@ interface CardProps {
   cardId: number;
   cardName: string;
   cardEmail: string;
-  // cardSuscription: string;
+  cardSuscription: string;
   cardPassword: string;
   cardPhone: string;
   cardDate: string;
@@ -40,7 +40,7 @@ function CardUser(props: CardProps) {
     cardId,
     cardName,
     cardEmail,
-    // cardSuscription,
+    cardSuscription,
     cardPassword,
     cardPhone,
     cardDate,
@@ -112,8 +112,7 @@ function CardUser(props: CardProps) {
   };
   const handleEliminarUsuario = async (idUsuario: number) => {
     try {
-      const pedidoEliminado = await handleDelete(idUsuario);
-      deleteUser(idUsuario);
+      const pedidoEliminado = await handleDelete(idUsuario);      
       console.log("Pedido eliminado:", pedidoEliminado);
     } catch (error) {
       console.error("Error al eliminar el pedido:", error);
@@ -209,7 +208,7 @@ function CardUser(props: CardProps) {
           <ul className="columna1">
             <li>{cardName}</li>
             <li>{cardEmail}</li>
-            {/* <li>{cardSuscription}</li> */}
+            <li>{cardSuscription}</li>
           </ul>
           <ul className="columna2">
             <li>{cardPassword}</li>
@@ -226,7 +225,7 @@ function CardUser(props: CardProps) {
           </Button>
           <Button
             style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A" }}
-            onClick={() => handleEliminarUsuario(cardId)}
+            onClick={() => props.deleteUser(props.cardId)}
           >
             X
           </Button>

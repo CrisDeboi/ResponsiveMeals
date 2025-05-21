@@ -1,5 +1,6 @@
 // services/AuthService.ts
 import axios from 'axios';
+import { fetchClientes } from './Api';
 
 // AuthService.tsx
 export const login = async (email: string, password: string) => {
@@ -34,4 +35,30 @@ export const isAuthenticated = () => {
 
 export const logout = () => {
   localStorage.removeItem('authToken');
+};
+
+export const getCurrentUser = async () => {
+  try {
+    const currentToken = getToken();
+    if (!currentToken) {
+      console.log("No hay token almacenado");
+      return null;
+    }
+
+    const usuariosData = await fetchClientes();  
+    const currentUser = usuariosData.find(
+      (cliente: { token: string | null }) => cliente.token === currentToken
+    );
+
+    if (!currentUser) {
+      console.log("Usuario no encontrado con el token actual");
+      return null;
+    }
+
+    // console.log("Usuario actual encontrado:", currentUser.nombre);
+    return currentUser;
+  } catch (error) {
+    console.error("Error al obtener usuario actual:", error);
+    return null;
+  }
 };
