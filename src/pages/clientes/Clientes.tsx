@@ -70,10 +70,13 @@ function Usuarios() {
   }
 }
 
-  // Filtrar usuarios según la búsqueda
-  const listaUsuarios = usuarios.filter((usuario) =>
-    usuario.nombre.toLowerCase().includes(search.toLowerCase())
-  );
+ // Filtrar usuarios según la búsqueda y excluir el usuario 'admin'
+const listaUsuarios = usuarios.filter((usuario) =>
+  usuario.nombre.toLowerCase().includes(search.toLowerCase()) &&
+  usuario.nombre.toLowerCase() !== 'admin'
+);
+
+  
 
   const refreshPedidos = async () => {
     try {

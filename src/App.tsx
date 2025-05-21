@@ -12,6 +12,8 @@ import Clientes from "./pages/clientes/Clientes";
 import Report from "./pages/reports/Report";
 import RegisterReal from "./pages/register/RegisterReal";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectecRoute";
+import AdminRoute from "./components/AdminRoute/AdminRoute";
+import UnprotectedRoute from "./components/UnprotectedRoute/UnprotectedRoute";
 
 function App() {
   return (
@@ -19,8 +21,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/list" element={<List />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/list" element={<List />} />          
+          <Route path="/login" element={
+            <UnprotectedRoute><Login /></UnprotectedRoute>} />
           {/* <Route path="/register" element={<Register />} /> */}
           <Route path="/registerReal" element={<RegisterReal />} />
           <Route path="/subscription" element={
@@ -28,10 +31,12 @@ function App() {
           <Route path="/cart" element={
             <ProtectedRoute><Cart /></ProtectedRoute>} />
           <Route path="/clientes" element={
-            <ProtectedRoute><Clientes /></ProtectedRoute>} />
+            <ProtectedRoute>
+              <AdminRoute><Clientes /></AdminRoute>
+            </ProtectedRoute>} />
           <Route path="/help" element={<Navigate to="./pages/Help/ResumendelaAplicacion.html" />} />
           <Route path="/report" element={
-            <ProtectedRoute><Report /></ProtectedRoute>} />
+            <AdminRoute><Report /></AdminRoute>} />
         </Routes>
       </Router>
     </CartProvider>

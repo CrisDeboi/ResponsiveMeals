@@ -62,3 +62,13 @@ export const getCurrentUser = async () => {
     return null;
   }
 };
+
+export const isAdmin = async (): Promise<boolean> => {
+  try {
+    const currentUser = await getCurrentUser(); 
+    return currentUser?.nombre?.toLowerCase() === 'admin';
+  } catch (error) {
+    console.error("Error checking admin status:", error);
+    return false;
+  }
+};
