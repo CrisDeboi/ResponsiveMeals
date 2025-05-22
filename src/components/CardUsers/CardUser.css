@@ -22,15 +22,49 @@
   max-width: 4vw;
   max-height: 4vw;
 }
-.columna1 {
+.fila1 {
   width: 70vw;
   border-top: solid 1px #000;
   border-left: solid 1px #000;
 }
-.columna2 {
+.fila2 {
   width: 70vw;
   border-bottom: solid 1px #000;
   border-left: solid 1px #000;
+}
+
+.modal-header{
+  justify-content: space-between;
+}
+
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.pedido-detalle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detalle-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detalle-label {
+  font-weight: bold;
+  color: #C65D1A;
+}
+
+.detalle-value {
+  text-align: right;
 }
 
 @media (min-width: 1025px) and (max-width: 1280px) {

@@ -9,14 +9,23 @@ import {
   updateUser,
 } from "../../services/Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faPencil, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import "./CardUser.css";
+
+
+interface Detalle{
+  idDetalle:string;
+  idComida:string;
+  cantidad:number;
+  subtotal:number;
+}
 
 interface Pedido {
   id_pedido: string;
   direccion: string;
   metodo_pago: string;
-  coste_total: string;  
+  coste_total: string;
+  detalles: Detalle[];
 }
 
 interface CardProps {
@@ -50,6 +59,7 @@ function CardUser(props: CardProps) {
     deleteUser,
   } = props;
   const [showModal, setShowModal] = useState(false);
+  const [showDetallesModal, setShowDetallesModal] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [direccion, setDireccion] = useState("");
   const [metodoPago, setMetodoPago] = useState("");
@@ -61,6 +71,7 @@ function CardUser(props: CardProps) {
   const [editedEmail, setEditedEmail] = useState(cardEmail);
   const [editedPassword, setEditedPassword] = useState(cardPassword);
   const [editedPhone, setEditedPhone] = useState(cardPhone);
+  const [selectedPedido, setSelectedPedido] = useState<Pedido | null>(null);
   // const [editedSuscription, setEditedSuscription] = useState(cardSuscription);
 
   const editUser = async () => {
@@ -88,6 +99,7 @@ function CardUser(props: CardProps) {
   };
   const handleShow = () => {
     console.log("Id del Usuario mostrado:" + props.id);
+    console.log("Pedidos de este usuario", props.pedidos)
     onClick();
     setShowModal(true);
   };
@@ -206,7 +218,7 @@ function CardUser(props: CardProps) {
     <>
       <div className="datosPeroMas">
         <div className="datos" >
-          <ul className="columna1">
+          <ul className="fila1">
             <li onClick={handleShow}>{cardName}</li>
             <li onClick={handleShow}>{cardEmail}</li>
             <li onClick={handleShow}>{cardSuscription}</li>
@@ -217,7 +229,7 @@ function CardUser(props: CardProps) {
               <FontAwesomeIcon icon={faPencil} />
             </Button>
           </ul>
-          <ul className="columna2">
+          <ul className="fila2">
             <li onClick={handleShow}>{cardPassword}</li>
             <li onClick={handleShow}>{cardDate}</li>
             <li onClick={handleShow}>{cardPhone}</li>
@@ -225,7 +237,7 @@ function CardUser(props: CardProps) {
               style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A", width: "2.5em", height: "2.5em" }}
               onClick={() => props.deleteUser(props.cardId)}
             >
-              X
+              <FontAwesomeIcon icon={faTrash} />
             </Button>
           </ul>
         </div>
@@ -233,43 +245,7 @@ function CardUser(props: CardProps) {
 
         </div>
       </div>
-      <Modal
-        show={showModal}
-        onHide={handleClose}
-        centered
-      >
-        <Modal.Header closeButton style={{ backgroundColor: "#FDE1C1" }}>
-          <Modal.Title>
-            <strong>Pedidos de {cardName}</strong>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ backgroundColor: "#FDE1C1" }}>
-          {pedidos.length > 0 ? (
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Dirección</th>
-                  <th>Método de pago</th>
-                  <th>Coste total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pedidos.map((pedido) => (
-                  <tr key={pedido.id_pedido}>
-                    <td>{pedido.id_pedido}</td>
-                    <td>{pedido.direccion}</td>
-                    <td>{pedido.metodo_pago}</td>
-                    <td>{pedido.coste_total}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <p>Este usuario no tiene pedidos.</p>
-          )}
-        </Modal.Body>
-      </Modal>
+      {/* Modal de edicion  de usuario*/}
       <Modal
         show={showEditar}
         onHide={handleCloseEditar}
@@ -356,13 +332,30 @@ function CardUser(props: CardProps) {
           </Form>
         </Modal.Body>
       </Modal>
-      <Modal show={showModal} onHide={handleClose} centered>
-        <Modal.Header closeButton />
-        <Modal.Body style={{ backgroundColor: "#FDE1C1" }}>
-          <p>
-            <strong>Pedidos de </strong>
-            {cardName}
-          </p>
+      {/* Modal de pedidos */}
+      <Modal show={showModal} onHide={handleClose} centered >
+        <Modal.Body style={{ backgroundColor: "#FDE1C1" }} >
+          <div className="modal-header">
+            <p>
+              <strong>Pedidos de </strong>
+              {cardName}
+            </p>
+            <Button
+              onClick={() =>
+                setShowModal(false)
+              }
+              style={{
+                backgroundColor: "#C65D1A",
+                borderColor: "#C65D1A",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faXmark}
+                style={{ fontSize: "0.8em", color: "#fde1c1" }}
+              />
+            </Button>
+          </div>
+
           {!isFormVisible ? (
             <>
               {pedidos.length > 0 ? (
@@ -385,6 +378,21 @@ function CardUser(props: CardProps) {
                         <td>{pedido.coste_total}</td>
                         <td>
                           <Button
+                            onClick={() => {
+                              setSelectedPedido(pedido);
+                              setShowDetallesModal(true);
+                            }}
+                            style={{
+                              backgroundColor: "#C65D1A",
+                              borderColor: "#C65D1A",
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faMagnifyingGlass}
+                              style={{ fontSize: "0.8em", color: "#fde1c1" }}
+                            />
+                          </Button>
+                          <Button
                             style={{
                               backgroundColor: "#C65D1A",
                               borderColor: "#C65D1A",
@@ -406,7 +414,7 @@ function CardUser(props: CardProps) {
                             }}
                           >
                             <FontAwesomeIcon
-                              icon={faXmark}
+                              icon={faTrash}
                               style={{ fontSize: "0.8em", color: "#fde1c1" }}
                             />
                           </Button>
@@ -455,13 +463,13 @@ function CardUser(props: CardProps) {
                   onChange={(e) => setMetodoPago(e.target.value)}
                 />
               </Form.Group>
-              <Form.Group>
+              {/* <Form.Group>
                 <Form.Label>Coste Total</Form.Label>
                 <Form.Control
                   value={costeTotal}
                   onChange={(e) => setCosteTotal(e.target.value)}
                 />
-              </Form.Group>
+              </Form.Group> */}
               <Modal.Footer>
                 <Button
                   type="submit"
@@ -475,6 +483,78 @@ function CardUser(props: CardProps) {
                 </Button>
               </Modal.Footer>
             </Form>
+          )}
+        </Modal.Body>
+      </Modal>
+      {/* Modal de detalles */}
+      <Modal
+        show={showDetallesModal}
+        onHide={() => setShowDetallesModal(false)}
+        centered
+      >
+        <Modal.Body style={{ backgroundColor: "#FDE1C1" }}>
+          <div className="modal-header">
+            <p>
+              <strong>Detalles del Pedido </strong>
+              {selectedPedido?.id_pedido}
+            </p>
+            <Button
+              onClick={() => setShowDetallesModal(false)}
+              style={{
+                backgroundColor: "#C65D1A",
+                borderColor: "#C65D1A",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faXmark}
+                style={{ fontSize: "0.8em", color: "#fde1c1" }}
+              />
+            </Button>
+          </div>
+
+          {selectedPedido ? (
+            <div className="pedido-detalle">              
+              <div className="detalle-item">
+                <span className="detalle-label">Dirección:</span>
+                <span className="detalle-value">{selectedPedido.direccion}</span>
+              </div>
+              <div className="detalle-item">
+                <span className="detalle-label">Método de pago:</span>
+                <span className="detalle-value">{selectedPedido.metodo_pago}</span>
+              </div>
+              <div className="detalle-item">
+                <div className="tablaUsuarios">
+            {selectedPedido.detalles.length > 0 ? (
+              selectedPedido.detalles.map((detalle) => {                
+                return(
+                  <>
+                    <table>
+                      <th>
+                        <tr>ID Detalle</tr>
+                        <tr>ID Comida</tr>
+                        <tr>Cantidad</tr>
+                        <tr>Subtotal</tr>
+                      </th>
+                      <tbody>
+                        <tr>{detalle.idDetalle}</tr>
+                        <tr>{detalle.idComida}</tr>
+                        <tr>{detalle.cantidad}</tr>
+                        <tr>{detalle.subtotal}</tr>
+                      </tbody>
+                    </table>
+                  </>
+                )
+                
+              })
+            ) : (
+              <p>No se encontraron usuarios</p>
+            )}
+          </div>
+                <span className="detalle-value">{selectedPedido.coste_total}€</span>
+              </div>              
+            </div>
+          ) : (
+            <p>No se ha seleccionado ningún pedido</p>
           )}
         </Modal.Body>
       </Modal>
