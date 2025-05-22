@@ -6,12 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import CardCart from "../../components/CardCart/CardCart";
 import { SetStateAction, useEffect, useState } from "react";
+import {
+  createPedido,
+  DetallePedidoDTO,
+  PedidoRequest
+} from "../../services/Api";
 import { getCurrentUser } from "../../services/AuthService";
-import { createDetallePedido, createPedido } from "../../services/Api";
-
 
 function Cart() {
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
   const navigate = useNavigate();
   const [address, setAddres] = useState("");
   const [debounceAddress, setDebounceAddress] = useState("");
@@ -24,57 +27,71 @@ function Cart() {
     return () => clearTimeout(timer);
   }, [address]);
 
-  const handleAddressChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+  const handleAddressChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
     setAddres(e.target.value);
-  }
+  };
 
   const handlePurchase = async () => {
-    if (totalPlatos === 0) {
-      setError("El carrito está vacío. Seleccione primero platos de la lista.");
-      return;
-    }
-
-    if (debounceAddress.trim() === "") {
-      setError("Especifique una dirección de envío válida por favor.");
-      return;
-    }
-
     try {
-      const currentUser = await getCurrentUser();
-      if (!currentUser) {
-        setError("No se pudo identificar al usuario");
+      if (totalPlatos === 0) {
+        setError(
+          "El carrito está vacío. Seleccione primero platos de la lista."
+        );
         return;
       }
-      const nuevoPedido = {
-        coste_total: totalPrecio,
-        direccion: debounceAddress,
-        id_cliente: currentUser.id_cliente
-      };
-      const pedidoCreado = await createPedido(nuevoPedido);
-      for (const item of cartItems) {
-        const detalle = {
-          id_pedido: pedidoCreado.id_pedido,
-          id_comida: item.id,
-          cantidad: item.count,
-          subtotal: item.cardPrice * item.count
-        };
-        
-        await createDetallePedido(detalle);
+
+      if (debounceAddress.trim() === "") {
+        setError("Especifique una dirección de envío válida por favor.");
+        return;
       }
+
+      // Obtener ID del cliente
+      const currentCliente = await getCurrentUser();
+      const idCliente = currentCliente.idCliente;
+
+      // Mapear los items del carrito a DTOs
+      const detalles: DetallePedidoDTO[] = cartItems.map((item) => ({
+        idComida: Number(item.id),
+        cantidad: item.count,
+      }));
+
+      // Crear el objeto de pedido
+      const pedidoRequest: PedidoRequest = {
+        clienteId: idCliente,
+        direccion: debounceAddress,
+        metodoPago: "Tarjeta",
+        detalles: detalles,
+      };
+
+      // Enviar el pedido al backend
+      await createPedido(pedidoRequest);
+
+      // Limpiar el carrito
+      clearCart();
+
+      setError("");
       alert("Compra realizada con éxito. Buen provecho 😋");
+      navigate("/");
     } catch (error) {
+      setError("Error al procesar el pedido. Por favor, inténtelo de nuevo.");
       console.error("Error en la compra:", error);
-      setError("Ocurrió un error al procesar la compra");
     }
   };
 
   const goToSub = () => {
-    navigate("/subscription")
+    navigate("/subscription");
   };
 
-  const totalPlatos = cartItems.reduce((acc, item) => acc + item.cardPrice * item.count, 0);
-  const gastosEnvio = debounceAddress.trim() === "" || totalPlatos === 0 ? 0 : 5.95;
-  const totalPrecio = (totalPlatos + gastosEnvio) === gastosEnvio ? 0 : (totalPlatos + gastosEnvio);
+  const totalPlatos = cartItems.reduce(
+    (acc, item) => acc + item.cardPrice * item.count,
+    0
+  );
+  const gastosEnvio =
+    debounceAddress.trim() === "" || totalPlatos === 0 ? 0 : 5.95;
+  const totalPrecio =
+    totalPlatos + gastosEnvio === gastosEnvio ? 0 : totalPlatos + gastosEnvio;
   const totalPlatosFormateado = totalPlatos.toFixed(2);
   const totalPrecioFormateado = totalPrecio.toFixed(2);
   return (
@@ -102,32 +119,67 @@ function Cart() {
 
             <Form>
               <Form.Group className="mb-3" controlId="formGridAddress1">
-                <Form.Label style={{
-                  color: "#C65D1A",
-                }}><strong>Dirección de envío:</strong></Form.Label>
-                <Form.Control
-                  value={address} onChange={handleAddressChange} />
+                <Form.Label
+                  style={{
+                    color: "#C65D1A",
+                  }}
+                >
+                  <strong>Dirección de envío:</strong>
+                </Form.Label>
+                <Form.Control value={address} onChange={handleAddressChange} />
               </Form.Group>
             </Form>
-            <div className="cart-subtitle"><strong>Resumen:</strong></div>
+            <div className="cart-subtitle">
+              <strong>Resumen:</strong>
+            </div>
             <div className="cart-summary-description">
               <div className="cart-summary-text">
-                <div><strong>Platos:</strong></div>
-                <div><strong>Gastos de envío:</strong></div>
-                <div><strong>Total:</strong></div>
+                <div>
+                  <strong>Platos:</strong>
+                </div>
+                <div>
+                  <strong>Gastos de envío:</strong>
+                </div>
+                <div>
+                  <strong>Total:</strong>
+                </div>
               </div>
               <div className="cart-summary-prices">
-                <div data-testid="total-platos"><strong>{totalPlatosFormateado}€</strong></div>
-                <div data-testid="gastos-envio"><strong>{gastosEnvio}€</strong></div>
-                <div data-testid="total-pedido"><strong>{totalPrecioFormateado}€</strong></div>
+                <div data-testid="total-platos">
+                  <strong>{totalPlatosFormateado}€</strong>
+                </div>
+                <div data-testid="gastos-envio">
+                  <strong>{gastosEnvio}€</strong>
+                </div>
+                <div data-testid="total-pedido">
+                  <strong>{totalPrecioFormateado}€</strong>
+                </div>
               </div>
             </div>
             <div className="cart-summary-button-container">
-              <Button variant="primary" onClick={handlePurchase} style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A" }}>Comprar</Button>
+              <Button
+                variant="primary"
+                onClick={handlePurchase}
+                style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A" }}
+              >
+                Comprar
+              </Button>
             </div>
-            <div className="cart-summary-advertisement">¿Aún no tienes una suscripción activa?</div>
+            <div className="cart-summary-advertisement">
+              ¿Aún no tienes una suscripción activa?
+            </div>
             <div className="cart-summary-button-container">
-              <Button variant="primary" onClick={goToSub} style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A", width: "35vw" }}>Gestionar suscripción</Button>
+              <Button
+                variant="primary"
+                onClick={goToSub}
+                style={{
+                  backgroundColor: "#C65D1A",
+                  borderColor: "#C65D1A",
+                  width: "35vw",
+                }}
+              >
+                Gestionar suscripción
+              </Button>
             </div>
           </div>
         </div>
