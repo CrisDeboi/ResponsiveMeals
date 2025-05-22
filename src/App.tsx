@@ -1,4 +1,4 @@
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Navigate, Route, BrowserRouter as Router, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import List from "./pages/list/List";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,7 +15,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectecRoute";
 import AdminRoute from "./components/AdminRoute/AdminRoute";
 import UnprotectedRoute from "./components/UnprotectedRoute/UnprotectedRoute";
 
-function App() {
+function App() {  
   return (
     <CartProvider>
       <Router>

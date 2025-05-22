@@ -29,12 +29,25 @@ export const getToken = () => {
   return localStorage.getItem('authToken');
 };
 
-export const isAuthenticated = () => {
-  return !!getToken();
+export const isAuthenticated = (): boolean => {
+  const token = getToken();
+  return !!token && !isTokenExpired(token);
 };
 
 export const logout = () => {
   localStorage.removeItem('authToken');
+};
+
+export const isTokenExpired = (token: string | null): boolean => {
+  if (!token) return true;
+  
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.exp * 1000 < Date.now();
+  } catch (error) {
+    console.error("Error al verificar token:", error);
+    return true;
+  }
 };
 
 export const getCurrentUser = async () => {
