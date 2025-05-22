@@ -7,11 +7,11 @@ import tupperImage from "../../assets/TuppersImg.jpg";
 import Footer from "../../components/Footer/Footer";
 import CarouselX from "../../components/Carousel/Carousel";
 import { Button } from "react-bootstrap";
-import { useAutoLogout } from "../../hooks/AutoLogout";
+// import { useAutoLogout } from "../../hooks/AutoLogout";
 
 function Home() {
   const navigate = useNavigate();
-  useAutoLogout();
+  // useAutoLogout();
   return (
     <>
       <Header />
