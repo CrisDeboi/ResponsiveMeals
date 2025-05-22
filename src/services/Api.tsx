@@ -109,10 +109,10 @@ export const fetchComida = async () => {
 export const fetchPedido = async () => {
   const response = await fetch("http://localhost:8080/responsivemeals/pedidos", {
     headers: {
-      'Authorization': `Bearer ${getToken}`,
+      'Authorization': `Bearer ${getToken()}`,
     }
   });
-  const data = await response.json();
+  const data = await response.json();  
   return data;
 };
 
@@ -154,7 +154,7 @@ export const eliminarPedido = async (id: string) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getToken}`,
+        'Authorization': `Bearer ${getToken()}`,
       },
     });
 
@@ -178,7 +178,7 @@ export const actualizarPedido = async (pedido: any) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getToken}`,
+        'Authorization': `Bearer ${getToken()}`,
       },
       body: JSON.stringify(pedido),
     });
@@ -207,7 +207,7 @@ export const updateUser = async (id: number, updatedData: any) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${getToken}`,
+          'Authorization': `Bearer ${getToken()}`,
         },
         body: JSON.stringify(updatedData),
       }
@@ -229,7 +229,7 @@ export const updateUser = async (id: number, updatedData: any) => {
 export const fetchDetalle = async () => {
   const response = await fetch("http://localhost:8080/responsivemeals/detallepedidos", {
     headers: {
-      'Authorization': `Bearer ${getToken}`,
+      'Authorization': `Bearer ${getToken()}`,
     }
   });
   const data = await response.json();

@@ -31,22 +31,23 @@ function Usuarios() {
     getUsuarios();
   }, []);
 
-  useEffect(() => {
-    const getPedidos = async () => {
-      try {
-        setLoading(true);
-        const pedidosData = await fetchPedido();
-        setPedidos(pedidosData);
-        setError(null);
-      } catch (err) {
-        setError("Hubo un problema al cargar los datos.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getPedidos();
-  }, []);
+ useEffect(() => {
+  const getPedidos = async () => {
+    try {
+      setLoading(true);
+      const pedidosData = await fetchPedido();
+      console.log("Pedidos obtenidos:", pedidosData);
+      setPedidos(pedidosData);
+      setError(null);
+    } catch (err) {
+      console.error("Error al cargar pedidos:", err);
+      setError("Hubo un problema al cargar los datos.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  getPedidos();
+}, []);
 
   const handleUserClick = (userId: string) => {
     setSelectedUser(userId);
@@ -107,7 +108,7 @@ const listaUsuarios = usuarios.filter((usuario) =>
           <div className="tablaUsuarios">
             {listaUsuarios.length > 0 ? (
               listaUsuarios.map((usuario) => {
-                console.log("Usuario:", usuario); 
+                console.log("Usuario:", usuario.idCliente, usuario.nombre); 
                 return (
                   <CardUser
                     key={usuario.idCliente}
