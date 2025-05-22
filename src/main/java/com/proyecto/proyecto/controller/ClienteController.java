@@ -33,7 +33,7 @@ public class ClienteController {
 
     @GetMapping
     public List<Cliente> obtenerClientes() {
-        return clienteRepository.findAll();
+        return clienteRepository.findAllWithSuscripcion(); // Usar la consulta personalizada
     }
 
     @PostMapping

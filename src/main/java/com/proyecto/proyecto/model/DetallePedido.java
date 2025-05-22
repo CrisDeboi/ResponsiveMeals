@@ -22,7 +22,7 @@ public class DetallePedido {
     private Pedido pedido;
 
     @ManyToOne
-    @JoinColumn(name = "id_comida", nullable = false)
+    @JoinColumn(name = "idComida", nullable = false)
     @JsonIgnore
     private Comida comida;
 

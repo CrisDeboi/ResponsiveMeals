@@ -27,19 +27,17 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "cliente")
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "idCliente"
-)
+// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idCliente")
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY ) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCliente;
     @NotBlank(message = "El nombre es obligatorio")
-    private String Nombre;    
+    private String Nombre;
     // @NotBlank(message = "La suscripción es obligatoria")
-    // @Pattern(regexp = "^(NO|PREMIUM|ESTANDAR)$", message = "La suscripción debe ser 'NO', 'PREMIUM' o 'ESTANDAR'")    
+    // @Pattern(regexp = "^(NO|PREMIUM|ESTANDAR)$", message = "La suscripción debe
+    // ser 'NO', 'PREMIUM' o 'ESTANDAR'")
     // private String Suscripcion;
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "El email debe contener un formato válido: ejemplo@ejemplo.com")
@@ -51,30 +49,30 @@ public class Cliente {
     private String Contrasena;
     @NotBlank(message = "El Teléfono es obligatorio")
     @Pattern(regexp = "^[0-9]+$", message = "El teléfono debe contener solo números")
-    @Size(min = 9,max = 9,message = "La longitud del telefono ha de ser de 9 caracteres")
+    @Size(min = 9, max = 9, message = "La longitud del telefono ha de ser de 9 caracteres")
     private String Telefono;
-    @CreationTimestamp    
+    @CreationTimestamp
     private Date FechaRegistro;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idSuscripcion")  
+    @JoinColumn(name = "idSuscripcion")
     @JsonIgnoreProperties("clientes")
-    private Suscripcion suscripcion;  
+    private Suscripcion suscripcion;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
 
     public void addPedido(Pedido pedido) {
         pedidos.add(pedido);
         pedido.setCliente(this);
     }
-    
+
     public void removePedido(Pedido pedido) {
         pedidos.remove(pedido);
         pedido.setCliente(null);
     }
 
-    public Cliente(){
+    public Cliente() {
 
     }
 
@@ -103,11 +101,11 @@ public class Cliente {
     }
 
     // public String getSuscripcion() {
-    //     return Suscripcion;
+    // return Suscripcion;
     // }
 
     // public void setSuscripcion(String suscripcion) {
-    //     Suscripcion = suscripcion;
+    // Suscripcion = suscripcion;
     // }
 
     public String getEmail() {
@@ -150,16 +148,14 @@ public class Cliente {
         Contrasena = contrasena;
     }
 
-    /*public List<Pedido> getPedidos() {
-        return pedidos;
-    }
+    /*
+     * public List<Pedido> getPedidos() {
+     * return pedidos;
+     * }
+     * 
+     * public void setPedidos(List<Pedido> pedidos) {
+     * this.pedidos = pedidos;
+     * }
+     */
 
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }*/
-
-   
-    
-
-    
 }

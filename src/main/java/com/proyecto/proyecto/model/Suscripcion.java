@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
@@ -19,17 +20,14 @@ import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "suscripcion")
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "idSuscripcion"
-)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idSuscripcion")
 
 public class Suscripcion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY ) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idSuscripcion;
-    @NotNull(message = "El precio es obligatorio") 
-    // @Positive(message = "El precio debe ser un número positivo")    
+    @NotNull(message = "El precio es obligatorio")
+    // @Positive(message = "El precio debe ser un número positivo")
     private double precio;
     @NotBlank(message = "El nombre es obligatorio")
     @Pattern(regexp = "^(NO|PREMIUM|ESTANDAR)$", message = "La suscripción debe ser 'NO', 'PREMIUM' o 'ESTANDAR'")
@@ -37,10 +35,11 @@ public class Suscripcion {
     @NotBlank(message = "La descripción es obligatoria")
     private String descripcion;
     @NotNull(message = "La cantidad de platos es obligatoria")
-    // @Positive(message = "La cantidad debe ser un número positivo")  
+    // @Positive(message = "La cantidad debe ser un número positivo")
     private Double cantidadPlatos;
 
     @OneToMany(mappedBy = "suscripcion", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Cliente> clientes = new ArrayList<>();
 
     public Suscripcion() {
@@ -50,7 +49,7 @@ public class Suscripcion {
         clientes.add(cliente);
         cliente.setSuscripcion(this);
     }
-    
+
     public void removeCliente(Cliente cliente) {
         clientes.remove(cliente);
         cliente.setSuscripcion(null);
@@ -103,7 +102,5 @@ public class Suscripcion {
     public void setCantidadPlatos(Double cantidadPlatos) {
         this.cantidadPlatos = cantidadPlatos;
     }
-
-    
 
 }
