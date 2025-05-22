@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.proyecto.ResourceNotFoundException;
 import com.proyecto.proyecto.model.Comida;
 import com.proyecto.proyecto.model.DetallePedido;
-import com.proyecto.proyecto.model.DetallePedidoDTO;
 import com.proyecto.proyecto.model.Pedido;
 import com.proyecto.proyecto.repository.ComidaRepository;
 import com.proyecto.proyecto.repository.DetallePedidoRepository;
