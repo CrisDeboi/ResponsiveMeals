@@ -16,7 +16,7 @@ interface Pedido {
   id_pedido: string;
   direccion: string;
   metodo_pago: string;
-  coste_total: string;
+  coste_total: string;  
 }
 
 interface CardProps {
@@ -32,7 +32,7 @@ interface CardProps {
 
   onClick: () => void;
   onDeletePedido: (id: string) => void;
-  deleteUser: (cardId: number) => void; 
+  deleteUser: (cardId: number) => void;
 }
 
 function CardUser(props: CardProps) {
@@ -83,7 +83,7 @@ function CardUser(props: CardProps) {
       }
     } catch (error) {
       console.error("Error al actualizar usuario:", error);
-      
+
     }
   };
   const handleShow = () => {
@@ -112,7 +112,7 @@ function CardUser(props: CardProps) {
   };
   const handleEliminarUsuario = async (idUsuario: number) => {
     try {
-      const pedidoEliminado = await handleDelete(idUsuario);      
+      const pedidoEliminado = await handleDelete(idUsuario);
       console.log("Pedido eliminado:", pedidoEliminado);
     } catch (error) {
       console.error("Error al eliminar el pedido:", error);
@@ -170,7 +170,7 @@ function CardUser(props: CardProps) {
         //window.location.reload();
         // console.error("Error al editar el pedido:", error);
         // setError("Hubo un error al editar el pedido. Intenta de nuevo.");
-        
+
       }
     } else {
       const nuevoPedido = {
@@ -209,48 +209,40 @@ function CardUser(props: CardProps) {
             <li onClick={handleShow}>{cardName}</li>
             <li onClick={handleShow}>{cardEmail}</li>
             <li onClick={handleShow}>{cardSuscription}</li>
-             <Button
-            onClick={handleShowEdit}
-            style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A" , width:"2.5em", height:"2.5em"}}
-          >
-            <FontAwesomeIcon icon={faPencil} />
-          </Button>
+            <Button
+              onClick={handleShowEdit}
+              style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A", width: "2.5em", height: "2.5em" }}
+            >
+              <FontAwesomeIcon icon={faPencil} />
+            </Button>
           </ul>
           <ul className="columna2">
             <li onClick={handleShow}>{cardPassword}</li>
             <li onClick={handleShow}>{cardDate}</li>
             <li onClick={handleShow}>{cardPhone}</li>
-             <Button
-            style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A",width:"2.5em" ,height:"2.5em"}}
-            onClick={() => props.deleteUser(props.cardId)}
-          >
-            X
-          </Button>
+            <Button
+              style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A", width: "2.5em", height: "2.5em" }}
+              onClick={() => props.deleteUser(props.cardId)}
+            >
+              X
+            </Button>
           </ul>
         </div>
-        <div className="botones">        
-         
+        <div className="botones">
+
         </div>
       </div>
       <Modal
         show={showModal}
         onHide={handleClose}
         centered
-        style={{ border: 0 }}
       >
-        <Modal.Header
-          closeButton
-          closeVariant=""
-          closeLabel="Cerrar"
-          style={{ padding: 0, border: 0 }}
-        ></Modal.Header>
-        <Modal.Body style={{ backgroundColor: "#FDE1C1", border: "0px" }}>
-          <p>
-            <strong>Pedidos de </strong>
-            {cardName}
-          </p>
-        </Modal.Body>
-        <Modal.Body style={{ backgroundColor: "#FDE1C1", border: "0px" }}>
+        <Modal.Header closeButton style={{ backgroundColor: "#FDE1C1" }}>
+          <Modal.Title>
+            <strong>Pedidos de {cardName}</strong>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ backgroundColor: "#FDE1C1" }}>
           {pedidos.length > 0 ? (
             <table>
               <thead>
@@ -285,7 +277,7 @@ function CardUser(props: CardProps) {
       >
         <Modal.Header
           closeButton
-          closeVariant=""
+          closeVariant="white"
           closeLabel="Cerrar"
           style={{ padding: 0, border: 0 }}
         ></Modal.Header>
@@ -321,7 +313,7 @@ function CardUser(props: CardProps) {
 
             <Form.Group as={Col} controlId="formGridPassword">
               <Form.Label>Contraseña</Form.Label>
-              <Form.Control                
+              <Form.Control
                 value={editedPassword}
                 onChange={(e) => setEditedPassword(e.target.value)}
               />
