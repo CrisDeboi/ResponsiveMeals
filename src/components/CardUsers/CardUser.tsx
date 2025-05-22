@@ -174,10 +174,11 @@ function CardUser(props: CardProps) {
       }
     } else {
       const nuevoPedido = {
-        cliente: { idCliente: Number(props.id) },
+        clienteId: Number(props.id),
+        metodoPago: metodoPago,
         direccion,
-        metodo_pago: metodoPago,
         coste_total: costeTotalNumber,
+        detalles: []
       };
 
       try {
@@ -240,7 +241,6 @@ function CardUser(props: CardProps) {
       >
         <Modal.Header
           closeButton
-          closeVariant=""
           closeLabel="Cerrar"
           style={{ padding: 0, border: 0 }}
         ></Modal.Header>
@@ -285,7 +285,6 @@ function CardUser(props: CardProps) {
       >
         <Modal.Header
           closeButton
-          closeVariant=""
           closeLabel="Cerrar"
           style={{ padding: 0, border: 0 }}
         ></Modal.Header>

@@ -113,7 +113,6 @@ function Card(props: CardProps) {
       >
         <Modal.Header
           closeButton
-          closeVariant=""
           closeLabel="Cerrar"
           style={{ padding: 0, border: 0 }}
         >
