@@ -116,19 +116,34 @@ export const fetchPedido = async () => {
   return data;
 };
 
-export const createPedido = async (pedido: any) => {
-  const response = await fetch("http://localhost:8080/responsivemeals/pedidos", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      'Authorization': `Bearer ${getToken}`,
-    },
-    body: JSON.stringify(pedido),
-  });
-  if (!response.ok) {
-    throw new Error("Error al crear el pedido");
+export interface DetallePedidoDTO {
+  idComida: number;
+  cantidad: number;
+}
+
+export interface PedidoRequest {
+  clienteId: number;
+  direccion: string;
+  metodoPago: string;
+  detalles: DetallePedidoDTO[];
+}
+
+export const createPedido = async (pedidoRequest: PedidoRequest) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/responsivemeals/pedidos",
+      pedidoRequest,
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Error creando el pedido");
   }
-  return await response.json();
 };
 
 export const eliminarPedido = async (id: string) => {
@@ -253,3 +268,17 @@ export const createDetallePedido = async (detalle: any) => {
   }
   return await response.json();
 };
+
+// export const getClientId = async (id: number) => {
+//   try {
+//     const response = await axios.get(`http://localhost:8080/clientes/${id}`, {
+//       headers: {
+//         Authorization: `Bearer ${getToken()}`,
+//       },
+//     });
+//     return response.data.idCliente;
+//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//   } catch (error) {
+//     throw new Error("Error obteniendo el ID del cliente");
+//   }
+// };
