@@ -7,7 +7,7 @@ import "./LoginForm.css"
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Alert } from 'react-bootstrap';
-import { login, saveToken } from '../../services/AuthService';
+import { login, saveSubscription, saveToken } from '../../services/AuthService';
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -30,6 +30,8 @@ function LoginForm() {
       setLoading(true);
       const response = await login(email, password);
       saveToken(response.token);
+      console.log(response)
+      saveSubscription(response.suscripcion.nombre)
       navigate("/list");
     } catch (err) {
       setError("Credenciales inválidas");

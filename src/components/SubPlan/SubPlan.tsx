@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./SubPlan.css";
 import { getCurrentUser, getToken } from "../../services/AuthService";
+import { useState } from "react";
 // import { assignSubscription } from "../../services/Api";
 
 interface SubPlan {
@@ -12,7 +13,7 @@ interface SubPlan {
 
 function SubPlan(props: SubPlan) {
   const { title, description, price, id} = props;
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
 
   const assignSubscription = async (suscripcionId: number) => {
   const user = await getCurrentUser();
@@ -34,7 +35,9 @@ function SubPlan(props: SubPlan) {
     );
     
     if (response.ok) {
+      localStorage.setItem("subscription",props.title)
       alert("Suscripción actualizada!:");
+      navigate("/subscription");
     }
   } catch (error) {
     console.error("Error:", error);

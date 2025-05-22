@@ -236,6 +236,22 @@ export const fetchDetalle = async () => {
   return data;
 };
 
+export const createDetallePedido = async (detalle: any) => {
+  const response = await fetch("http://localhost:8080/responsivemeals/detallepedidos", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': `Bearer ${getToken()}`,
+    },
+    body: JSON.stringify(detalle),
+  });
+  
+  if (!response.ok) {
+    throw new Error("Error al crear el detalle del pedido");
+  }
+  return await response.json();
+};
+
 
 
 //Métodos para Suscripciones
@@ -253,21 +269,7 @@ export const getSuscripcion = async () => {
 };
 
 
-export const createDetallePedido = async (detalle: any) => {
-  const response = await fetch("http://localhost:8080/responsivemeals/detallepedidos", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      'Authorization': `Bearer ${getToken()}`,
-    },
-    body: JSON.stringify(detalle),
-  });
-  
-  if (!response.ok) {
-    throw new Error("Error al crear el detalle del pedido");
-  }
-  return await response.json();
-};
+
 
 // export const getClientId = async (id: number) => {
 //   try {

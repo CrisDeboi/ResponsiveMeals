@@ -25,8 +25,16 @@ export const saveToken = (token: string) => {
   localStorage.setItem('authToken', token);  
 };
 
+export const saveSubscription = (subscription: string) => {
+  localStorage.setItem('subscription', subscription);  
+};
+
 export const getToken = () => {
   return localStorage.getItem('authToken');
+};
+
+export const getSubscription = () => {
+  return localStorage.getItem('subscription');
 };
 
 export const isAuthenticated = (): boolean => {
@@ -34,8 +42,15 @@ export const isAuthenticated = (): boolean => {
   return !!token && !isTokenExpired(token);
 };
 
+export const isUnsub = (): boolean => {
+  const sub = getSubscription();
+  if(sub==="NO") return !!sub
+  return !sub;
+};
+
 export const logout = () => {
   localStorage.removeItem('authToken');
+  localStorage.removeItem('subscription');
 };
 
 export const isTokenExpired = (token: string | null): boolean => {

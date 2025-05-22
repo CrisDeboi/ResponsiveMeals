@@ -204,31 +204,32 @@ function CardUser(props: CardProps) {
   return (
     <>
       <div className="datosPeroMas">
-        <div className="datos" onClick={handleShow}>
+        <div className="datos" >
           <ul className="columna1">
-            <li>{cardName}</li>
-            <li>{cardEmail}</li>
-            <li>{cardSuscription}</li>
-          </ul>
-          <ul className="columna2">
-            <li>{cardPassword}</li>
-            <li>{cardDate}</li>
-            <li>{cardPhone}</li>
-          </ul>
-        </div>
-        <div className="botones">
-          <Button
+            <li onClick={handleShow}>{cardName}</li>
+            <li onClick={handleShow}>{cardEmail}</li>
+            <li onClick={handleShow}>{cardSuscription}</li>
+             <Button
             onClick={handleShowEdit}
-            style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A" }}
+            style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A" , width:"2.5em", height:"2.5em"}}
           >
             <FontAwesomeIcon icon={faPencil} />
           </Button>
-          <Button
-            style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A" }}
+          </ul>
+          <ul className="columna2">
+            <li onClick={handleShow}>{cardPassword}</li>
+            <li onClick={handleShow}>{cardDate}</li>
+            <li onClick={handleShow}>{cardPhone}</li>
+             <Button
+            style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A",width:"2.5em" ,height:"2.5em"}}
             onClick={() => props.deleteUser(props.cardId)}
           >
             X
           </Button>
+          </ul>
+        </div>
+        <div className="botones">        
+         
         </div>
       </div>
       <Modal

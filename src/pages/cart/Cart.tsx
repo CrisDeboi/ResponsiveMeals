@@ -11,7 +11,20 @@ import {
   DetallePedidoDTO,
   PedidoRequest
 } from "../../services/Api";
-import { getCurrentUser } from "../../services/AuthService";
+import { getCurrentUser, isUnsub } from "../../services/AuthService";
+
+interface User {
+  idCliente: number;
+  nombre: string;
+  email: string;
+  suscripcion: {
+    idSuscripcion: number;
+    nombre: string;
+    descripcion: string;
+    cantidadPlatos: number;
+    precio: number;
+  };
+}
 
 function Cart() {
   const { cartItems, clearCart } = useCart();
@@ -19,6 +32,20 @@ function Cart() {
   const [address, setAddres] = useState("");
   const [debounceAddress, setDebounceAddress] = useState("");
   const [error, setError] = useState("");
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user);
+      } catch (error) {
+        console.error("Error al obtener usuario:", error);
+        setCurrentUser(null);
+      }
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -132,30 +159,47 @@ function Cart() {
             <div className="cart-subtitle">
               <strong>Resumen:</strong>
             </div>
-            <div className="cart-summary-description">
-              <div className="cart-summary-text">
-                <div>
-                  <strong>Platos:</strong>
+            {isUnsub() && (
+              <div className="cart-summary-description">
+                <div className="cart-summary-text">
+                  <div>
+                    <strong>Platos:</strong>
+                  </div>
+                  <div>
+                    <strong>Gastos de envío:</strong>
+                  </div>
+                  <div>
+                    <strong>Total:</strong>
+                  </div>
                 </div>
-                <div>
-                  <strong>Gastos de envío:</strong>
-                </div>
-                <div>
-                  <strong>Total:</strong>
+                <div className="cart-summary-prices">
+                  <div data-testid="total-platos">
+                    <strong>{totalPlatosFormateado}€</strong>
+                  </div>
+                  <div data-testid="gastos-envio">
+                    <strong>{gastosEnvio}€</strong>
+                  </div>
+                  <div data-testid="total-pedido">
+                    <strong>{totalPrecioFormateado}€</strong>
+                  </div>
                 </div>
               </div>
-              <div className="cart-summary-prices">
-                <div data-testid="total-platos">
-                  <strong>{totalPlatosFormateado}€</strong>
+            )}
+            {!isUnsub() && (
+              <div className="cart-summary-description">
+                <div className="cart-summary-text">                  
+                  <div>
+                    <strong>Total:</strong>
+                  </div>
                 </div>
-                <div data-testid="gastos-envio">
-                  <strong>{gastosEnvio}€</strong>
-                </div>
-                <div data-testid="total-pedido">
-                  <strong>{totalPrecioFormateado}€</strong>
+                <div className="cart-summary-prices">
+                  <div data-testid="total-platos">
+                    <strong>Incluido en la suscripcion</strong>
+                  </div>                 
                 </div>
               </div>
-            </div>
+            )}
+
             <div className="cart-summary-button-container">
               <Button
                 variant="primary"
@@ -165,22 +209,24 @@ function Cart() {
                 Comprar
               </Button>
             </div>
-            <div className="cart-summary-advertisement">
-              ¿Aún no tienes una suscripción activa?
-            </div>
-            <div className="cart-summary-button-container">
-              <Button
-                variant="primary"
-                onClick={goToSub}
-                style={{
-                  backgroundColor: "#C65D1A",
-                  borderColor: "#C65D1A",
-                  width: "35vw",
-                }}
-              >
-                Gestionar suscripción
-              </Button>
-            </div>
+            {isUnsub() && (
+              <div className="cart-summary-advertisement">
+                ¿Aún no tienes una suscripción activa?
+              </div>)}
+            {isUnsub() && (
+              <div className="cart-summary-button-container">
+                <Button
+                  variant="primary"
+                  onClick={goToSub}
+                  style={{
+                    backgroundColor: "#C65D1A",
+                    borderColor: "#C65D1A",
+                    width: "35vw",
+                  }}
+                >
+                  Gestionar suscripción
+                </Button>
+              </div>)}
           </div>
         </div>
       </div>
