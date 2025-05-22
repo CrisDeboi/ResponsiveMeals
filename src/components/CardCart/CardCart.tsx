@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Card as BootstrapCard } from "react-bootstrap";
 import "./CardCart.css";
 
