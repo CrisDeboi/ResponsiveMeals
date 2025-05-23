@@ -575,7 +575,7 @@ function CardUser(props: CardProps) {
                             <td>{detalle.idDetalle}</td>
                             <td>{getNombreComida(detalle.idComida)}</td>
                             <td>{detalle.cantidad}</td>
-                            <td>{detalle.subtotal}€</td>
+                            <td>{Number(detalle.subtotal).toFixed(2)}€</td>
                           </tr>
                         ))}
                       </tbody>
@@ -583,10 +583,7 @@ function CardUser(props: CardProps) {
                   ) : (
                     <p>No se encontraron usuarios</p>
                   )}
-                </div>
-                <span className="detalle-value">
-                  {selectedPedido.coste_total}€
-                </span>
+                </div>                
               </div>
             </div>
           ) : (

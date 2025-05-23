@@ -66,6 +66,7 @@
 .detalle-label {
   font-weight: bold;
   color: #C65D1A;
+  margin-right: -5em;
 }
 
 .detalle-value {
@@ -73,7 +74,10 @@
 }
 
 .tablaUsuariosContenedor{
-  width: 100%;
+  /* width: 100%; */
+  margin-top: 3em;
+  margin-right: 1em;
+  text-align: center;
 }
 
 .tablaUsuariosCarta td {
