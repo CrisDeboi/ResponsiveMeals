@@ -93,11 +93,13 @@ function CardUser(props: CardProps) {
 
     // Convierte idComida a number para comparar si es necesario
     const id = parseInt(idComida, 10);
-    const comidaEncontrada = props.comidas.find(comida =>
-      comida.idComida === id
+    const comidaEncontrada = props.comidas.find(
+      (comida) => comida.idComida === id
     );
 
-    return comidaEncontrada ? comidaEncontrada.nombre : `Comida no encontrada (ID: ${idComida})`;
+    return comidaEncontrada
+      ? comidaEncontrada.nombre
+      : `Comida no encontrada (ID: ${idComida})`;
   };
 
   const editUser = async () => {
@@ -389,7 +391,7 @@ function CardUser(props: CardProps) {
           {!isFormVisible ? (
             <>
               {pedidos.length > 0 ? (
-                <table>
+                <table className="tablaDelPedido">
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -406,8 +408,9 @@ function CardUser(props: CardProps) {
                         <td>{pedido.direccion}</td>
                         <td>{pedido.metodo_pago}</td>
                         <td>{pedido.coste_total}</td>
-                        <td>
+                        <td className="CeldaBoton">
                           <Button
+                            className="BotonCartaCliente"
                             onClick={() => {
                               setSelectedPedido(pedido);
                               setShowDetallesModal(true);
@@ -423,6 +426,7 @@ function CardUser(props: CardProps) {
                             />
                           </Button>
                           <Button
+                            className="BotonCartaCliente"
                             style={{
                               backgroundColor: "#C65D1A",
                               borderColor: "#C65D1A",
@@ -435,6 +439,7 @@ function CardUser(props: CardProps) {
                             />
                           </Button>
                           <Button
+                            className="BotonCartaCliente"
                             onClick={() =>
                               handleEliminarPedido(pedido.id_pedido)
                             }
@@ -558,32 +563,32 @@ function CardUser(props: CardProps) {
               </div>
               <div className="detalle-item">
                 <span className="detalle-label">Desglose:</span>
-                <div className="tablaUsuariosContenedor">
-                  {selectedPedido.detalles.length > 0 ? (
-                    <table className="tablaUsuariosCarta">
-                      <thead>
-                        <tr>
-                          <th>ID Detalle</th>
-                          <th>Comida</th>
-                          <th>Cantidad</th>
-                          <th>Subtotal</th>
+              </div>
+              <div className="tablaUsuariosContenedor">
+                {selectedPedido.detalles.length > 0 ? (
+                  <table className="tablaUsuariosCarta">
+                    <thead>
+                      <tr>
+                        <th>ID Detalle</th>
+                        <th>Comida</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedPedido.detalles.map((detalle) => (
+                        <tr key={detalle.idDetalle}>
+                          <td>{detalle.idDetalle}</td>
+                          <td>{getNombreComida(detalle.idComida)}</td>
+                          <td>{detalle.cantidad}</td>
+                          <td>{Number(detalle.subtotal).toFixed(2)}€</td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {selectedPedido.detalles.map((detalle) => (
-                          <tr key={detalle.idDetalle}>
-                            <td>{detalle.idDetalle}</td>
-                            <td>{getNombreComida(detalle.idComida)}</td>
-                            <td>{detalle.cantidad}</td>
-                            <td>{Number(detalle.subtotal).toFixed(2)}€</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  ) : (
-                    <p>No se encontraron usuarios</p>
-                  )}
-                </div>                
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p>No se encontraron usuarios</p>
+                )}
               </div>
             </div>
           ) : (

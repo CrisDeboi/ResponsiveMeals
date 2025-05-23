@@ -73,11 +73,30 @@
   text-align: right;
 }
 
+.tablaDelPedido{
+  border: solid, 2px, #201b18;
+} 
+.tablaDelPedido th{
+  background-color: #e45c08a3;
+  border: solid, 2px, #201b18;
+} 
+.tablaDelPedido td{
+  background-color: rgba(255, 255, 255, 0.283);
+  border: solid, 1px, #201b18;
+} 
+.tablaDelPedido td, th{ 
+  padding-left: 2px;
+  padding-right: 2px;
+  text-align: center;
+}
 .tablaUsuariosContenedor{
-  /* width: 100%; */
   margin-top: 3em;
   margin-right: 1em;
   text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0;
 }
 
 .tablaUsuariosCarta td {
@@ -99,6 +118,20 @@
 @media (max-width: 480px) {
   .tablaUsuariosCarta{
     font-size: medium;
+  }
+  .tablaDelPedido{
+    font-size: smaller;
+  }
+  .tablaDelPedido td, th{ 
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+  .CeldaBoton{
+    display: flex;
+  }
+  .BotonCartaCliente{
+    padding: 0.25rem 0.5rem;
+    font-size: small;
   }
 }
 @media (min-width: 1025px) and (max-width: 1280px) {
