@@ -75,6 +75,7 @@ function Footer() {
           <div className="footer-menu">
             <div><strong>Contacto</strong></div>
             <a>cristian@responsive.com</a>
+            <a>david@responsive.com</a>
             <a>+34 616071854</a>
           </div>
           <div className="footer-menu">

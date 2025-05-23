@@ -44,9 +44,9 @@ const Report = () => {
         return response.json();
       })
       .then((data) => {
-        // Transformar datos para aplanar la suscripción
+        const datosFiltrados = data.filter((cliente: any) => cliente.nombre.toLowerCase() !== "admin");
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const datosTransformados = data.map((cliente: any) => ({
+        const datosTransformados = datosFiltrados.map((cliente: any) => ({
           ...cliente,
           nombre_suscripcion: cliente.suscripcion?.nombre || "Sin suscripción",
         }));
