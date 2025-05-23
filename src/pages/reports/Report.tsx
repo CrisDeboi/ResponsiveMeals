@@ -18,8 +18,10 @@ const Report = () => {
     nombre: string;
     fechaRegistro: string;
     email: string;
-    idSuscripcion: number;
-    nombre_suscripcion: string | null;
+    suscripcion: {
+      idSuscripcion: number;
+      nombre: string;
+    };
   }
   const [data, setData] = useState<Cliente[]>([]);
   const chartRef = useRef<Chart<"bar"> | null>(null);
@@ -28,7 +30,7 @@ const Report = () => {
 
   // Obtener datos de ejemplo
   useEffect(() => {
-    const token = getToken(); // Llama a la función para obtener el token
+    const token = getToken();
     fetch("http://localhost:8080/responsivemeals/clientes", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -41,7 +43,15 @@ const Report = () => {
         }
         return response.json();
       })
-      .then((data) => setData(data))
+      .then((data) => {
+        // Transformar datos para aplanar la suscripción
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const datosTransformados = data.map((cliente: any) => ({
+          ...cliente,
+          nombre_suscripcion: cliente.suscripcion?.nombre || "Sin suscripción",
+        }));
+        setData(datosTransformados);
+      })
       .catch((error) => {
         console.error("Error:", error);
         setError(error.message); // Opcional: manejar el estado de error
@@ -59,7 +69,13 @@ const Report = () => {
         accessor: "fechaRegistro" as keyof Cliente,
       },
       { Header: "Email", accessor: "email" as keyof Cliente },
-      { Header: "Suscripción", accessor: "nombre_suscripcion" as keyof Cliente },
+      {
+        Header: "Suscripción",
+        accessor: "nombre_suscripcion" as keyof Cliente,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Cell: ({ row }: { row: any }) =>
+          row.original.suscripcion?.nombre || "Sin suscripción",
+      },
     ],
     []
   );
@@ -69,7 +85,7 @@ const Report = () => {
     tableInstance;
 
   const suscripciones = data.reduce<Record<string, number>>((acc, cliente) => {
-    const nombreSuscripcion = cliente.idSuscripcion;
+    const nombreSuscripcion = cliente.suscripcion?.nombre || "Sin suscripción";
 
     acc[nombreSuscripcion] = (acc[nombreSuscripcion] || 0) + 1;
     return acc;
@@ -105,7 +121,7 @@ const Report = () => {
         cliente.nombre,
         cliente.fechaRegistro,
         cliente.email,
-        cliente.idSuscripcion,
+        cliente.suscripcion?.nombre || "Sin suscripción",
       ]),
       startY: 25,
     });
