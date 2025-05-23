@@ -561,6 +561,9 @@ function CardUser(props: CardProps) {
                     <p>No se encontraron usuarios</p>
                   )}
                 </div>
+              </div>
+              <div className="detalle-item">
+                <span className="detalle-label">Coste Total:</span>
                 <span className="detalle-value">
                   {selectedPedido.coste_total}€
                 </span>
