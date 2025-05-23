@@ -67,6 +67,21 @@
   text-align: right;
 }
 
+.tablaUsuariosContenedor{
+  width: 100%;
+}
+.tablaUsuariosCarta td{
+  border: solid, 1px, #201b18;
+  background-color: rgba(255, 255, 255, 0.283);
+}
+.tablaUsuariosCarta{
+  border: solid, 2px, #201b18;
+}
+.tablaUsuariosCarta th{
+  background-color: #e45c08a3;
+  border: solid, 2px, #201b18;
+}
+
 @media (min-width: 1025px) and (max-width: 1280px) {
   .columna1 {
     height: 4.5vw;

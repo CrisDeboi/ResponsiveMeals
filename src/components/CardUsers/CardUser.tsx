@@ -9,15 +9,19 @@ import {
   updateUser,
 } from "../../services/Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faPencil, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faPencil,
+  faTrash,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import "./CardUser.css";
 
-
-interface Detalle{
-  idDetalle:string;
-  idComida:string;
-  cantidad:number;
-  subtotal:number;
+interface Detalle {
+  idDetalle: string;
+  idComida: string;
+  cantidad: number;
+  subtotal: number;
 }
 
 interface Pedido {
@@ -94,12 +98,11 @@ function CardUser(props: CardProps) {
       }
     } catch (error) {
       console.error("Error al actualizar usuario:", error);
-
     }
   };
   const handleShow = () => {
     console.log("Id del Usuario mostrado:" + props.id);
-    console.log("Pedidos de este usuario", props.pedidos)
+    console.log("Pedidos de este usuario", props.pedidos);
     onClick();
     setShowModal(true);
   };
@@ -182,7 +185,6 @@ function CardUser(props: CardProps) {
         //window.location.reload();
         // console.error("Error al editar el pedido:", error);
         // setError("Hubo un error al editar el pedido. Intenta de nuevo.");
-
       }
     } else {
       const nuevoPedido = {
@@ -190,7 +192,7 @@ function CardUser(props: CardProps) {
         metodoPago: metodoPago,
         direccion,
         coste_total: costeTotalNumber,
-        detalles: []
+        detalles: [],
       };
 
       try {
@@ -217,14 +219,19 @@ function CardUser(props: CardProps) {
   return (
     <>
       <div className="datosPeroMas">
-        <div className="datos" >
+        <div className="datos">
           <ul className="fila1">
             <li onClick={handleShow}>{cardName}</li>
             <li onClick={handleShow}>{cardEmail}</li>
             <li onClick={handleShow}>{cardSuscription}</li>
             <Button
               onClick={handleShowEdit}
-              style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A", width: "2.5em", height: "2.5em" }}
+              style={{
+                backgroundColor: "#C65D1A",
+                borderColor: "#C65D1A",
+                width: "2.5em",
+                height: "2.5em",
+              }}
             >
               <FontAwesomeIcon icon={faPencil} />
             </Button>
@@ -234,16 +241,19 @@ function CardUser(props: CardProps) {
             <li onClick={handleShow}>{cardDate}</li>
             <li onClick={handleShow}>{cardPhone}</li>
             <Button
-              style={{ backgroundColor: "#C65D1A", borderColor: "#C65D1A", width: "2.5em", height: "2.5em" }}
+              style={{
+                backgroundColor: "#C65D1A",
+                borderColor: "#C65D1A",
+                width: "2.5em",
+                height: "2.5em",
+              }}
               onClick={() => props.deleteUser(props.cardId)}
             >
               <FontAwesomeIcon icon={faTrash} />
             </Button>
           </ul>
         </div>
-        <div className="botones">
-
-        </div>
+        <div className="botones"></div>
       </div>
       {/* Modal de edicion  de usuario*/}
       <Modal
@@ -333,17 +343,15 @@ function CardUser(props: CardProps) {
         </Modal.Body>
       </Modal>
       {/* Modal de pedidos */}
-      <Modal show={showModal} onHide={handleClose} centered >
-        <Modal.Body style={{ backgroundColor: "#FDE1C1" }} >
+      <Modal show={showModal} onHide={handleClose} centered>
+        <Modal.Body style={{ backgroundColor: "#FDE1C1" }}>
           <div className="modal-header">
             <p>
               <strong>Pedidos de </strong>
               {cardName}
             </p>
             <Button
-              onClick={() =>
-                setShowModal(false)
-              }
+              onClick={() => setShowModal(false)}
               style={{
                 backgroundColor: "#C65D1A",
                 borderColor: "#C65D1A",
@@ -513,45 +521,50 @@ function CardUser(props: CardProps) {
           </div>
 
           {selectedPedido ? (
-            <div className="pedido-detalle">              
+            <div className="pedido-detalle">
               <div className="detalle-item">
                 <span className="detalle-label">Dirección:</span>
-                <span className="detalle-value">{selectedPedido.direccion}</span>
+                <span className="detalle-value">
+                  {selectedPedido.direccion}
+                </span>
               </div>
               <div className="detalle-item">
                 <span className="detalle-label">Método de pago:</span>
-                <span className="detalle-value">{selectedPedido.metodo_pago}</span>
+                <span className="detalle-value">
+                  {selectedPedido.metodo_pago}
+                </span>
               </div>
               <div className="detalle-item">
-                <div className="tablaUsuarios">
-            {selectedPedido.detalles.length > 0 ? (
-              selectedPedido.detalles.map((detalle) => {                
-                return(
-                  <>
-                    <table>
-                      <th>
-                        <tr>ID Detalle</tr>
-                        <tr>ID Comida</tr>
-                        <tr>Cantidad</tr>
-                        <tr>Subtotal</tr>
-                      </th>
+                <div className="tablaUsuariosContenedor">
+                  {selectedPedido.detalles.length > 0 ? (
+                    <table className="tablaUsuariosCarta">
+                      <thead>
+                        <tr>
+                          <th>ID Detalle</th>
+                          <th>ID Comida</th>
+                          <th>Cantidad</th>
+                          <th>Subtotal</th>
+                        </tr>
+                      </thead>
                       <tbody>
-                        <tr>{detalle.idDetalle}</tr>
-                        <tr>{detalle.idComida}</tr>
-                        <tr>{detalle.cantidad}</tr>
-                        <tr>{detalle.subtotal}</tr>
+                        {selectedPedido.detalles.map((detalle) => (
+                          <tr key={detalle.idDetalle}>
+                            <td>{detalle.idDetalle}</td>
+                            <td>{detalle.idComida}</td>
+                            <td>{detalle.cantidad}</td>
+                            <td>{detalle.subtotal}€</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
-                  </>
-                )
-                
-              })
-            ) : (
-              <p>No se encontraron usuarios</p>
-            )}
-          </div>
-                <span className="detalle-value">{selectedPedido.coste_total}€</span>
-              </div>              
+                  ) : (
+                    <p>No se encontraron usuarios</p>
+                  )}
+                </div>
+                <span className="detalle-value">
+                  {selectedPedido.coste_total}€
+                </span>
+              </div>
             </div>
           ) : (
             <p>No se ha seleccionado ningún pedido</p>
