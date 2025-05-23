@@ -9,7 +9,7 @@ ResponsiveMeals es una aplicación diseñada para la planificación y envío de 
 ![Diagrama1](https://github.com/user-attachments/assets/3386c359-4086-49fd-94a3-09e8f8fc6c1b)
 
 ### Diagrama UML
-(![image](https://github.com/user-attachments/assets/41220279-f315-4972-a062-75be2f562031)
+![image](https://github.com/user-attachments/assets/41220279-f315-4972-a062-75be2f562031)
 
 ### Diagrama de Casos de Uso
 ![image](https://github.com/user-attachments/assets/a5c753f8-553b-4381-8426-bfb26c3ac34c)
