@@ -1,6 +1,7 @@
 .users-table {
   text-align: center;
 }
+
 .botones {
   display: flex;
   flex-direction: column;
@@ -9,34 +10,38 @@
   border-bottom: solid 1px #000;
   background-color: #fff9;
 }
+
 .datosPeroMas {
   display: flex;
 }
+
 .botones button {
   text-align: center;
   font-size: x-small;
   height: auto;
   margin: 1vw;
 }
+
 .botones button img {
   max-width: 4vw;
   max-height: 4vw;
 }
+
 .fila1 {
   width: 70vw;
   border-top: solid 1px #000;
   border-left: solid 1px #000;
 }
+
 .fila2 {
   width: 70vw;
   border-bottom: solid 1px #000;
   border-left: solid 1px #000;
 }
 
-.modal-header{
+.modal-header {
   justify-content: space-between;
 }
-
 
 .modal-header {
   display: flex;
@@ -67,17 +72,23 @@
   text-align: right;
 }
 
-.tablaUsuariosContenedor{
-  width: 100%;
+.tablaUsuariosContenedor {
+  /* width: 100%; */
+  margin-top: 3em;
+  text-align: center;
+  margin-right: 10%;
 }
-.tablaUsuariosCarta td{
+
+.tablaUsuariosCarta td {
   border: solid, 1px, #201b18;
   background-color: rgba(255, 255, 255, 0.283);
 }
-.tablaUsuariosCarta{
+
+.tablaUsuariosCarta {
   border: solid, 2px, #201b18;
 }
-.tablaUsuariosCarta th{
+
+.tablaUsuariosCarta th {
   background-color: #e45c08a3;
   border: solid, 2px, #201b18;
 }
@@ -86,9 +97,11 @@
   .columna1 {
     height: 4.5vw;
   }
+
   .columna2 {
     height: 4.5vw;
   }
+
   .botones {
     height: 9w;
   }

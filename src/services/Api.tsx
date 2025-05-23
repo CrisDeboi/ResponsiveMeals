@@ -69,8 +69,8 @@ export const handleAdd = async (
 
 export const handleDelete = async (id: number) => {
   try {
-    const token = getToken(); // Verifica que esto no sea `null` o `undefined`
-    console.log("Token usado para DELETE:", token); // ← Añade este log para depuración
+    const token = getToken(); 
+    console.log("Token usado para DELETE:", token); 
 
     const deleteResponse = await fetch(
       `http://localhost:8080/responsivemeals/clientes/${id}`,
@@ -83,7 +83,7 @@ export const handleDelete = async (id: number) => {
       }
     );
 
-    console.log("Respuesta del servidor:", deleteResponse.status); // ← Verifica el código de estado HTTP
+    console.log("Respuesta del servidor:", deleteResponse.status); 
 
     if (deleteResponse.ok) {
       return "Borrado exitoso.";
@@ -92,7 +92,7 @@ export const handleDelete = async (id: number) => {
       return errorData?.message || "Hubo un error al borrar el usuario.";
     }
   } catch (error) {
-    console.error("Error en handleDelete:", error); // ← Esto te dará más detalles del error
+    console.error("Error en handleDelete:", error); 
     return "Error de conexión con el servidor.";
   }
 };
@@ -100,6 +100,12 @@ export const handleDelete = async (id: number) => {
 //Métodos para Comidas
 export const fetchComida = async () => {
   const response = await fetch("http://localhost:8080/responsivemeals/comidas");
+  const data = await response.json();
+  return data;
+};
+
+export const fetchComidaId = async (id: number) => {
+  const response = await fetch(`http://localhost:8080/responsivemeals/comidas/${id}`);
   const data = await response.json();
   return data;
 };

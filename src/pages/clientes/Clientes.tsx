@@ -1,10 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { fetchClientes, fetchPedido, handleDelete } from "../../services/Api";
+import { fetchClientes, fetchComida, fetchPedido, handleDelete } from "../../services/Api";
 import Header from "../../components/Header/Header";
 import "./Clientes.css";
 import CardUser from "../../components/CardUsers/CardUser";
+
+
+interface Comida {
+  idComida: number;
+  nombre: string;  
+}
 
 function Usuarios() {
   const [search, setSearch] = useState(""); 
@@ -13,6 +19,22 @@ function Usuarios() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedUser, setSelectedUser] = useState<string | null>(null); 
+  const [comidas, setComidas] = useState<Comida[]>([]);
+
+  useEffect(() => {
+    const getComidas = async () => {
+      try {
+        const comidasData = await fetchComida();
+        console.log("Datos de comidas recibidos:", comidasData);
+        setComidas(comidasData); 
+      } catch (err) {
+        console.error("Error al cargar comidas:", err);
+        setError("Hubo un problema al cargar los datos.");
+        setComidas([]); 
+      }
+    };
+    getComidas();
+  }, []);
 
   useEffect(() => {
     const getUsuarios = async () => {
@@ -99,6 +121,7 @@ const listaUsuarios = usuarios.filter((usuario) =>
           placeholder="Escribe un nombre"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="search-bar"
         />
 
         {loading && <p>Cargando usuarios...</p>}
@@ -121,6 +144,7 @@ const listaUsuarios = usuarios.filter((usuario) =>
                     cardPhone={usuario.telefono}
                     cardDate={usuario.fechaRegistro}
                     pedidos={pedidos.filter((pedido) => pedido.id_cliente === usuario.idCliente)} 
+                    comidas={comidas}
                     onClick={() => handleUserClick(usuario.idCliente)}
                     onDeletePedido={handleDeletePedido}
                     deleteUser={handleDeleteUsuario}

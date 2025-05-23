@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Modal, Form, Col } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   createPedido,
   eliminarPedido,
   actualizarPedido,
   handleDelete,
   updateUser,
+  fetchComidaId,
+  fetchComida,
 } from "../../services/Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -24,6 +26,10 @@ interface Detalle {
   subtotal: number;
 }
 
+interface Comida {
+  idComida: number;
+  nombre: string;
+}
 interface Pedido {
   id_pedido: string;
   direccion: string;
@@ -42,6 +48,7 @@ interface CardProps {
   cardPhone: string;
   cardDate: string;
   pedidos: Pedido[];
+  comidas: Comida[];
 
   onClick: () => void;
   onDeletePedido: (id: string) => void;
@@ -58,6 +65,7 @@ function CardUser(props: CardProps) {
     cardPhone,
     cardDate,
     pedidos,
+    comidas,
     onClick,
     onDeletePedido,
     deleteUser,
@@ -77,6 +85,20 @@ function CardUser(props: CardProps) {
   const [editedPhone, setEditedPhone] = useState(cardPhone);
   const [selectedPedido, setSelectedPedido] = useState<Pedido | null>(null);
   // const [editedSuscription, setEditedSuscription] = useState(cardSuscription);
+
+  const getNombreComida = (idComida: string) => {
+    if (!props.comidas || props.comidas.length === 0) {
+      return "Cargando...";
+    }
+
+    // Convierte idComida a number para comparar si es necesario
+    const id = parseInt(idComida, 10);
+    const comidaEncontrada = props.comidas.find(comida =>
+      comida.idComida === id
+    );
+
+    return comidaEncontrada ? comidaEncontrada.nombre : `Comida no encontrada (ID: ${idComida})`;
+  };
 
   const editUser = async () => {
     const updatedData = {
@@ -502,10 +524,10 @@ function CardUser(props: CardProps) {
       >
         <Modal.Body style={{ backgroundColor: "#FDE1C1" }}>
           <div className="modal-header">
-            <p>
+            <div>
               <strong>Detalles del Pedido </strong>
               {selectedPedido?.id_pedido}
-            </p>
+            </div>
             <Button
               onClick={() => setShowDetallesModal(false)}
               style={{
@@ -535,13 +557,14 @@ function CardUser(props: CardProps) {
                 </span>
               </div>
               <div className="detalle-item">
+                <span className="detalle-label">Desglose:</span>
                 <div className="tablaUsuariosContenedor">
                   {selectedPedido.detalles.length > 0 ? (
                     <table className="tablaUsuariosCarta">
                       <thead>
                         <tr>
                           <th>ID Detalle</th>
-                          <th>ID Comida</th>
+                          <th>Comida</th>
                           <th>Cantidad</th>
                           <th>Subtotal</th>
                         </tr>
@@ -550,7 +573,7 @@ function CardUser(props: CardProps) {
                         {selectedPedido.detalles.map((detalle) => (
                           <tr key={detalle.idDetalle}>
                             <td>{detalle.idDetalle}</td>
-                            <td>{detalle.idComida}</td>
+                            <td>{getNombreComida(detalle.idComida)}</td>
                             <td>{detalle.cantidad}</td>
                             <td>{detalle.subtotal}€</td>
                           </tr>
@@ -561,9 +584,6 @@ function CardUser(props: CardProps) {
                     <p>No se encontraron usuarios</p>
                   )}
                 </div>
-                <span className="detalle-value">
-                  {selectedPedido.coste_total}€
-                </span>
               </div>
             </div>
           ) : (

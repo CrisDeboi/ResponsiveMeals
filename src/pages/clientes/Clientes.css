@@ -20,8 +20,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.search-bar{
+    width: 15vw;
+    margin-left: 42.5vw;
+}
 .App{
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 h1, h2{
     overflow: hidden;
