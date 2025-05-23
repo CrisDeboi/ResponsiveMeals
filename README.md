@@ -6,7 +6,7 @@ ResponsiveMeals es una aplicación diseñada para la planificación y envío de 
 ## Modelo de Datos
 
 ### Diagrama E/R
-![image](https://github.com/user-attachments/assets/db883d9c-7e45-475e-bbe2-da90dab6fee1)
+![Diagrama1](https://github.com/user-attachments/assets/3386c359-4086-49fd-94a3-09e8f8fc6c1b)
 
 ### Diagrama UML
 ![image](https://github.com/user-attachments/assets/90325a67-36a4-4980-b7b2-52ebbbe5e0e8)
@@ -21,10 +21,16 @@ ResponsiveMeals es una aplicación diseñada para la planificación y envío de 
 - **Nombre (string):** Nombre con el que se registra el usuario.
 - **Contraseña (string):** Almacena la contraseña del usuario.
 - **FechaRegistro (timestamp):** Fecha y hora de registro del usuario.
-- **Suscripción (string):** Tipo de suscripción (estándar, premium o ninguna).
 - **Teléfono (string):** Número de contacto del usuario.
 - **Email (string):** Correo electrónico del usuario.
 - **Token (string):** Token de autenticación del usuario.
+
+#### Suscripción
+- **IdSuscripcón (int):** Identificador único de la suscripción.
+- **Nombre (string):** Nombre del tipo de suscripción.
+- **Precio (double):** Precio mensual de la suscripción.
+- **CantidadPlatos (double):** Cantidad de platos que incluye la suscripción.
+- **Descripción (string):** Descripción de la suscripción donde se explica lo que incluye dentro de la aplicación.
 
 #### Pedido
 - **IdPedido (int):** Identificador único del pedido.
@@ -46,7 +52,8 @@ ResponsiveMeals es una aplicación diseñada para la planificación y envío de 
 - **Información nutricional:** Proteínas, ración, grasas, hidratos, fibra.
 
 ## Modelo Relacional
-- **Usuario:** IdUsuario, Nombre, Contraseña, FechaRegistro, Suscripción, Teléfono, Email, Token.
+- **Usuario:** IdUsuario, Nombre, Contraseña, FechaRegistro, Suscripción, Teléfono, Email, Token, IdSuscripcion.
+- **Suscripción:** IdSuscripcion, Nombre, Descripcion, Precio, CantidadPlatos.
 - **Pedido:** IdPedido, Dirección, CosteTotal, MétodoPago, IdUsuario.
 - **DetallePedido:** IdDetalle, Cantidad, Subtotal, IdComida, IdPedido.
 - **Comida:** IdComida, Imagen, Nombre, Precio, Rotación, Descripción, Proteínas, Ración, Grasas, Hidratos, Fibra.
@@ -84,6 +91,7 @@ ResponsiveMeals es una aplicación diseñada para la planificación y envío de 
 
 ### Endpoints
 - **Clientes:** `/responsivemeals/clientes`
+- **Suscripcion:** `/responsivemeals/suscripciones`
 - **Pedidos:** `/responsivemeals/pedidos`
 - **Detalles de Pedido:** `/responsivemeals/detallepedido`
 - **Comidas:** `/responsivemeals/comida`
