@@ -32,6 +32,7 @@ function Cart() {
   const [address, setAddres] = useState("");
   const [debounceAddress, setDebounceAddress] = useState("");
   const [error, setError] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
