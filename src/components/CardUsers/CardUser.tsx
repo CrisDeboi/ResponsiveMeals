@@ -407,7 +407,7 @@ function CardUser(props: CardProps) {
                         <td>{pedido.id_pedido}</td>
                         <td>{pedido.direccion}</td>
                         <td>{pedido.metodo_pago}</td>
-                        <td>{pedido.coste_total}</td>
+                        <td>{Number(pedido.coste_total).toFixed(2)}€</td>
                         <td className="CeldaBoton">
                           <Button
                             className="BotonCartaCliente"
@@ -469,7 +469,7 @@ function CardUser(props: CardProps) {
                   border: "0px",
                 }}
               >
-                <Button
+                {/* <Button
                   variant="secondary"
                   onClick={() => setIsFormVisible(true)}
                   style={{
@@ -478,7 +478,7 @@ function CardUser(props: CardProps) {
                   }}
                 >
                   Añadir Pedido
-                </Button>
+                </Button> */}
               </Modal.Footer>
             </>
           ) : (

@@ -114,7 +114,7 @@ function Card(props: CardProps) {
         <Modal.Header
           closeButton
           closeLabel="Cerrar"
-          style={{ padding: 0, border: 0 }}
+          style={{ padding: 0, border: 0 , margin:0, backgroundColor: "#FDE1C1"}}
         >
           <img
             src={cardImg}

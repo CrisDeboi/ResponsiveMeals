@@ -85,7 +85,7 @@ const handleAddSelection = () => {
   return (
     <>
       <Header />
-      <Filter />
+      {/* <Filter /> */}
       <div className="cardContainer">
         {loading && <p>Cargando...</p>}
         {error && <p>{error}</p>}
@@ -121,7 +121,7 @@ const handleAddSelection = () => {
           Añadir selección
         </Button>
         <Modal show={showModal} onHide={handleClose} centered>
-          <Modal.Header closeButton></Modal.Header>
+         {/* <Modal.Header closeButton></Modal.Header> */}
           <Modal.Body style={{ backgroundColor: "#FDE1C1" }}>
             <p>Platos añadidos correctamente a tu carrito</p>
           </Modal.Body>
