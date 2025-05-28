@@ -9,3 +9,8 @@
 .subplans-container{
     margin-bottom: 3vh;
 }
+
+.unsub-container{
+    display: flex;
+    justify-content: end;
+}

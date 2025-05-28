@@ -23,19 +23,19 @@ function RegisterFormReal() {
   const [message, setMessage] = useState("");
 
   const registerUser = async () => {
-    const message = await handleAdd(nombre, suscripcion, email, contrasena, telefono);
+    const message = await handleAdd(nombre, email, contrasena, telefono);
     setMessage(message);
   };
   
-  const handleRegister = (e: { preventDefault: () => void }) => {
+  const handleRegister = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     if (
       !email.trim() ||
       !nombre.trim() ||
       !telefono.trim() ||
-      !contrasena.trim() ||
-      !suscripcion.trim()
+      !contrasena.trim() 
+      // ||      !suscripcion.trim()
     ) {
       setError("Por favor, complete todos los campos.");
       return;
@@ -58,14 +58,25 @@ function RegisterFormReal() {
       return;
     }
 
-    if (suscripcion === "Elige...") {
-      setError("Por favor, seleccione una suscripción.");
-      return;
-    }
+    // if (suscripcion === "Elige...") {
+    //   setError("Por favor, seleccione una suscripción.");
+    //   return;
+    // }
 
+    try {
     setError("");
-    alert("Cuenta creada con éxito");
-    navigate("/");
+    const message = await handleAdd(nombre, email, contrasena, telefono);
+    
+    if (message === "Registro exitoso.") {
+      alert("Cuenta creada con éxito");
+      navigate("/");
+    } else {
+      setError(message);
+    }
+  } catch (error) {
+    setError("Error de conexión con el servidor");
+    console.error("Error en el registro:", error);
+  }    
   };
 
   const handleZipChange = (e: { target: { value: any } }) => {
@@ -127,7 +138,7 @@ function RegisterFormReal() {
         </Form.Group>
       </Row>
 
-      <Form.Group controlId="formGridState">
+      {/* <Form.Group controlId="formGridState">
         <Form.Label>Suscripción</Form.Label>
         <Form.Select
           value={suscripcion}
@@ -138,13 +149,13 @@ function RegisterFormReal() {
           <option>ESTANDAR</option>
           <option>PREMIUM</option>
         </Form.Select>
-      </Form.Group>
+      </Form.Group> */}
 
       <div className="register-button-container">
         <Button
           variant="primary"
           type="submit"
-          onClick={registerUser}
+          // onClick={registerUser}
           style={{
             backgroundColor: "#C65D1A",
             borderColor: "#C65D1A",

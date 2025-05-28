@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
 import { useTable, Column } from "react-table";
 import { Bar } from "react-chartjs-2";
@@ -9,6 +10,7 @@ import "./Report.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Button } from "react-bootstrap";
+import { getToken } from "../../services/AuthService";
 
 const Report = () => {
   interface Cliente {
@@ -16,16 +18,45 @@ const Report = () => {
     nombre: string;
     fechaRegistro: string;
     email: string;
-    suscripcion: string;
+    suscripcion: {
+      idSuscripcion: number;
+      nombre: string;
+    };
   }
   const [data, setData] = useState<Cliente[]>([]);
   const chartRef = useRef<Chart<"bar"> | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Obtener datos de ejemplo
   useEffect(() => {
-    fetch("http://localhost:8080/responsivemeals/clientes")
-      .then((response) => response.json())
-      .then((data) => setData(data));
+    const token = getToken();
+    fetch("http://localhost:8080/responsivemeals/clientes", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error en la petición");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const datosFiltrados = data.filter((cliente: any) => cliente.nombre.toLowerCase() !== "admin");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const datosTransformados = datosFiltrados.map((cliente: any) => ({
+          ...cliente,
+          nombre_suscripcion: cliente.suscripcion?.nombre || "Sin suscripción",
+        }));
+        setData(datosTransformados);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setError(error.message); // Opcional: manejar el estado de error
+      })
+      .finally(() => setLoading(false)); // Opcional: manejar estado de carga
   }, []);
 
   // Configuración de columnas para la tabla
@@ -38,7 +69,13 @@ const Report = () => {
         accessor: "fechaRegistro" as keyof Cliente,
       },
       { Header: "Email", accessor: "email" as keyof Cliente },
-      { Header: "Suscripción", accessor: "suscripcion" as keyof Cliente },
+      {
+        Header: "Suscripción",
+        accessor: "nombre_suscripcion" as keyof Cliente,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Cell: ({ row }: { row: any }) =>
+          row.original.suscripcion?.nombre || "Sin suscripción",
+      },
     ],
     []
   );
@@ -48,7 +85,9 @@ const Report = () => {
     tableInstance;
 
   const suscripciones = data.reduce<Record<string, number>>((acc, cliente) => {
-    acc[cliente.suscripcion] = (acc[cliente.suscripcion] || 0) + 1;
+    const nombreSuscripcion = cliente.suscripcion?.nombre || "Sin suscripción";
+
+    acc[nombreSuscripcion] = (acc[nombreSuscripcion] || 0) + 1;
     return acc;
   }, {});
 
@@ -82,7 +121,7 @@ const Report = () => {
         cliente.nombre,
         cliente.fechaRegistro,
         cliente.email,
-        cliente.suscripcion,
+        cliente.suscripcion?.nombre || "Sin suscripción",
       ]),
       startY: 25,
     });
@@ -105,42 +144,72 @@ const Report = () => {
 
         {/* Tabla */}
         <div className="table-container">
-        <table
-          {...getTableProps()}
-          style={{ border: "1px solid black", marginBottom: "20px" }}
-        >
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th
-                    {...column.getHeaderProps()}
-                    style={{ border: "1px solid black", padding: "5px" ,backgroundColor:"#F89D53"}}
-                  >
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td
-                      {...cell.getCellProps()}
-                      style={{ border: "1px solid black", padding: "5px" , backgroundColor:"#FBC59A"}}
-                    >
-                      {cell.render("Cell")}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+          <table
+            {...getTableProps()}
+            style={{ border: "1px solid black", marginBottom: "20px" }}
+          >
+            {/* Encabezados de la tabla */}
+            <thead>
+              {headerGroups.map((headerGroup) => {
+                // Extrae key del objeto de props
+                const { key, ...restHeaderGroupProps } =
+                  headerGroup.getHeaderGroupProps();
+                return (
+                  <tr key={key} {...restHeaderGroupProps}>
+                    {headerGroup.headers.map((column) => {
+                      // Extrae key de las props de cada columna
+                      const { key: columnKey, ...restColumnProps } =
+                        column.getHeaderProps();
+                      return (
+                        <th
+                          key={columnKey}
+                          {...restColumnProps}
+                          style={{
+                            border: "1px solid black",
+                            padding: "5px",
+                            backgroundColor: "#F89D53",
+                          }}
+                        >
+                          {column.render("Header")}
+                        </th>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </thead>
+
+            {/* Filas de la tabla */}
+            <tbody {...getTableBodyProps()}>
+              {rows.map((row) => {
+                prepareRow(row);
+                // Extrae key del objeto de props
+                const { key, ...restRowProps } = row.getRowProps();
+                return (
+                  <tr key={key} {...restRowProps}>
+                    {row.cells.map((cell) => {
+                      // Extrae key de las props de cada celda
+                      const { key: cellKey, ...restCellProps } =
+                        cell.getCellProps();
+                      return (
+                        <td
+                          key={cellKey}
+                          {...restCellProps}
+                          style={{
+                            border: "1px solid black",
+                            padding: "5px",
+                            backgroundColor: "#FBC59A",
+                          }}
+                        >
+                          {cell.render("Cell")}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
 
         {/* Gráfico */}

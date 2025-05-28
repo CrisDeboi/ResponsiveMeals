@@ -2,9 +2,8 @@ package com.proyecto.proyecto.model;
 
 public class DetallePedidoDTO {
     private Long idComida;
-    private Long idPedido;
-    private int cantidad;
-
+    private Integer cantidad;
+    
     public Long getIdComida() {
         return idComida;
     }
@@ -13,20 +12,11 @@ public class DetallePedidoDTO {
         this.idComida = idComida;
     }
 
-    public Long getIdPedido() {
-        return idPedido;
-    }
-
-    public void setIdPedido(Long idPedido) {
-        this.idPedido = idPedido;
-    }
-
-    public int getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 }
-

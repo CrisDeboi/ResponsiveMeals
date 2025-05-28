@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.proyecto.ResourceNotFoundException;
 import com.proyecto.proyecto.model.Comida;
 import com.proyecto.proyecto.model.DetallePedido;
-import com.proyecto.proyecto.model.DetallePedidoDTO;
 import com.proyecto.proyecto.model.Pedido;
 import com.proyecto.proyecto.repository.ComidaRepository;
 import com.proyecto.proyecto.repository.DetallePedidoRepository;
@@ -44,18 +43,26 @@ public class DetallePedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<DetallePedido> crearDetallePedido(@RequestBody DetallePedidoDTO detalleDTO) {        
+    public ResponseEntity<DetallePedido> crearDetallePedido(@RequestBody DetallePedido detalleDTO) {
+        // Buscar las entidades relacionadas
         Pedido pedido = pedidoRepository.findById(detalleDTO.getIdPedido())
                 .orElseThrow(() -> new ResourceNotFoundException("Pedido no encontrado"));
         Comida comida = comidaRepository.findById(detalleDTO.getIdComida())
-                .orElseThrow(() -> new ResourceNotFoundException("Comida no encontrada"));       
+                .orElseThrow(() -> new ResourceNotFoundException("Comida no encontrada"));
+
+        // Crear la entidad DetallePedido
         DetallePedido detallePedido = new DetallePedido();
         detallePedido.setPedido(pedido);
         detallePedido.setComida(comida);
         detallePedido.setCantidad(detalleDTO.getCantidad());
-        detallePedido.setSubtotal(detalleDTO.getCantidad() * comida.getPrecio());       
-        pedido.setCoste_total(pedido.getCoste_total() + detallePedido.getSubtotal());       
+        detallePedido.setSubtotal(detalleDTO.getCantidad() * comida.getPrecio());
+
+        // Actualizar coste total en el pedido
+        pedido.setCoste_total(pedido.getCoste_total() + detallePedido.getSubtotal());
+
+        // Guardar el nuevo detallePedido en la base de datos
         detallePedidoRepository.save(detallePedido);
+
         return ResponseEntity.ok(detallePedido);
     }
 
@@ -69,18 +76,28 @@ public class DetallePedidoController {
     @PutMapping("/{id}")
     public ResponseEntity<DetallePedido> actualizarDetallePedido(
             @PathVariable("id") Long id,
-            @RequestBody DetallePedidoDTO detalleDTO) {
+            @RequestBody DetallePedido detalleDTO) {
+
+        // Buscar el detallePedido en la base de datos
         DetallePedido detallePedido = detallePedidoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Detalle no encontrado"));       
+                .orElseThrow(() -> new ResourceNotFoundException("Detalle no encontrado"));
+
+        // Buscar la comida asociada por el ID
         Comida comida = comidaRepository.findById(detalleDTO.getIdComida())
                 .orElseThrow(() -> new ResourceNotFoundException("Comida no encontrada"));
+
         Pedido pedido = pedidoRepository.findById(detalleDTO.getIdPedido())
                 .orElseThrow(() -> new ResourceNotFoundException("Pedido no encontrado"));
+
+        // Actualizar el detallePedido con la nueva información
         detallePedido.setComida(comida);
         detallePedido.setPedido(pedido);
         detallePedido.setCantidad(detalleDTO.getCantidad());
         detallePedido.setSubtotal(detalleDTO.getCantidad() * comida.getPrecio());
+
+        // Guardar en la base de datos
         DetallePedido detalleActualizado = detallePedidoRepository.save(detallePedido);
+
         return ResponseEntity.ok(detalleActualizado);
     }
 

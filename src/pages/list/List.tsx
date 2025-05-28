@@ -16,12 +16,10 @@ const getImage = (imgName: string) => {
   return (images[`/src/assets/${imgName}`] as { default: string })?.default;
 };
 
-
-
 function List() {
   interface SelectedItems {
     [key: string]: { quantity: number };
-  }  
+  }
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
@@ -36,7 +34,7 @@ function List() {
       try {
         setLoading(true);
         const data = await fetchComida(); // Llama a la función que obtiene los datos de la BD
-        setComidas(data); 
+        setComidas(data);
         setError(null);
       } catch (err) {
         setError("Hubo un problema al cargar los datos.");
@@ -58,17 +56,19 @@ function List() {
     }));
   };
 
-  const handleAddSelection = () => {
-    const itemsToAdd = Object.entries(selectedItems)
-      .filter(([_, item]) => item.quantity > 0)
-      .map(([id, item]) => {
-        const comida = comidas.find((c) => c.id === Number(id));
-        return {
-          id,
-          ...comida,
-          count: item.quantity,
-        };
-      });
+const handleAddSelection = () => {
+  const itemsToAdd = Object.entries(selectedItems)
+    .filter(([_, item]) => item.quantity > 0)
+    .map(([id, item]) => {
+      const comida = comidas.find((c) => c.idComida === Number(id));
+      return {
+        id: comida.idComida,
+        cardName: comida.nombre,
+        cardPrice: comida.precio,
+        cardImg: getImage(comida.img),
+        count: item.quantity,
+      };
+    });
 
     if (itemsToAdd.length === 0) {
       window.alert("Por favor, selecciona al menos un producto.");
@@ -85,7 +85,7 @@ function List() {
   return (
     <>
       <Header />
-      <Filter />
+      {/* <Filter /> */}
       <div className="cardContainer">
         {loading && <p>Cargando...</p>}
         {error && <p>{error}</p>}
@@ -94,7 +94,7 @@ function List() {
           comidas.map((comida) => (
             <Card
               key={comida.id}
-              id={comida.id_comida}
+              id={comida.idComida}
               cardName={comida.nombre}
               cardPrice={comida.precio}
               cardDescription={comida.descripcion}
@@ -106,7 +106,7 @@ function List() {
               cardFiber={comida.fibra}
               cardImg={getImage(comida.img)}
               onQuantityChange={handleQuantityChange}
-              />
+            />
           ))}
       </div>
       <div className="buttonListContainer">
@@ -121,15 +121,23 @@ function List() {
           Añadir selección
         </Button>
         <Modal show={showModal} onHide={handleClose} centered>
-          <Modal.Header closeButton></Modal.Header>
+         {/* <Modal.Header closeButton></Modal.Header> */}
           <Modal.Body style={{ backgroundColor: "#FDE1C1" }}>
             <p>Platos añadidos correctamente a tu carrito</p>
           </Modal.Body>
           <Modal.Footer style={{ backgroundColor: "#FDE1C1" }}>
-            <Button variant="secondary" onClick={handleClose} style={{ backgroundColor: "#C65D1A" }}>
+            <Button
+              variant="secondary"
+              onClick={handleClose}
+              style={{ backgroundColor: "#C65D1A" }}
+            >
               Seguir Eligiendo
             </Button>
-            <Button variant="secondary" onClick={() => navigate("/cart")} style={{ backgroundColor: "#C65D1A" }}>
+            <Button
+              variant="secondary"
+              onClick={() => navigate("/cart")}
+              style={{ backgroundColor: "#C65D1A" }}
+            >
               Ir al carrito
             </Button>
           </Modal.Footer>
@@ -139,6 +147,5 @@ function List() {
     </>
   );
 }
-
 
 export default List;

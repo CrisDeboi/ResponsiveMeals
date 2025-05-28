@@ -1,35 +1,149 @@
 .users-table {
-   text-align: center;
+  text-align: center;
 }
 
-.botones{
-   display: flex;
-   flex-direction: column;
-   border-top: solid 1px #000;
-   border-right: solid 1px #000;
-   border-bottom: solid 1px #000;
-   background-color: #fff9;
+.botones {
+  display: flex;
+  flex-direction: column;
+  border-top: solid 1px #000;
+  border-right: solid 1px #000;
+  border-bottom: solid 1px #000;
+  background-color: #fff9;
 }
-.datosPeroMas{
-   display: flex;
+
+.datosPeroMas {
+  display: flex;
 }
-.botones button{
-   text-align: center;
-   font-size: x-small;
-   height: 8vw;
-   margin: 1vw;
+
+.botones button {
+  text-align: center;
+  font-size: x-small;
+  height: auto;
+  margin: 1vw;
 }
-.botones button img{
-   max-width: 4vw;
-   max-height: 4vw;
+
+.botones button img {
+  max-width: 4vw;
+  max-height: 4vw;
 }
-.columna1{
-   width: 70vw;
-   border-top: solid 1px #000;
-   border-left: solid 1px #000;
+
+.fila1 {
+  width: 70vw;
+  border-top: solid 1px #000;
+  border-left: solid 1px #000;
 }
-.columna2{
-   width: 70vw;
-   border-bottom: solid 1px #000;
-   border-left: solid 1px #000;
+
+.fila2 {
+  width: 70vw;
+  border-bottom: solid 1px #000;
+  border-left: solid 1px #000;
+}
+
+.modal-header {
+  justify-content: space-between;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.pedido-detalle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detalle-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detalle-label {
+  font-weight: bold;
+  color: #C65D1A;
+  margin-right: -5em;
+}
+
+.detalle-value {
+  text-align: right;
+}
+
+.tablaDelPedido{
+  border: solid, 2px, #201b18;
+} 
+.tablaDelPedido th{
+  background-color: #e45c08a3;
+  border: solid, 2px, #201b18;
+} 
+.tablaDelPedido td{
+  background-color: rgba(255, 255, 255, 0.283);
+  border: solid, 1px, #201b18;
+} 
+.tablaDelPedido td, th{ 
+  padding-left: 2px;
+  padding-right: 2px;
+  text-align: center;
+}
+.tablaUsuariosContenedor{
+  margin-top: 3em;
+  margin-right: 1em;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.tablaUsuariosCarta td {
+  border: solid, 1px, #201b18;
+  padding-left: 5px;
+  background-color: rgba(255, 255, 255, 0.283);
+}
+
+.tablaUsuariosCarta {
+  border: solid, 2px, #201b18;
+  font-size: large;
+}
+
+.tablaUsuariosCarta th {
+  background-color: #e45c08a3;
+  border: solid, 2px, #201b18;
+}
+
+@media (max-width: 480px) {
+  .tablaUsuariosCarta{
+    font-size: medium;
+  }
+  .tablaDelPedido{
+    font-size: smaller;
+  }
+  .tablaDelPedido td, th{ 
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+  .CeldaBoton{
+    display: flex;
+  }
+  .BotonCartaCliente{
+    padding: 0.25rem 0.5rem;
+    font-size: small;
+  }
+}
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .columna1 {
+    height: 4.5vw;
+  }
+
+  .columna2 {
+    height: 4.5vw;
+  }
+
+  .botones {
+    height: 9w;
+  }
 }

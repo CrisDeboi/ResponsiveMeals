@@ -1,14 +1,38 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+import axios from "axios";
+import { getToken } from "./AuthService";
+
+//Autenticación
+const api = axios.create({
+  baseURL: 'http://localhost:8080'
+});
+
+api.interceptors.request.use(config => {
+  const token = getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default api;
 // Metodos para Clientes
-export const fetchData = async () => {
-  const response = await fetch("http://localhost:8080/responsivemeals/clientes");   
+export const fetchClientes = async () => {
+  const token = getToken();
+  const response = await fetch("http://localhost:8080/responsivemeals/clientes", {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
   const data = await response.json();
   return data;
 };
+
 export const handleAdd = async (
   nombre: string,
-  suscripcion: string,
+  // suscripcion: string,
   email: string,
   contrasena: string,
   telefono: string
@@ -18,14 +42,18 @@ export const handleAdd = async (
       "http://localhost:8080/responsivemeals/clientes",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          // 'Authorization': `Bearer ${getToken}`,
+        },
         body: JSON.stringify({
           nombre,
-          suscripcion,
+          // suscripcion,
           email,
           contrasena,
           telefono,
         }),
+
       }
     );
 
@@ -41,27 +69,43 @@ export const handleAdd = async (
 
 export const handleDelete = async (id: number) => {
   try {
+    const token = getToken(); 
+    console.log("Token usado para DELETE:", token); 
+
     const deleteResponse = await fetch(
       `http://localhost:8080/responsivemeals/clientes/${id}`,
       {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`,
+        },
       }
     );
+
+    console.log("Respuesta del servidor:", deleteResponse.status); 
 
     if (deleteResponse.ok) {
       return "Borrado exitoso.";
     } else {
-      return "Hubo un error al borrar el usuario.";
+      const errorData = await deleteResponse.json().catch(() => null);
+      return errorData?.message || "Hubo un error al borrar el usuario.";
     }
   } catch (error) {
+    console.error("Error en handleDelete:", error); 
     return "Error de conexión con el servidor.";
   }
 };
 
 //Métodos para Comidas
 export const fetchComida = async () => {
-  const response = await fetch("http://localhost:8080/responsivemeals/comidas");   
+  const response = await fetch("http://localhost:8080/responsivemeals/comidas");
+  const data = await response.json();
+  return data;
+};
+
+export const fetchComidaId = async (id: number) => {
+  const response = await fetch(`http://localhost:8080/responsivemeals/comidas/${id}`);
   const data = await response.json();
   return data;
 };
@@ -69,33 +113,54 @@ export const fetchComida = async () => {
 
 //Métodos para Pedidos
 export const fetchPedido = async () => {
-  const response = await fetch("http://localhost:8080/responsivemeals/pedidos");   
-  const data = await response.json();
+  const response = await fetch("http://localhost:8080/responsivemeals/pedidos", {
+    headers: {
+      'Authorization': `Bearer ${getToken()}`,
+    }
+  });
+  const data = await response.json();  
   return data;
 };
 
-export const createPedido = async (pedido: any) => {
-  const response = await fetch("http://localhost:8080/responsivemeals/pedidos", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(pedido),
-  });
-  if (!response.ok) {
-    throw new Error("Error al crear el pedido");
+export interface DetallePedidoDTO {
+  idComida: number;
+  cantidad: number;
+}
+
+export interface PedidoRequest {
+  clienteId: number;
+  direccion: string;
+  metodoPago: string;
+  detalles: DetallePedidoDTO[];
+}
+
+export const createPedido = async (pedidoRequest: PedidoRequest) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/responsivemeals/pedidos",
+      pedidoRequest,
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Error creando el pedido");
   }
-  return await response.json();
 };
 
 export const eliminarPedido = async (id: string) => {
-  const url = `http://localhost:8080/responsivemeals/pedidos/${id}`; 
+  const url = `http://localhost:8080/responsivemeals/pedidos/${id}`;
 
   try {
     const response = await fetch(url, {
-      method: 'DELETE', 
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`,
       },
     });
 
@@ -107,31 +172,32 @@ export const eliminarPedido = async (id: string) => {
     return data;
   } catch (error) {
     console.error("Error al eliminar el pedido:", error);
-    throw error;  
+    throw error;
   }
 };
 
 export const actualizarPedido = async (pedido: any) => {
   try {
-    console.log("Enviando datos para actualizar:", pedido); 
+    console.log("Enviando datos para actualizar:", pedido);
 
     const response = await fetch(`http://localhost:8080/responsivemeals/pedidos/${pedido.id_pedido}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`,
       },
       body: JSON.stringify(pedido),
     });
 
-    console.log("Respuesta completa de la API:", response); 
+    console.log("Respuesta completa de la API:", response);
 
     if (!response.ok) {
-      const errorText = await response.text(); 
+      const errorText = await response.text();
       throw new Error(`Error al actualizar el pedido: ${response.status} - ${errorText}`);
     }
 
     const updatedPedido = await response.json();
-    console.log("Pedido actualizado correctamente:", updatedPedido); 
+    console.log("Pedido actualizado correctamente:", updatedPedido);
     return updatedPedido;
   } catch (error) {
     console.error("Error al actualizar el pedido:", error);
@@ -145,7 +211,10 @@ export const updateUser = async (id: number, updatedData: any) => {
       `http://localhost:8080/responsivemeals/clientes/${id}`,
       {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${getToken()}`,
+        },
         body: JSON.stringify(updatedData),
       }
     );
@@ -164,7 +233,60 @@ export const updateUser = async (id: number, updatedData: any) => {
 //Métodos para Detalles
 
 export const fetchDetalle = async () => {
-  const response = await fetch("http://localhost:8080/responsivemeals/detallepedidos");   
+  const response = await fetch("http://localhost:8080/responsivemeals/detallepedidos", {
+    headers: {
+      'Authorization': `Bearer ${getToken()}`,
+    }
+  });
   const data = await response.json();
   return data;
 };
+
+export const createDetallePedido = async (detalle: any) => {
+  const response = await fetch("http://localhost:8080/responsivemeals/detallepedidos", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': `Bearer ${getToken()}`,
+    },
+    body: JSON.stringify(detalle),
+  });
+  
+  if (!response.ok) {
+    throw new Error("Error al crear el detalle del pedido");
+  }
+  return await response.json();
+};
+
+
+
+//Métodos para Suscripciones
+
+export const fetchSuscripciones = async () => {
+  const response = await fetch("http://localhost:8080/responsivemeals/suscripciones");
+  const data = await response.json();
+  return data;
+};
+
+export const getSuscripcion = async () => {
+  const response = await fetch("http://localhost:8080/responsivemeals/suscripciones/");
+  const data = await response.json();
+  return data;
+};
+
+
+
+
+// export const getClientId = async (id: number) => {
+//   try {
+//     const response = await axios.get(`http://localhost:8080/clientes/${id}`, {
+//       headers: {
+//         Authorization: `Bearer ${getToken()}`,
+//       },
+//     });
+//     return response.data.idCliente;
+//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//   } catch (error) {
+//     throw new Error("Error obteniendo el ID del cliente");
+//   }
+// };
